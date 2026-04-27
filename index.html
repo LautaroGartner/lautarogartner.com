@@ -4,16 +4,63 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="format-detection" content="telephone=no">
+<meta name="description" content="CV de Lautaro Gärtner: administración, atención al cliente, coordinación de equipos, inglés C1 y herramientas digitales. Disponible para nuevas oportunidades.">
+<meta name="author" content="Lautaro Gärtner">
+<meta name="robots" content="index, follow">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="theme-color" content="#0F1620">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline'; connect-src 'self'; upgrade-insecure-requests">
 <title>Lautaro Gärtner — Administración · Atención al Cliente · Inglés C1</title>
+<link rel="canonical" href="https://lautarogartner.com/">
+<link rel="alternate" hreflang="es" href="https://lautarogartner.com/">
+<link rel="alternate" hreflang="en" href="https://lautarogartner.com/en/">
+<link rel="alternate" hreflang="x-default" href="https://lautarogartner.com/">
 <link rel="icon" href="/favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta property="og:type" content="profile">
+<meta property="og:site_name" content="Lautaro Gärtner">
+<meta property="og:title" content="Lautaro Gärtner — CV">
+<meta property="og:description" content="Administración, atención al cliente, coordinación de equipos, inglés C1 y herramientas digitales.">
+<meta property="og:url" content="https://lautarogartner.com/">
+<meta property="og:image" content="https://lautarogartner.com/android-chrome-512x512.png">
+<meta property="og:locale" content="es_AR">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Lautaro Gärtner — CV">
+<meta name="twitter:description" content="Administración, atención al cliente, coordinación de equipos, inglés C1 y herramientas digitales.">
+<meta name="twitter:image" content="https://lautarogartner.com/android-chrome-512x512.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Lautaro Gärtner",
+  "url": "https://lautarogartner.com/",
+  "email": "mailto:lautaro@lautarogartner.com",
+  "telephone": "+54 9 3434 166723",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Crespo",
+    "addressRegion": "Entre Ríos",
+    "addressCountry": "AR"
+  },
+  "jobTitle": "Administración, atención al cliente y coordinación de equipos",
+  "knowsLanguage": ["es", "en"],
+  "knowsAbout": ["Administración", "Atención al cliente", "Coordinación de equipos", "Inglés C1", "Desarrollo web full stack"],
+  "hasCredential": {
+    "@type": "EducationalOccupationalCredential",
+    "credentialCategory": "Idioma",
+    "name": "Inglés C1"
+  }
+}
+</script>
 <style>
-  :root {
+:root {
     --bg: #0F1620;
     --surface: #18222E;
     --surface2: #1F2A38;
@@ -31,6 +78,7 @@
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
+  html { color-scheme: dark; }
   body {
     background: var(--bg);
     color: var(--text);
@@ -41,6 +89,10 @@
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+  :focus-visible {
+    outline: 2px solid var(--gold-light);
+    outline-offset: 4px;
   }
 
   /* NAV */
@@ -225,6 +277,7 @@
   .contact-item a { color: inherit; text-decoration: none; transition: color 0.2s; }
   .contact-item a:hover { color: var(--gold); }
   .contact-dot { width: 4px; height: 4px; background: var(--gold); flex-shrink: 0; }
+  .mobile-profile-card { display: none; }
 
   /* SECTION BASE */
   section { padding: 5.5rem 4rem; }
@@ -248,7 +301,7 @@
   .section-title em { font-style: normal; color: var(--gold); font-weight: 600; }
 
   /* ABOUT */
-  #sobre { background: var(--surface); border-top: 1px solid var(--border); }
+  #sobre, #about { background: var(--surface); border-top: 1px solid var(--border); }
   .about-grid {
     display: grid; grid-template-columns: 1.4fr 1fr;
     gap: 5rem; align-items: start;
@@ -279,7 +332,7 @@
   }
 
   /* EXPERIENCE */
-  #experiencia { background: var(--bg); }
+  #experiencia, #experience { background: var(--bg); }
   .exp-list { display: flex; flex-direction: column; gap: 0; }
   .exp-item {
     display: grid; grid-template-columns: 180px 1fr;
@@ -338,7 +391,7 @@
   .exp-ref a:hover { color: var(--gold); border-bottom-color: var(--gold); }
 
   /* SKILLS */
-  #habilidades { background: var(--surface); border-top: 1px solid var(--border); }
+  #habilidades, #skills { background: var(--surface); border-top: 1px solid var(--border); }
   .tools-grid {
     display: grid; grid-template-columns: repeat(3, 1fr);
     gap: 1px; background: var(--border);
@@ -403,7 +456,7 @@
   .lang-bar-fill.animate { transform: scaleX(1); }
 
   /* CONTACT */
-  #contacto { background: var(--bg); border-top: 1px solid var(--border); }
+  #contacto, #contact { background: var(--bg); border-top: 1px solid var(--border); }
   .contact-grid {
     display: grid; grid-template-columns: 1fr 1fr;
     gap: 5rem; align-items: start;
@@ -481,6 +534,9 @@
     text-transform: uppercase;
   }
   .footer-logo span { color: var(--gold); }
+  .site-credit { font-size: 0.62rem; color: var(--muted); }
+  .site-credit a { color: var(--gold); text-decoration: none; }
+  .site-credit a:hover { text-decoration: underline; }
 
   /* DECORATIVE */
   .gold-line {
@@ -517,7 +573,9 @@
   .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
   .hamburger.open span:nth-child(2) { opacity: 0; }
   .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+  .hamburger:focus-visible { outline-offset: 6px; }
   .mobile-lang { display: none; }
+  .nav-actions { display: flex; align-items: center; gap: 1rem; }
 
   /* MOBILE DRAWER */
   .mobile-drawer {
@@ -554,6 +612,13 @@
     .hero { grid-template-columns: 1fr; }
     .hero-left { padding: 6rem 1.5rem 3.5rem 1.5rem; }
     .hero-right { display: none; }
+    .hero-ctas { flex-wrap: wrap; }
+    .mobile-profile-card {
+      display: block;
+      width: 100%;
+      max-width: 360px;
+      margin-top: 2rem;
+    }
     .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
     .exp-item { grid-template-columns: 1fr; gap: 0.4rem; }
     .tools-grid { grid-template-columns: 1fr 1fr; }
@@ -563,6 +628,26 @@
   @media (min-width: 901px) {
     .mobile-lang { display: none !important; }
     nav > div:last-child { display: none !important; }
+  }
+  @media (max-width: 520px) {
+    .tools-grid, .skills-grid { grid-template-columns: 1fr; }
+    .lang-row { align-items: flex-start; flex-direction: column; gap: 0.55rem; }
+    .lang-name, .lang-level { width: auto; }
+    .lang-bar-track { width: 100%; }
+    .contact-info-list li { align-items: flex-start; flex-direction: column; gap: 0.35rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
+    .exp-item, .lang-bar-fill {
+      opacity: 1;
+      transform: none;
+    }
   }
 </style>
 </head>
@@ -575,17 +660,17 @@
     <li><a href="#experiencia">Experiencia</a></li>
     <li><a href="#habilidades">Habilidades</a></li>
     <li><a href="#contacto">Contacto</a></li>
-    <li><a href="/en" class="lang-switch">🇺🇸 EN</a></li>
+    <li><a href="/en/" class="lang-switch">🇺🇸 EN</a></li>
   </ul>
-  <div style="display:flex;align-items:center;gap:1rem;">
-    <a href="/en" class="lang-switch mobile-lang">🇺🇸 EN</a>
-    <button class="hamburger" id="hamburger" aria-label="Menú">
+  <div class="nav-actions">
+    <a href="/en/" class="lang-switch mobile-lang">🇺🇸 EN</a>
+    <button class="hamburger" id="hamburger" aria-label="Menú" aria-controls="drawer" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
   </div>
 </nav>
 
-<div class="mobile-drawer" id="drawer">
+<div class="mobile-drawer" id="drawer" hidden>
   <ul>
     <li><a href="#sobre" class="drawer-link">Sobre mí</a></li>
     <li><a href="#experiencia" class="drawer-link">Experiencia</a></li>
@@ -605,8 +690,30 @@
       genuina a los resultados.
     </p>
     <div class="hero-ctas">
-      <a href="CVGartnerLautaro2026.pdf" download class="btn-primary">Descargar CV →</a>
+      <a href="Lautaro-Gartner-CV-ES-2026.pdf" download="Lautaro-Gartner-CV-ES-2026.pdf" class="btn-primary">Descargar CV →</a>
       <a href="#contacto" class="btn-ghost">Contacto</a>
+    </div>
+    <div class="hero-card mobile-profile-card" aria-label="Resumen del perfil">
+      <div class="hero-card-label"><span>// Perfil</span><span>2026</span></div>
+      <div class="stat-row">
+        <div class="stat">
+          <div class="stat-num">06+</div>
+          <div class="stat-label">Años exp.</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">C1</div>
+          <div class="stat-label">Inglés</div>
+        </div>
+      </div>
+      <div class="card-divider"></div>
+      <div class="contact-item">
+        <div class="contact-dot"></div>
+        <a href="mailto:lautaro@lautarogartner.com">lautaro@lautarogartner.com</a>
+      </div>
+      <div class="contact-item">
+        <div class="contact-dot"></div>
+        <span>Crespo, Entre Ríos</span>
+      </div>
     </div>
   </div>
   <div class="hero-right">
@@ -637,7 +744,7 @@
       </div>
       <div class="contact-item">
         <div class="contact-dot"></div>
-        <a href="https://wa.me/5493434166723" target="_blank" rel="noopener">+54 9 3434 166723</a>
+        <a href="https://wa.me/5493434166723" target="_blank" rel="noopener noreferrer">+54 9 3434 166723</a>
       </div>
     </div>
   </div>
@@ -715,7 +822,7 @@
             <span class="duty-chip">Control de stock</span>
             <span class="duty-chip">Supervisión operativa</span>
           </div>
-          <div class="exp-ref">Ref: <span>Ramiro Alva</span> — <a href="https://wa.me/5493435066716" target="_blank" rel="noopener">+54 9 3435 066716</a></div>
+          <div class="exp-ref">Ref: <span>Ramiro Alva</span> — <a href="https://wa.me/5493435066716" target="_blank" rel="noopener noreferrer">+54 9 3435 066716</a></div>
         </div>
       </div>
 
@@ -733,7 +840,7 @@
             <span class="duty-chip">Manejo de caja</span>
             <span class="duty-chip">Pago a proveedores</span>
           </div>
-          <div class="exp-ref">Ref: <span>Ammiel Giaccarini</span> — <a href="https://wa.me/5493434800055" target="_blank" rel="noopener">+54 9 3434 800055</a></div>
+          <div class="exp-ref">Ref: <span>Ammiel Giaccarini</span> — <a href="https://wa.me/5493434800055" target="_blank" rel="noopener noreferrer">+54 9 3434 800055</a></div>
         </div>
       </div>
 
@@ -749,7 +856,7 @@
             <span class="duty-chip">Reparación de equipamiento</span>
             <span class="duty-chip">Mantenimiento de plantas</span>
           </div>
-          <div class="exp-ref">Ref: <span>Mauro</span> — <a href="https://wa.me/5493435052142" target="_blank" rel="noopener">+54 9 3435 052142</a></div>
+          <div class="exp-ref">Ref: <span>Mauro</span> — <a href="https://wa.me/5493435052142" target="_blank" rel="noopener noreferrer">+54 9 3435 052142</a></div>
         </div>
       </div>
 
@@ -833,7 +940,7 @@
           </li>
           <li>
             <span class="ci-label">Tel.</span>
-            <a href="https://wa.me/5493434166723" target="_blank" rel="noopener">+54 9 3434 166723</a>
+            <a href="https://wa.me/5493434166723" target="_blank" rel="noopener noreferrer">+54 9 3434 166723</a>
           </li>
           <li>
             <span class="ci-label">Ubic.</span>
@@ -848,7 +955,7 @@
           Podés descargar mi curriculum completo en formato PDF para tenerlo a mano o
           compartirlo con tu equipo de RRHH.
         </p>
-        <a href="CVGartnerLautaro2026.pdf" download class="btn-primary">Descargar CV →</a>
+        <a href="Lautaro-Gartner-CV-ES-2026.pdf" download="Lautaro-Gartner-CV-ES-2026.pdf" class="btn-primary">Descargar CV →</a>
       </div>
     </div>
   </div>
@@ -858,38 +965,47 @@
   <div class="footer-logo">Lautaro<span> </span>Gärtner</div>
   <span>© 2026 — Crespo, Entre Ríos</span>
   <span>Admin. · Atención al Cliente · Coord.</span>
-  <div style="font-size:0.62rem;color:var(--muted);">Diseño · <a href="https://paideiastudios.com.ar" target="_blank" style="color:var(--gold);text-decoration:none;">Paideia Studios</a></div>
+  <div class="site-credit">Diseño · <a href="https://paideiastudios.com.ar" target="_blank" rel="noopener noreferrer">Paideia Studios</a></div>
 </footer>
 
 <script>
-  const hamburger = document.getElementById('hamburger');
+const hamburger = document.getElementById('hamburger');
   const drawer = document.getElementById('drawer');
   hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('open');
-    drawer.classList.toggle('open');
+    const isOpen = hamburger.classList.toggle('open');
+    drawer.classList.toggle('open', isOpen);
+    drawer.hidden = !isOpen;
+    hamburger.setAttribute('aria-expanded', String(isOpen));
   });
   document.querySelectorAll('.drawer-link').forEach(link => {
     link.addEventListener('click', () => {
       hamburger.classList.remove('open');
       drawer.classList.remove('open');
+      drawer.hidden = true;
+      hamburger.setAttribute('aria-expanded', 'false');
     });
   });
   const expItems = document.querySelectorAll('.exp-item');
   const langFills = document.querySelectorAll('.lang-bar-fill');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => { entry.target.classList.add('visible'); }, i * 100);
-      }
-    });
-  }, { threshold: 0.15 });
-  expItems.forEach(el => observer.observe(el));
-  const langObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) { entry.target.classList.add('animate'); }
-    });
-  }, { threshold: 0.5 });
-  langFills.forEach(el => langObserver.observe(el));
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => { entry.target.classList.add('visible'); }, i * 100);
+        }
+      });
+    }, { threshold: 0.15 });
+    expItems.forEach(el => observer.observe(el));
+    const langObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('animate'); }
+      });
+    }, { threshold: 0.5 });
+    langFills.forEach(el => langObserver.observe(el));
+  } else {
+    expItems.forEach(el => el.classList.add('visible'));
+    langFills.forEach(el => el.classList.add('animate'));
+  }
 </script>
 </body>
 </html>
