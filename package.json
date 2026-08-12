@@ -1,0 +1,20 @@
+{
+  "name": "lautarogartner-com",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "paideia build",
+    "start": "paideia start",
+    "doctor": "paideia doctor",
+    "inspect": "paideia inspect",
+    "new:post": "paideia new post"
+  },
+  "dependencies": {
+    "paideia-framework": "github:LautaroGartner/paideia-framework#4fdf52a1b21f94871813466409066e2c796ceb3d"
+  },
+  "devDependencies": {
+    "@types/node": "^25.7.0",
+    "typescript": "^5.9.3"
+  }
+}
