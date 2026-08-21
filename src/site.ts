@@ -67,6 +67,22 @@ export const site = defineSite({
         "Minimal article index for Lautaro Gärtner's blog about Paideia Framework and self-describing systems.",
     },
     {
+      path: "/web",
+      title: "Web design & development",
+      description:
+        "Independent web design and development by Lautaro Gärtner.",
+      body: `
+Paideia Studios has been retired as a separate web studio.
+
+I continue to design and build focused websites independently. I work with businesses that need a new site, a clearer presentation of their offer, or a thoughtful improvement to an existing web presence.
+
+For a project inquiry, email lautaro@lautarogartner.com. You can also find my professional profile on LinkedIn.
+`,
+      nav: true,
+      tokenSummary:
+        "Web design and development page noting that Paideia Studios has been retired and directing project inquiries to Lautaro Gartner by email.",
+    },
+    {
       path: "/about",
       title: "About",
       description: "About Lautaro Gärtner, Paideia, and this site.",

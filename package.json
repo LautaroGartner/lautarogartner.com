@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "paideia build && node scripts/fix-indexing.mjs",
+    "build": "paideia build && node scripts/fix-indexing.mjs && node scripts/finalize-web-page.mjs",
     "start": "paideia start",
     "doctor": "paideia doctor",
     "inspect": "paideia inspect",
