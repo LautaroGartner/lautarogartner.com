@@ -1,20 +1,34 @@
 {
-  "name": "lautarogartner-com",
+  "name": "lautarogartner.com",
   "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "paideia build && node scripts/fix-indexing.mjs && node scripts/finalize-web-page.mjs",
+    "content": "node scripts/compile-content.mjs",
+    "dev": "npm run content && concurrently \"paideia dev\" \"vite --config admin/vite.config.js\"",
+    "build": "npm run content && paideia build && node scripts/inject-admin.mjs && vite build --config admin/vite.config.js",
     "start": "paideia start",
     "doctor": "paideia doctor",
     "inspect": "paideia inspect",
-    "new:post": "paideia new post"
+    "check": "npm run content && tsc --noEmit && vite build --config admin/vite.config.js",
+    "test:security": "node --test tests/auth-security.test.mjs"
   },
   "dependencies": {
-    "paideia-framework": "github:LautaroGartner/paideia-framework#4fdf52a1b21f94871813466409066e2c796ceb3d"
+    "@phosphor-icons/react": "^2.1.10",
+    "paideia-framework": "file:vendor/paideia-framework",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
   },
   "devDependencies": {
-    "@types/node": "^25.7.0",
-    "typescript": "^5.9.3"
+    "@types/node": "^24.3.1",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react": "^4.6.0",
+    "concurrently": "^9.2.1",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.5"
+  },
+  "overrides": {
+    "esbuild": "^0.28.1"
   }
 }

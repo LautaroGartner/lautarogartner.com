@@ -1,0 +1,9 @@
+export const siteSettings = {
+  "title": "Lautaro Gärtner",
+  "description": "Independent software developer building tailored websites, applications, and tools.",
+  "url": "https://www.lautarogartner.com",
+  "author": "Lautaro Gärtner",
+  "authorUrl": "https://x.com/lautarogartner_",
+  "followLabel": "Follow",
+  "sourceUrl": "https://github.com/LautaroGartner/lautarogartner.com"
+} as const;

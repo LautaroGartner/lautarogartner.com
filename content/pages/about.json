@@ -1,0 +1,10 @@
+{
+  "kind": "page",
+  "slug": "about",
+  "path": "/about",
+  "title": "About",
+  "description": "About Lautaro Gärtner, an independent software developer and creator in Argentina.",
+  "body": "I'm Lautaro Gärtner, an independent software developer and creator based in Paraná, Argentina. I build tailored websites, applications, and tools for businesses and for my own experiments.\n\n## Work\n\nI work directly with people who need software to solve a concrete problem: a clear business site, a catalog, an event page, a quoting system, or a custom application. I care about making the result understandable and useful, including the less glamorous parts such as domains, deployment, analytics, and handing over real ownership.\n\n## Software and writing\n\nI mostly work with TypeScript, React, Node.js, Ruby on Rails, and SQL. The writing here covers software engineering, product decisions, agent-readable systems, and lessons from building and operating small products.\n\nPaideia Framework is one of those projects: an experiment in generated software that can describe its own structure and runtime. It informs some of the essays on this site, but it is one project among the broader work collected here.\n\n## Contact\n\nFor a project, collaboration, or conversation, email me at [lautaro@lautarogartner.com](mailto:lautaro@lautarogartner.com?subject=Hello%20from%20lautarogartner.com&body=Hi%20Lautaro%2C%0A%0AI%27m%20reaching%20out%20about%3A%0A%0A%0AThanks%2C%0A) or find me on [LinkedIn](https://www.linkedin.com/in/lautarogartner).\n\nThe machine-readable files below describe how this site is built and provide compact context for people and software agents that want to inspect it.",
+  "nav": true,
+  "tokenSummary": "About Lautaro Gärtner, an independent software developer in Argentina building websites, applications, tools, and writing about software."
+}

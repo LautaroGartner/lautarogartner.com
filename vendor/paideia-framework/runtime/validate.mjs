@@ -1,0 +1,603 @@
+import fs from "node:fs";
+import path from "node:path";
+
+import { normalizeManifestContract } from "./normalize-manifest.mjs";
+import { validateManifestContract } from "./validate-manifest.mjs";
+
+const REQUIRED_RUNTIME_CAPABILITIES = [
+  "site.static",
+  "runtime.identity",
+  "manifest.validate",
+  "manifest.normalize",
+  "agent.context",
+  "agent.guide",
+];
+
+function isObject(value) {
+  return (
+    value !== null &&
+    typeof value === "object" &&
+    !Array.isArray(value)
+  );
+}
+
+function validateCapabilities(value, label) {
+  if (!Array.isArray(value)) {
+    return {
+      ok: false,
+      reason: `${label} must be an array`,
+    };
+  }
+
+  for (const capability of value) {
+    if (typeof capability !== "string" || capability.length === 0) {
+      return {
+        ok: false,
+        reason: `${label} must contain strings only`,
+      };
+    }
+  }
+
+  if (new Set(value).size !== value.length) {
+    return {
+      ok: false,
+      reason: `${label} must not contain duplicates`,
+    };
+  }
+
+  for (const capability of REQUIRED_RUNTIME_CAPABILITIES) {
+    if (!value.includes(capability)) {
+      return {
+        ok: false,
+        reason: `${label} missing ${capability}`,
+      };
+    }
+  }
+
+  return {
+    ok: true,
+  };
+}
+
+function readSystemJson(config) {
+  const filePath = path.join(config.distDir, "system.json");
+
+  if (!fs.existsSync(filePath)) {
+    return null;
+  }
+
+  try {
+    const parsed = JSON.parse(fs.readFileSync(filePath, "utf8"));
+    return parsed && typeof parsed === "object" && !Array.isArray(parsed)
+      ? parsed
+      : null;
+  } catch {
+    return null;
+  }
+}
+
+export function validateRuntimeStartup(config) {
+  const checks = [
+    {
+      label: "dist/ exists",
+      path: config.distDir,
+    },
+    {
+      label: "dist/index.html exists",
+      path: path.join(config.distDir, "index.html"),
+    },
+    {
+      label: "dist/system.json exists",
+      path: path.join(config.distDir, "system.json"),
+    },
+    {
+      label: "dist/runtime.json exists",
+      path: path.join(config.distDir, "runtime.json"),
+    },
+  ];
+
+  const manifest = readSystemJson(config);
+
+  if (manifest?.site) {
+    checks.push(
+      {
+        label: "dist/404.html exists",
+        path: path.join(config.distDir, "404.html"),
+      },
+      {
+        label: "dist/llms.txt exists",
+        path: path.join(config.distDir, "llms.txt"),
+      },
+      {
+        label: "dist/context.json exists",
+        path: path.join(config.distDir, "context.json"),
+      }
+    );
+  } else {
+    checks.push({
+      label: "dist/schema.sql exists",
+      path: path.join(config.distDir, "schema.sql"),
+    });
+  }
+
+  const failures = checks.filter((check) => !fs.existsSync(check.path));
+
+  return {
+    ok: failures.length === 0,
+    checks,
+    failures,
+  };
+}
+
+export function validateSystemJson(config) {
+  const filePath = path.join(config.distDir, "system.json");
+
+  if (!fs.existsSync(filePath)) {
+    return {
+      ok: false,
+      label: "dist/system.json valid",
+      reason: "missing",
+    };
+  }
+
+  try {
+    const raw = fs.readFileSync(filePath, "utf8");
+    let parsed = JSON.parse(raw);
+
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+      return {
+        ok: false,
+        label: "dist/system.json valid",
+        reason: "expected object",
+      };
+    }
+
+    const contract =
+      validateManifestContract(parsed);
+
+    if (!contract.ok) {
+      const [firstDiagnostic] =
+        contract.diagnostics;
+
+      return {
+        ok: false,
+        label: "dist/system.json contract valid",
+        reason:
+          firstDiagnostic?.message ??
+          "manifest contract invalid",
+        diagnostics: contract.diagnostics,
+      };
+    }
+
+    parsed = normalizeManifestContract(parsed);
+
+    const capabilities = validateCapabilities(
+      parsed.capabilities,
+      "system.json capabilities"
+    );
+
+    if (!capabilities.ok) {
+      return {
+        ok: false,
+        label: "dist/system.json contract valid",
+        reason: capabilities.reason,
+      };
+    }
+
+    return {
+      ok: true,
+      label: "dist/system.json contract valid",
+      manifest: parsed,
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      label: "dist/system.json valid",
+      reason: error.message,
+    };
+  }
+}
+
+export function validateRuntimeJson(config) {
+  const filePath = path.join(config.distDir, "runtime.json");
+
+  if (!fs.existsSync(filePath)) {
+    return {
+      ok: false,
+      label: "dist/runtime.json valid",
+      reason: "missing",
+    };
+  }
+
+  try {
+    const parsed = JSON.parse(fs.readFileSync(filePath, "utf8"));
+
+    if (!isObject(parsed)) {
+      return {
+        ok: false,
+        label: "dist/runtime.json valid",
+        reason: "expected object",
+      };
+    }
+
+    if (typeof parsed.framework?.version !== "string") {
+      return {
+        ok: false,
+        label: "dist/runtime.json valid",
+        reason: "framework.version missing",
+      };
+    }
+
+    if (
+      typeof parsed.build?.id !== "string" ||
+      !/^[0-9a-f]{7,16}$/i.test(parsed.build.id)
+    ) {
+      return {
+        ok: false,
+        label: "dist/runtime.json valid",
+        reason: "build.id must be a short hex hash",
+      };
+    }
+
+    if (typeof parsed.build?.generatedAt !== "string") {
+      return {
+        ok: false,
+        label: "dist/runtime.json valid",
+        reason: "build.generatedAt missing",
+      };
+    }
+
+    if (typeof parsed.build?.artifactCount !== "number") {
+      return {
+        ok: false,
+        label: "dist/runtime.json valid",
+        reason: "build.artifactCount must be a number",
+      };
+    }
+
+    if (!Array.isArray(parsed.artifacts)) {
+      return {
+        ok: false,
+        label: "dist/runtime.json valid",
+        reason: "artifacts must be an array",
+      };
+    }
+
+    if (parsed.build.artifactCount !== parsed.artifacts.length) {
+      return {
+        ok: false,
+        label: "dist/runtime.json valid",
+        reason: "build.artifactCount must equal artifacts.length",
+      };
+    }
+
+    for (const artifact of parsed.artifacts) {
+      if (!isObject(artifact)) {
+        return {
+          ok: false,
+          label: "dist/runtime.json valid",
+          reason: "every artifact must be an object",
+        };
+      }
+
+      if (typeof artifact.path !== "string" || artifact.path.length === 0) {
+        return {
+          ok: false,
+          label: "dist/runtime.json valid",
+          reason: "artifact.path must be a non-empty string",
+        };
+      }
+
+      if (typeof artifact.kind !== "string" || artifact.kind.length === 0) {
+        return {
+          ok: false,
+          label: "dist/runtime.json valid",
+          reason: "artifact.kind must be a non-empty string",
+        };
+      }
+
+      if (typeof artifact.bytes !== "number") {
+        return {
+          ok: false,
+          label: "dist/runtime.json valid",
+          reason: "artifact.bytes must be a number",
+        };
+      }
+
+      if (!fs.existsSync(path.join(config.distDir, artifact.path))) {
+        return {
+          ok: false,
+          label: "dist/runtime.json valid",
+          reason: `${artifact.path} listed in runtime inventory but missing`,
+        };
+      }
+    }
+
+    const capabilities = validateCapabilities(
+      parsed.capabilities,
+      "runtime.json capabilities"
+    );
+
+    if (!capabilities.ok) {
+      return {
+        ok: false,
+        label: "dist/runtime.json valid",
+        reason: capabilities.reason,
+      };
+    }
+
+    return {
+      ok: true,
+      label: "dist/runtime.json valid",
+      runtime: parsed,
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      label: "dist/runtime.json valid",
+      reason: error.message,
+    };
+  }
+}
+
+export function validateActionContracts(config) {
+  const filePath = path.join(config.distDir, "system.json");
+
+  if (!fs.existsSync(filePath)) {
+    return {
+      ok: false,
+      label: "action contracts valid",
+      reason: "dist/system.json missing",
+    };
+  }
+
+  let manifest;
+
+  try {
+    manifest = JSON.parse(fs.readFileSync(filePath, "utf8"));
+  } catch (error) {
+    return {
+      ok: false,
+      label: "action contracts valid",
+      reason: error.message,
+    };
+  }
+
+  const actions = manifest?.resource?.actions ?? [];
+
+  if (!Array.isArray(actions)) {
+    return {
+      ok: false,
+      label: "action contracts valid",
+      reason: "resource.actions must be an array",
+    };
+  }
+
+  for (const action of actions) {
+    const name = action?.name ?? "unknown";
+    const required = ["name", "label", "type", "permission"];
+
+    for (const key of required) {
+      if (!action?.[key]) {
+        return {
+          ok: false,
+          label: "action contracts valid",
+          reason: `${name} missing ${key}`,
+        };
+      }
+    }
+
+    if (!action.effect || typeof action.effect !== "object") {
+      return {
+        ok: false,
+        label: "action contracts valid",
+        reason: `${name} missing effect`,
+      };
+    }
+
+    if (!action.effect.kind) {
+      return {
+        ok: false,
+        label: "action contracts valid",
+        reason: `${name} missing effect.kind`,
+      };
+    }
+
+    if (!action.events || typeof action.events !== "object") {
+      return {
+        ok: false,
+        label: "action contracts valid",
+        reason: `${name} missing events`,
+      };
+    }
+
+    if (!action.events.success) {
+      return {
+        ok: false,
+        label: "action contracts valid",
+        reason: `${name} missing events.success`,
+      };
+    }
+
+    if (!action.events.denied) {
+      return {
+        ok: false,
+        label: "action contracts valid",
+        reason: `${name} missing events.denied`,
+      };
+    }
+
+    if (action.type === "update" && !action.effect.set) {
+      return {
+        ok: false,
+        label: "action contracts valid",
+        reason: `${name} update action missing effect.set`,
+      };
+    }
+
+    if (
+      action.type === "ai" &&
+      !String(action.effect.kind).startsWith("ai.")
+    ) {
+      return {
+        ok: false,
+        label: "action contracts valid",
+        reason: `${name} ai action must use ai.* effect`,
+      };
+    }
+  }
+
+  return {
+    ok: true,
+    label: "action contracts valid",
+  };
+}
+
+export function validateActionEventContracts(config) {
+  const filePath = path.join(config.distDir, "system.json");
+
+  if (!fs.existsSync(filePath)) {
+    return {
+      ok: false,
+      label: "action event contracts valid",
+      reason: "dist/system.json missing",
+    };
+  }
+
+  let manifest;
+
+  try {
+    manifest = JSON.parse(fs.readFileSync(filePath, "utf8"));
+  } catch (error) {
+    return {
+      ok: false,
+      label: "action event contracts valid",
+      reason: error.message,
+    };
+  }
+
+  const actions = manifest?.resource?.actions ?? [];
+
+  if (!Array.isArray(actions)) {
+    return {
+      ok: false,
+      label: "action event contracts valid",
+      reason: "resource.actions must be an array",
+    };
+  }
+
+  for (const action of actions) {
+    const name = action?.name ?? "unknown";
+
+    if (!action?.events || typeof action.events !== "object") {
+      return {
+        ok: false,
+        label: "action event contracts valid",
+        reason: `${name} missing events`,
+      };
+    }
+
+    if (!action.events.success) {
+      return {
+        ok: false,
+        label: "action event contracts valid",
+        reason: `${name} missing events.success`,
+      };
+    }
+
+    if (!action.events.denied) {
+      return {
+        ok: false,
+        label: "action event contracts valid",
+        reason: `${name} missing events.denied`,
+      };
+    }
+
+    if (
+      action.type === "update" &&
+      action.events.success !== "action.executed"
+    ) {
+      return {
+        ok: false,
+        label: "action event contracts valid",
+        reason: `${name} update action must use action.executed`,
+      };
+    }
+
+    if (
+      action.type === "ai" &&
+      action.events.success !== "ai.executed"
+    ) {
+      return {
+        ok: false,
+        label: "action event contracts valid",
+        reason: `${name} ai action must use ai.executed`,
+      };
+    }
+
+    if (action.events.denied !== "permission.denied") {
+      return {
+        ok: false,
+        label: "action event contracts valid",
+        reason: `${name} denied event must use permission.denied`,
+      };
+    }
+  }
+
+  return {
+    ok: true,
+    label: "action event contracts valid",
+  };
+}
+
+export function validateSchemaSql(config) {
+  const manifest = readSystemJson(config);
+
+  if (manifest?.site) {
+    return {
+      ok: true,
+      label: "dist/schema.sql skipped for static site",
+    };
+  }
+
+  const filePath = path.join(config.distDir, "schema.sql");
+
+  if (!fs.existsSync(filePath)) {
+    return {
+      ok: false,
+      label: "dist/schema.sql valid",
+      reason: "missing",
+    };
+  }
+
+  try {
+    const raw = fs.readFileSync(filePath, "utf8").trim();
+
+    if (!raw) {
+      return {
+        ok: false,
+        label: "dist/schema.sql valid",
+        reason: "empty file",
+      };
+    }
+
+    if (!raw.toUpperCase().includes("CREATE TABLE")) {
+      return {
+        ok: false,
+        label: "dist/schema.sql valid",
+        reason: "missing CREATE TABLE",
+      };
+    }
+
+    return {
+      ok: true,
+      label: "dist/schema.sql valid",
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      label: "dist/schema.sql valid",
+      reason: error.message,
+    };
+  }
+}

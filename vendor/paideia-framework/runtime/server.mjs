@@ -1,0 +1,86 @@
+import http from "node:http";
+import fs from "node:fs";
+
+import { isHealthRequest, sendHealthResponse } from "./health.mjs";
+import { getContentType } from "./mime.mjs";
+import {
+  getRequestPathname,
+  isBrowserAssetProbe,
+  isMethodAllowed,
+  resolveRequestPath,
+  sendSecurityHeaders,
+} from "./security.mjs";
+
+export function createRuntimeServer({ config, logger }) {
+  return http.createServer((req, res) => {
+    sendSecurityHeaders(res);
+
+    if (!isMethodAllowed(req.method)) {
+      logger.warn("method rejected", {
+        method: req.method,
+        path: req.url,
+      });
+
+      res.writeHead(405, { "Content-Type": "text/plain; charset=utf-8" });
+      res.end("Method Not Allowed");
+      return;
+    }
+
+    if (isHealthRequest(req.url)) {
+      sendHealthResponse(res, config, {
+        head: req.method === "HEAD",
+      });
+      return;
+    }
+
+    const pathname = getRequestPathname(req.url, config.port);
+
+    if (isBrowserAssetProbe(pathname)) {
+      res.writeHead(204);
+      res.end();
+      return;
+    }
+
+    const filePath = resolveRequestPath(req.url, {
+      port: config.port,
+      distDir: config.distDir,
+    });
+
+    if (!filePath || !fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
+      logger.warn("404 request", {
+        path: pathname ?? req.url,
+      });
+
+      const notFoundPath = `${config.distDir}/404.html`;
+
+      if (fs.existsSync(notFoundPath)) {
+        res.writeHead(404, {
+          "Content-Type": getContentType(notFoundPath),
+        });
+
+        if (req.method === "HEAD") {
+          res.end();
+          return;
+        }
+
+        fs.createReadStream(notFoundPath).pipe(res);
+        return;
+      }
+
+      res.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
+      res.end("Not Found");
+      return;
+    }
+
+    res.writeHead(200, {
+      "Content-Type": getContentType(filePath),
+    });
+
+    if (req.method === "HEAD") {
+      res.end();
+      return;
+    }
+
+    fs.createReadStream(filePath).pipe(res);
+  });
+}

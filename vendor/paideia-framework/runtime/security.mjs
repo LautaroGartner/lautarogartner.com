@@ -1,0 +1,59 @@
+import path from "node:path";
+
+export function sendSecurityHeaders(res) {
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("X-Frame-Options", "DENY");
+  res.setHeader("Referrer-Policy", "no-referrer");
+}
+
+export function isMethodAllowed(method) {
+  return method === "GET" || method === "HEAD";
+}
+
+export function getRequestPathname(reqUrl, port) {
+  try {
+    const url = new URL(reqUrl ?? "/", `http://localhost:${port}`);
+    return decodeURIComponent(url.pathname);
+  } catch {
+    return null;
+  }
+}
+
+export function isBrowserAssetProbe(pathname) {
+  return [
+    "/favicon.ico",
+    "/apple-touch-icon.png",
+    "/apple-touch-icon-precomposed.png",
+  ].includes(pathname);
+}
+
+export function resolveRequestPath(reqUrl, { port, distDir }) {
+  const pathname = getRequestPathname(reqUrl, port);
+
+  if (!pathname) {
+    return null;
+  }
+
+  const requestedPath =
+    pathname === "/"
+      ? "/index.html"
+      : path.extname(pathname)
+        ? pathname
+        : `${pathname.replace(/\/$/, "")}/index.html`;
+  const safePath = path.normalize(requestedPath).replace(/^(\.\.[/\\])+/, "");
+  const filePath = path.join(distDir, safePath);
+
+  const resolved = path.resolve(filePath);
+  const resolvedDist = path.resolve(distDir);
+  const relativePath = path.relative(resolvedDist, resolved);
+
+  if (
+    relativePath === ".." ||
+    relativePath.startsWith(`..${path.sep}`) ||
+    path.isAbsolute(relativePath)
+  ) {
+    return null;
+  }
+
+  return resolved;
+}

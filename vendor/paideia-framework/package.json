@@ -1,0 +1,53 @@
+{
+  "name": "paideia-framework",
+  "version": "1.8.1",
+  "type": "module",
+  "bin": {
+    "paideia": "./cli.mjs",
+    "agentify": "./scripts/agentify.mjs"
+  },
+  "files": [
+    "assets/",
+    "build/",
+    "cli.mjs",
+    "examples/",
+    "packages/",
+    "runtime/",
+    "scripts/",
+    "src/",
+    "tests/",
+    "tsconfig.json"
+  ],
+  "scripts": {
+    "prepack": "npm run build",
+    "dev": "node cli.mjs dev",
+    "build": "node cli.mjs build",
+    "social:screenshots": "node scripts/social-screenshots.mjs",
+    "start": "node cli.mjs start",
+    "doctor": "node cli.mjs doctor",
+    "paideia": "node cli.mjs",
+    "test:runtime": "node tests/runtime-identity.test.mjs",
+    "test:version": "node tests/version-consistency.test.mjs",
+    "test:manifest-diagnostics": "node tests/manifest-diagnostics.test.mjs",
+    "test:manifest": "node tests/manifest-contract.test.mjs",
+    "test:docs-example": "node tests/docs-example.test.mjs",
+    "test:agentify": "node tests/agentify.test.mjs",
+    "test:agentify-fixtures": "node tests/agentify-fixtures.test.mjs",
+    "test:agentify-corpus": "node tests/agentify-corpus.test.mjs",
+    "test:agentify-package": "node tests/agentify-package.test.mjs",
+    "test:agentify-install": "node tests/agentify-install.test.mjs",
+    "test:init": "node tests/init-project.test.mjs",
+    "test:new-post": "node tests/new-post-cli.test.mjs",
+    "test:site": "node tests/site-runtime.test.mjs",
+    "test:writing": "node tests/writing-validation.test.mjs",
+    "test:install-smoke": "node tests/install-smoke.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^25.7.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0"
+  }
+}

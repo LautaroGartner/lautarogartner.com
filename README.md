@@ -1,37 +1,26 @@
 # lautarogartner.com
 
-Lautaro Gärtner's personal blog about inspectable software, developer tooling, and the agent-readable web.
+The personal blog, separated from the Paideia Framework repository. Paideia remains the generator; this repository owns site identity, content, assets, and publishing.
 
-The site is generated with [Paideia Framework](https://github.com/LautaroGartner/paideia-framework). Its source content lives here so the framework and the website have independent histories and deployment lifecycles.
-
-## Run locally
+## Local development
 
 ```bash
 npm install
-npm run build
-npm run start
+npm run dev
 ```
 
-Then open `http://localhost:3000`.
+The public site runs through Paideia. The admin UI runs through Vite and expects the API routes under `api/`; use `vercel dev` when testing authenticated saves locally.
 
-## Write a post
+## Publishing
 
-```bash
-npm run new:post -- "Post title"
-```
+Posts are JSON documents in `content/posts`. The admin commits edits through GitHub's Contents API. A `draft` is committed but excluded from the public build; `published` is included on the next Vercel deployment.
 
-Posts live in `src/writing/`. Site metadata and pages live in `src/site.ts`.
+Copy `.env.example` to `.env.local` and configure the values in Vercel. Generate `SESSION_SECRET` with `openssl rand -base64 48`.
 
-## Verify the generated site
+Production admin authentication uses a GitHub OAuth app with callback URL `https://www.lautarogartner.com/api/auth-callback`. Access is allowlisted to the immutable `ADMIN_GITHUB_USER_ID`; no site password is stored. The OAuth token is used only to verify identity and is then revoked best-effort.
 
-```bash
-npm run build
-npm run doctor
-npm run inspect
-```
+Use a fine-grained `GITHUB_TOKEN` restricted to this repository with Contents read/write access. This separate token performs content commits and must never be exposed to the browser.
 
-The production build is written to `dist/` and includes the human-facing pages plus `system.json`, `runtime.json`, `context.json`, and `llms.txt`.
+## Deploy
 
-## Deployment
-
-Vercel runs `npm run build` and publishes `dist/`. The framework dependency is pinned to an immutable commit so deployments remain reproducible.
+Create a new GitHub repository named `lautarogartner.com`, push this project, import it into Vercel, and move the existing domain to the new Vercel project after the preview deployment passes.

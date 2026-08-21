@@ -3,9 +3,9 @@ build/
 dist/
 .paideia/
 .vercel/
-
-.DS_Store
-*.log
-
-.env
-.env.*
+.env*
+!.env.example
+src/generated/content.ts
+admin-current-screen.png
+design-qa.md
+output/
