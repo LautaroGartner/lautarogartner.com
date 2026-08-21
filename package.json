@@ -4,13 +4,14 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "vendor:build": "tsc -p vendor/paideia-framework/tsconfig.json",
     "content": "node scripts/compile-content.mjs",
-    "dev": "npm run content && concurrently \"paideia dev\" \"vite --config admin/vite.config.js\"",
-    "build": "npm run content && paideia build && node scripts/inject-admin.mjs && vite build --config admin/vite.config.js",
+    "dev": "npm run vendor:build && npm run content && concurrently \"paideia dev\" \"vite --config admin/vite.config.js\"",
+    "build": "npm run vendor:build && npm run content && paideia build && node scripts/inject-admin.mjs && vite build --config admin/vite.config.js",
     "start": "paideia start",
     "doctor": "paideia doctor",
     "inspect": "paideia inspect",
-    "check": "npm run content && tsc --noEmit && vite build --config admin/vite.config.js",
+    "check": "npm run vendor:build && npm run content && tsc --noEmit && vite build --config admin/vite.config.js",
     "test:security": "node --test tests/auth-security.test.mjs"
   },
   "dependencies": {
