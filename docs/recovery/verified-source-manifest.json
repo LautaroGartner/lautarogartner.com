@@ -1,0 +1,686 @@
+{
+  "verifiedBackupFiles": [
+    {
+      "path": "README.md",
+      "bytes": 4443,
+      "sha256": "26cd5ed72b50e1622e4adc8a511a22e85012d027d157ab39478e7b6ef791b1b4"
+    },
+    {
+      "path": "api/preview.mjs",
+      "bytes": 1918,
+      "sha256": "3b6ecc314edb8fb544201d0b114fd93fe45173f4cd74d3c2e20d205307373e40"
+    },
+    {
+      "path": "content/pages/about.json",
+      "bytes": 1877,
+      "sha256": "aa07208487fbfe2537aabdb9cb7c62642c1f991a7cbb5cec525e9303af0feb07"
+    },
+    {
+      "path": "content/pages/web-es.json",
+      "deleted": true
+    },
+    {
+      "path": "content/pages/web.json",
+      "deleted": true
+    },
+    {
+      "path": "content/site.json",
+      "bytes": 437,
+      "sha256": "b41259afb15f4c19a74c75a8bceee409c9bab6a706a721b92352f9ae1f404887"
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 77799,
+      "sha256": "c5da8eaaecb98f009f4ea62340b98d3f339d101a62185aa4553534c66026deea"
+    },
+    {
+      "path": "package.json",
+      "bytes": 1282,
+      "sha256": "3d9de215f2f3dc0e64a95f409259cdc4d100495db3d6894f32a2c5085b826bed"
+    },
+    {
+      "path": "public/admin-edit.js",
+      "bytes": 1638,
+      "sha256": "875805647791cf0745189dd7a348ed3d66ef1de6d146cb319aa90877802eb43a"
+    },
+    {
+      "path": "scripts/inject-admin.mjs",
+      "bytes": 886,
+      "sha256": "75245e97f00ac7d65d36e46e5764bbb1c0ac648ba2d815f1e6900ce6a617b4c3"
+    },
+    {
+      "path": "src/generated/site-settings.ts",
+      "bytes": 475,
+      "sha256": "33fe1c225db9d542e631310558736b0f1b5c0a6262f67a77db3845d634a14377"
+    },
+    {
+      "path": "src/site.ts",
+      "bytes": 245,
+      "sha256": "7a0731352a09c3e9c800f5e2c91d1c95995aea8023ff6f4671024e51a75dc898"
+    },
+    {
+      "path": "vendor/paideia-framework/src/site-build.ts",
+      "bytes": 35743,
+      "sha256": "b41ab4d19936754139d4dd7e3488171c38a7beae85f155c73112f7b6c9a20fed"
+    },
+    {
+      "path": "vendor/paideia-framework/src/site.ts",
+      "bytes": 8535,
+      "sha256": "0488c3075f9d33216274b121cea49e829fb661ee7ff3d45112f6cdba187e5acd"
+    },
+    {
+      "path": "api/create-checkout.mjs",
+      "bytes": 1558,
+      "sha256": "ce8949c06dfd952a85d9e1f24727e02faadba99762a13717788bc4ecc22d2415"
+    },
+    {
+      "path": "content/portfolio/copy.json",
+      "bytes": 15889,
+      "sha256": "6ed5f362389a83aebd95c8f019b97c508a91414d52bdf98e7c4b7bbe6d721f7f"
+    },
+    {
+      "path": "docs/recovery/README.md",
+      "bytes": 1653,
+      "sha256": "262a44d2c587b4b560fc109461a71edc35249410b008f5e7a46d6b0e29b4d42d"
+    },
+    {
+      "path": "docs/recovery/ready-r4-compositor-evidence.json",
+      "bytes": 70666,
+      "sha256": "990310fbf49895d873db34c2717bfa74b502d47777f74f612e880b91fed5d71a"
+    },
+    {
+      "path": "docs/recovery/ready-r4-render-input.mjs",
+      "bytes": 225454,
+      "sha256": "2b0d0c4dd4ba9f7237d95473c99d01d6a78a697c4bfae693912dc70879b8e74c"
+    },
+    {
+      "path": "public/motion-shell.js",
+      "bytes": 10750,
+      "sha256": "ad0fdb725429fbc5e79604ff1f1bf68ce16cecd1a1dd5e4e3dc3176c5e3804c7"
+    },
+    {
+      "path": "public/portfolio.js",
+      "bytes": 8787,
+      "sha256": "eacbbe6c8ee02b84157b34a3dead48195f08f672f692d48575ddb72aa11f7aa7"
+    },
+    {
+      "path": "public/route-boot.js",
+      "bytes": 1157,
+      "sha256": "f040b5df0500a6dd4a93e7409a90445b77f38002226ca8b3e262c363a664bcd3"
+    },
+    {
+      "path": "public/work/filsen-1440.jpg",
+      "bytes": 145925,
+      "sha256": "75b539b45ce5d3fc8497078fbc25656809aac6c1688f891e4c722d5a31aadbde"
+    },
+    {
+      "path": "public/work/filsen-1440.webp",
+      "bytes": 98880,
+      "sha256": "9f205dd694890542907470521e1c9457c5b7304e68df72cc120397687b72bee3"
+    },
+    {
+      "path": "public/work/filsen-720.webp",
+      "bytes": 38904,
+      "sha256": "9c6a9ef1a8986b8d7f2bd22a9fff06bbd5f4fdd5b04f4fc1236dc64fecb5a777"
+    },
+    {
+      "path": "public/work/lucia-1440.jpg",
+      "bytes": 91198,
+      "sha256": "eda177a13cfc67a22635c0df0110db302048129d5764e84c806ccd87f60c2916"
+    },
+    {
+      "path": "public/work/lucia-1440.webp",
+      "bytes": 52954,
+      "sha256": "05fa826a3c061942f3198bd3b48608d84ad9f2f36306c7416687b3a1bcd4d613"
+    },
+    {
+      "path": "public/work/lucia-720.webp",
+      "bytes": 20708,
+      "sha256": "e236cf6554adc9b626a7b68a4968113ed28e950b0ae3059c541d2f5ebb4e7d76"
+    },
+    {
+      "path": "public/work/social.jpg",
+      "bytes": 37900,
+      "sha256": "7f242a790bfbb8fb85c0dee81d7349b494eb956691e80178f961e56a684c4a69"
+    },
+    {
+      "path": "public/work/tiki-1440.jpg",
+      "bytes": 113248,
+      "sha256": "c6a2a21d436165cd3fd71c45497d582565de1adcd0abd229fecc03c70c99fa77"
+    },
+    {
+      "path": "public/work/tiki-1440.webp",
+      "bytes": 76600,
+      "sha256": "cf118650b1bc10c152653c755fedb51bb600269e4ebf3b33828eeee15eb72139"
+    },
+    {
+      "path": "public/work/tiki-720.webp",
+      "bytes": 25520,
+      "sha256": "47aa4023151ea0442596811e65b887734d7c9028ad2969bc5bd6db03fa3f193f"
+    },
+    {
+      "path": "scripts/render-snapshot.py",
+      "bytes": 2959,
+      "sha256": "3b8fdea5a2515603332f88e794ad4936a3c7d030cdb0ae437353bbc7be6c3a80"
+    },
+    {
+      "path": "scripts/verify-critical-motion.cjs",
+      "bytes": 2068,
+      "sha256": "93465c930951c7b9019caa0a840a0edc9ca699e0d390b721bf318cff66d87f01"
+    },
+    {
+      "path": "scripts/verify-motion-enabled.cjs",
+      "bytes": 10333,
+      "sha256": "cef94dba643cc5a100c89c52e6a7aa7e037411f8d0de51033483592c93aadbc0"
+    },
+    {
+      "path": "site/motion.css",
+      "bytes": 60095,
+      "sha256": "d7fcf49b9aed4ada0e0e275cb281d6f2a971b9d8d1a1213789d13cb5da3e8c70"
+    },
+    {
+      "path": "site/portfolio.css",
+      "bytes": 10398,
+      "sha256": "f785406860e9d450ea8671d83597cb8f352ddc8b9eb1dcf3e90886e7b437aa7c"
+    },
+    {
+      "path": "site/presentation.d.mts",
+      "bytes": 928,
+      "sha256": "5198ce2d1d33f76bf160c7a965332315bb664986d62fb4ac6f575be5fe5782ef"
+    },
+    {
+      "path": "site/presentation.mjs",
+      "bytes": 9523,
+      "sha256": "beb26829074cb199c76e98b853c8377545e9509e533cb06f92510773d5e405ab"
+    },
+    {
+      "path": "site/routes.mjs",
+      "bytes": 15342,
+      "sha256": "452686c979bd7076a1140788d6cdb20a558d21be2629998a43e7b6846c2da513"
+    },
+    {
+      "path": "tests/portfolio.test.mjs",
+      "bytes": 9367,
+      "sha256": "245939082d6693d4d0b72955bfb61d875323843c5e60fa968007728358d3c6c6"
+    },
+    {
+      "path": "tests/route-boot.test.mjs",
+      "bytes": 1865,
+      "sha256": "f91f12c064e4a22d0c054292339e0762a982d5fa6c8767dea645407dd63b2f51"
+    }
+  ],
+  "evictedSourceFiles": [
+    {
+      "path": "site/presentation.d.mts",
+      "metadataBytes": 952,
+      "verifiedBytes": false
+    },
+    {
+      "path": "site/project-media.mjs",
+      "metadataBytes": 713,
+      "verifiedBytes": false
+    },
+    {
+      "path": "site/presentation.mjs",
+      "metadataBytes": 12284,
+      "verifiedBytes": false
+    },
+    {
+      "path": "site/portfolio.css",
+      "metadataBytes": 10398,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/lucia-services-1440.webp",
+      "metadataBytes": 65994,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/lucia-about-720.webp",
+      "metadataBytes": 33796,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/lucia-about-1440.jpg",
+      "metadataBytes": 155659,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/lucia-work-1440.webp",
+      "metadataBytes": 115544,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/filsen-catalog-3840.webp",
+      "metadataBytes": 503502,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/lucia-720.webp",
+      "metadataBytes": 29614,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/lucia-1440.jpg",
+      "metadataBytes": 135722,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/tiki-2160.webp",
+      "metadataBytes": 187166,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/filsen-browse-1440.webp",
+      "metadataBytes": 104342,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/lucia-3840.webp",
+      "metadataBytes": 254602,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/filsen-product-2160.webp",
+      "metadataBytes": 134788,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/tiki-services-1440.webp",
+      "metadataBytes": 48156,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/filsen-2160.webp",
+      "metadataBytes": 306568,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/tiki-quote.jpg",
+      "metadataBytes": 103783,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/lucia-work-720.webp",
+      "metadataBytes": 37820,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/filsen-store-3840.webp",
+      "metadataBytes": 292722,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/lucia-work-1440.jpg",
+      "metadataBytes": 179175,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/lucia-1440.webp",
+      "metadataBytes": 77126,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/filsen-browse-3840.webp",
+      "metadataBytes": 391800,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/tiki-quote-720.webp",
+      "metadataBytes": 20170,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/tiki-quote-2160.webp",
+      "metadataBytes": 81242,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/tiki-services-3840.webp",
+      "metadataBytes": 146456,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/tiki-quote-1440.jpg",
+      "metadataBytes": 104468,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/filsen-store-1440.webp",
+      "metadataBytes": 81372,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/filsen-catalog-1440.jpg",
+      "metadataBytes": 189952,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/lucia-services-3840.webp",
+      "metadataBytes": 228084,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/tiki-1440.jpg",
+      "metadataBytes": 161249,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/lucia-work-3840.webp",
+      "metadataBytes": 441094,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/filsen-catalog-720.webp",
+      "metadataBytes": 42576,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/tiki-720.webp",
+      "metadataBytes": 34768,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/filsen-catalog-1440.webp",
+      "metadataBytes": 128886,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/lucia-about-2160.webp",
+      "metadataBytes": 158856,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/filsen-1440.jpg",
+      "metadataBytes": 265862,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/filsen-browse-1440.jpg",
+      "metadataBytes": 168065,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/filsen-720.webp",
+      "metadataBytes": 72248,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/filsen-browse-720.webp",
+      "metadataBytes": 37254,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/filsen-1440.webp",
+      "metadataBytes": 189290,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/tiki-services-2160.webp",
+      "metadataBytes": 78428,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/filsen-product-1440.webp",
+      "metadataBytes": 75664,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/tiki-quote-3840.webp",
+      "metadataBytes": 162874,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/tiki-1440.webp",
+      "metadataBytes": 99332,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/filsen-browse-2160.webp",
+      "metadataBytes": 186582,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/filsen-store-720.webp",
+      "metadataBytes": 28654,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/filsen-store-1440.jpg",
+      "metadataBytes": 134466,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/lucia-about-3840.webp",
+      "metadataBytes": 299840,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/lucia-work-2160.webp",
+      "metadataBytes": 212480,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/lucia-services-2160.webp",
+      "metadataBytes": 110174,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/filsen-product-720.webp",
+      "metadataBytes": 24822,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/tiki-services-720.webp",
+      "metadataBytes": 19846,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/lucia-services-720.webp",
+      "metadataBytes": 26464,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/tiki-services.jpg",
+      "metadataBytes": 99925,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/filsen-product-1440.jpg",
+      "metadataBytes": 124139,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/tiki-services-1440.jpg",
+      "metadataBytes": 100429,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/filsen-catalog-2160.webp",
+      "metadataBytes": 238324,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/lucia-services-1440.jpg",
+      "metadataBytes": 126625,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/lucia-about-1440.webp",
+      "metadataBytes": 92048,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/filsen-store-2160.webp",
+      "metadataBytes": 141646,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/filsen-3840.webp",
+      "metadataBytes": 607112,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/filsen-product-3840.webp",
+      "metadataBytes": 282432,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/social.jpg",
+      "metadataBytes": 37900,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/lucia-2160.webp",
+      "metadataBytes": 128376,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/tiki-3840.webp",
+      "metadataBytes": 424566,
+      "verifiedBytes": false
+    },
+    {
+      "path": "public/work/tiki-quote-1440.webp",
+      "metadataBytes": 49200,
+      "verifiedBytes": false
+    },
+    {
+      "path": "content/portfolio/copy.json",
+      "metadataBytes": 16121,
+      "verifiedBytes": false
+    },
+    {
+      "path": "vendor/paideia-framework/src/site-build.ts",
+      "metadataBytes": 35782,
+      "verifiedBytes": false
+    },
+    {
+      "path": "vendor/paideia-framework/src/table.ts",
+      "metadataBytes": 1715,
+      "verifiedBytes": false
+    },
+    {
+      "path": "vendor/paideia-framework/src/storage.ts",
+      "metadataBytes": 507,
+      "verifiedBytes": false
+    },
+    {
+      "path": "vendor/paideia-framework/src/capabilities.ts",
+      "metadataBytes": 1336,
+      "verifiedBytes": false
+    },
+    {
+      "path": "vendor/paideia-framework/src/utils.ts",
+      "metadataBytes": 594,
+      "verifiedBytes": false
+    },
+    {
+      "path": "vendor/paideia-framework/src/site.ts",
+      "metadataBytes": 8535,
+      "verifiedBytes": false
+    },
+    {
+      "path": "vendor/paideia-framework/src/form.ts",
+      "metadataBytes": 2778,
+      "verifiedBytes": false
+    },
+    {
+      "path": "vendor/paideia-framework/src/api.ts",
+      "metadataBytes": 903,
+      "verifiedBytes": false
+    },
+    {
+      "path": "vendor/paideia-framework/src/inspect.ts",
+      "metadataBytes": 5427,
+      "verifiedBytes": false
+    },
+    {
+      "path": "vendor/paideia-framework/src/page.ts",
+      "metadataBytes": 18238,
+      "verifiedBytes": false
+    },
+    {
+      "path": "vendor/paideia-framework/src/resource.ts",
+      "metadataBytes": 2280,
+      "verifiedBytes": false
+    },
+    {
+      "path": "vendor/paideia-framework/src/database.ts",
+      "metadataBytes": 1423,
+      "verifiedBytes": false
+    },
+    {
+      "path": "vendor/paideia-framework/src/client.ts",
+      "metadataBytes": 29634,
+      "verifiedBytes": false
+    },
+    {
+      "path": "vendor/paideia-framework/src/ai.ts",
+      "metadataBytes": 429,
+      "verifiedBytes": false
+    },
+    {
+      "path": "vendor/paideia-framework/src/layout.ts",
+      "metadataBytes": 145,
+      "verifiedBytes": false
+    },
+    {
+      "path": "vendor/paideia-framework/src/manifest.ts",
+      "metadataBytes": 4425,
+      "verifiedBytes": false
+    },
+    {
+      "path": "vendor/paideia-framework/src/index.ts",
+      "metadataBytes": 6766,
+      "verifiedBytes": false
+    },
+    {
+      "path": "vendor/paideia-framework/src/fields.ts",
+      "metadataBytes": 2994,
+      "verifiedBytes": false
+    },
+    {
+      "path": "vendor/paideia-framework/src/version.ts",
+      "metadataBytes": 623,
+      "verifiedBytes": false
+    },
+    {
+      "path": "vendor/paideia-framework/src/config.ts",
+      "metadataBytes": 370,
+      "verifiedBytes": false
+    },
+    {
+      "path": "vendor/paideia-framework/src/writing/first-post.ts",
+      "metadataBytes": 7617,
+      "verifiedBytes": false
+    },
+    {
+      "path": "vendor/paideia-framework/src/writing/generated-systems-should-explain-themselves.ts",
+      "metadataBytes": 4417,
+      "verifiedBytes": false
+    },
+    {
+      "path": "vendor/paideia-framework/src/writing/why-ai-agents-need-observable-runtime-receipts.ts",
+      "metadataBytes": 7521,
+      "verifiedBytes": false
+    },
+    {
+      "path": "vendor/paideia-framework/src/writing/index.ts",
+      "metadataBytes": 564,
+      "verifiedBytes": false
+    },
+    {
+      "path": "vendor/paideia-framework/src/writing/agent-readable-web.ts",
+      "metadataBytes": 13097,
+      "verifiedBytes": false
+    },
+    {
+      "path": "vendor/paideia-framework/src/writing/framework-becomes-a-tool.ts",
+      "metadataBytes": 6778,
+      "verifiedBytes": false
+    }
+  ],
+  "productionReady": false,
+  "mainUnchanged": true
+}

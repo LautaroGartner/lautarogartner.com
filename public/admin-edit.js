@@ -2,9 +2,10 @@
   const path = window.location.pathname.replace(/\/+$/, "") || "/";
   const isLocal = ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
   const adminBase = isLocal ? "http://127.0.0.1:5173/admin/" : "/admin/";
+  const commercial = ["/", "/es", "/web", "/web/es", "/writing"].includes(path);
   const target = path === "/about"
     ? { type: "page", slug: "about", label: "Edit About" }
-    : path === "/"
+    : commercial
       ? { label: "Open admin" }
       : { type: "post", slug: path.slice(1), label: "Edit post" };
 

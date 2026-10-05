@@ -1,0 +1,300 @@
+{
+  "en": {
+    "hero": {
+      "Eyebrow": "Lautaro Gärtner · Independent developer",
+      "H1": "Turn more visitors into sales enquiries.",
+      "Body": "I help service businesses fix the friction between an interested visitor and a completed quote or contact request. One focused improvement to the website you already have.",
+      "Primary CTA": "Send me your page",
+      "Secondary CTA": "See the work",
+      "Small line": "For service businesses with an existing website and traffic. Based in Crespo, Argentina."
+    },
+    "problem": {
+      "heading": "They were interested. What stopped them?",
+      "body": "A hard-to-use mobile form, repeated questions, an unclear next step or a request that fails to arrive can interrupt a sales enquiry. I look at the existing flow and fix the obstacle we can actually verify."
+    },
+    "offer": {
+      "heading": "One enquiry flow. A focused conversion fix.",
+      "label": "Enquiry Conversion Sprint",
+      "body": "We choose one quote or contact flow, identify a useful improvement, and I implement it on your existing website. We check that requests can be completed and received, and agree how to measure what changes.",
+      "pricing": "The sprint is quoted after reviewing your flow. Small, isolated fixes start at USD 100. Scope, price and delivery date are agreed before work begins.",
+      "boundary": "A new website, new integrations or ongoing experimentation are scoped separately.",
+      "CTA": "Discuss your enquiry flow",
+      "scope": [
+        "One existing page and enquiry flow.",
+        "One agreed improvement, implemented and checked on desktop and mobile.",
+        "A clear handoff and measurement plan using the data you already have."
+      ]
+    },
+    "process": {
+      "heading": "Find the friction. Ship the fix. Check the result.",
+      "steps": [
+        [
+          "Start with the real flow.",
+          "Send the page and tell me what a useful enquiry looks like. We review the current experience and any available traffic and submission data."
+        ],
+        [
+          "Agree one change.",
+          "We define the improvement, the delivery checks, the scope and the price. I implement it on your existing site."
+        ],
+        [
+          "Measure without guessing.",
+          "We verify the working flow and review the available evidence. If traffic is too low to establish a conversion lift, the report says so."
+        ]
+      ],
+      "ownership": "Your domain, accounts and source code stay in your hands. Any ongoing services or costs are agreed separately."
+    },
+    "work": {
+      "heading": "Work you can explore",
+      "intro": "Published websites and an own product in beta. Here’s what I built and what you can explore."
+    },
+    "contact": {
+      "heading": "Where does an interested visitor get stuck?",
+      "body": "Send your page and tell me what you want visitors to do. If you know your traffic or current enquiry numbers, include them. We can define a useful first change from there.",
+      "CTA": "Send me your page",
+      "secondary": "Copy email",
+      "success": "Email copied",
+      "failure": "Select and copy the email address below.",
+      "subject": "Improve my enquiry flow",
+      "mailBody": "Hi Lautaro,\n\nPage URL:\nWhat visitors should do:\nWhat seems to get in the way:\nTraffic or enquiries, if known:\n",
+      "email": "contact@lautarogartner.com"
+    },
+    "about": {
+      "heading": "The person doing the work.",
+      "body": "I’m Lautaro, an independent developer based in Crespo, Argentina. I build websites and small software products, with attention to the details that make a flow usable and reliable. You work directly with me, from the agreed change to the handoff."
+    },
+    "faq": [
+      {
+        "question": "Will this bring me more traffic?",
+        "answer": "This work focuses on helping the visitors you already receive complete a useful enquiry. Advertising, traffic acquisition and a full website rebuild are outside the sprint."
+      },
+      {
+        "question": "Do you guarantee a percentage increase?",
+        "answer": "No. I commit to the agreed implementation and checks. We can measure the effect when the traffic and data allow it; results depend on the offer, audience and existing flow."
+      },
+      {
+        "question": "What if my website has little traffic?",
+        "answer": "We can still repair a clear technical or usability problem. We should judge that job by whether the agreed problem is fixed, rather than claim a conversion increase that the data cannot establish."
+      },
+      {
+        "question": "How much does it cost?",
+        "answer": "I quote the sprint after reviewing the flow. Small, isolated fixes start at USD 100. A broader redesign, new tracking setup or ongoing testing needs its own scope."
+      },
+      {
+        "question": "Can you work on my current website?",
+        "answer": "Yes, when the platform and access allow it. I check that before proposing the work. You receive the agreed changes, relevant access and a clear handoff."
+      }
+    ],
+    "projects": [
+      {
+        "name": "Tiki Cóctel Show",
+        "id": "tiki",
+        "url": "https://www.tikicoctelshow.com/",
+        "label": "Event services · Live website",
+        "title": "From event details to a clear quote.",
+        "description": "A website for a cocktail service with a configurator for guest count, service options and extras, plus an estimated total and a prepared WhatsApp handoff.",
+        "cta": "Explore Tiki’s website",
+        "deliverables": [
+          "Service selection and quote calculator",
+          "PDF proposal flow",
+          "A clear path from inquiry to personal confirmation"
+        ],
+        "alt": "Tiki Cóctel Show homepage with access to the event quote flow"
+      },
+      {
+        "name": "Lucía Frick / Luli Digital",
+        "id": "lucia",
+        "url": "https://luciafrick.com/",
+        "label": "Professional services · Live website",
+        "title": "A website with a clear visual identity.",
+        "description": "A personal website for Luli Digital that brings together Lucía’s services, visual identity and contact options, with attention to mobile navigation and accessible motion.",
+        "cta": "Explore Lucía’s website",
+        "deliverables": [
+          "Responsive website",
+          "Service and contact structure",
+          "Mobile navigation and motion refinements"
+        ],
+        "alt": "Luli Digital homepage presenting Lucía’s services and visual identity"
+      },
+      {
+        "name": "Filsen",
+        "id": "filsen",
+        "url": "https://filsen.com.ar/",
+        "label": "Own product · Beta",
+        "title": "A local marketplace, from discovery to orders.",
+        "description": "A marketplace for discovering local businesses, exploring merchant storefronts and product catalogues, and placing orders. Appointment booking is one feature within the broader product. Built as my own product and currently in beta.",
+        "cta": "Explore Filsen",
+        "deliverables": [
+          "Local business and product discovery",
+          "Merchant storefronts and product catalogues",
+          "Order flow and appointment booking"
+        ],
+        "alt": "Filsen local marketplace with business discovery and merchant storefronts"
+      }
+    ],
+    "nav": {
+      "offer": "Offer",
+      "work": "Work",
+      "writing": "Writing",
+      "contact": "Contact"
+    },
+    "anchors": {
+      "offer": "offer",
+      "work": "work",
+      "about": "about-me",
+      "contact": "contact"
+    },
+    "seo": {
+      "title": "Lautaro Gärtner | Website Enquiry Conversion",
+      "description": "Focused improvements to existing quote and contact flows for service businesses. Explore real work and discuss a measurable website change with Lautaro Gärtner."
+    }
+  },
+  "es": {
+    "hero": {
+      "Eyebrow": "Lautaro Gärtner · Desarrollador independiente",
+      "H1": "Convertí más visitas en consultas comerciales.",
+      "Body": "Ayudo a negocios de servicios a corregir las trabas entre una visita interesada y una consulta enviada. Una mejora concreta en la web que ya tenés.",
+      "Primary CTA": "Mandame tu página",
+      "Secondary CTA": "Ver trabajos",
+      "Small line": "Para negocios de servicios que ya tienen web y visitas. Desde Crespo, Argentina."
+    },
+    "problem": {
+      "heading": "Había interés. ¿Qué frenó la consulta?",
+      "body": "Un formulario incómodo en celular, preguntas repetidas, un próximo paso confuso o una solicitud que no llega pueden cortar una consulta comercial. Reviso el recorrido actual y corrijo la traba que podamos comprobar."
+    },
+    "offer": {
+      "heading": "Un flujo de consultas. Una mejora concreta.",
+      "label": "Mejora de conversión de consultas",
+      "body": "Elegimos un flujo de contacto o solicitud de presupuesto, identificamos una mejora útil y la implemento en tu web actual. Verificamos que las consultas se puedan completar y recibir, y acordamos cómo medir el cambio.",
+      "pricing": "Cotizo la mejora después de revisar el flujo. Los arreglos pequeños y aislados parten de USD 100. Acordamos alcance, precio y fecha de entrega antes de empezar.",
+      "límite": "Un sitio nuevo, nuevas integraciones o experimentos continuos se cotizan aparte.",
+      "CTA": "Hablemos de tu flujo de consultas",
+      "scope": [
+        "Una página y un flujo de consultas existentes.",
+        "Una mejora acordada, implementada y revisada en desktop y celular.",
+        "Una entrega clara y un plan de medición con los datos que ya tenés."
+      ]
+    },
+    "process": {
+      "heading": "Encontrar la traba. Corregirla. Revisar qué cambió.",
+      "steps": [
+        [
+          "Empezamos por el recorrido real.",
+          "Mandame la página y contame qué consulta te sirve. Revisamos la experiencia actual y los datos disponibles de visitas y solicitudes."
+        ],
+        [
+          "Definimos un cambio.",
+          "Acordamos la mejora, cómo verificar la entrega, el alcance y el precio. La implemento sobre tu sitio actual."
+        ],
+        [
+          "Medimos sin adivinar.",
+          "Verificamos que el flujo funcione y revisamos la evidencia disponible. Si el tráfico no alcanza para demostrar una mejora de conversión, el informe lo aclara."
+        ]
+      ],
+      "ownership": "El dominio, las cuentas y el código quedan en tus manos. Los servicios o costos de mantenimiento se acuerdan aparte."
+    },
+    "work": {
+      "heading": "Trabajo que podés ver",
+      "intro": "Sitios publicados y un producto propio en beta. Qué construí y qué podés explorar en cada uno."
+    },
+    "contact": {
+      "heading": "¿Dónde se frena una visita interesada?",
+      "body": "Mandame tu página y contame qué querés que haga quien la visita. Si conocés las visitas o consultas actuales, sumá esos datos. Con eso podemos definir una primera mejora útil.",
+      "CTA": "Mandame tu página",
+      "secondary": "Copiar email",
+      "success": "Email copiado",
+      "failure": "Seleccioná y copiá el email que aparece abajo.",
+      "subject": "Mejorar el flujo de consultas",
+      "mailBody": "Hola Lautaro,\n\nURL de la página:\nQué deberían hacer las visitas:\nQué parece trabarse:\nVisitas o consultas, si conozco el dato:\n",
+      "email": "hola@lautarogartner.com"
+    },
+    "about": {
+      "heading": "La persona que hace el trabajo.",
+      "body": "Soy Lautaro, desarrollador independiente de Crespo, Argentina. Construyo sitios y pequeños productos de software, con atención a los detalles que hacen que un recorrido sea claro y funcione. Trabajás directamente conmigo, desde el cambio acordado hasta la entrega."
+    },
+    "faq": [
+      {
+        "question": "¿Esto me va a traer más visitas?",
+        "answer": "El trabajo apunta a que las visitas que ya recibís puedan completar una consulta útil. La publicidad, la generación de tráfico y una reconstrucción completa quedan fuera de este alcance."
+      },
+      {
+        "question": "¿Garantizás un porcentaje de mejora?",
+        "answer": "No. Me comprometo con la implementación y las verificaciones acordadas. Podemos medir el efecto cuando el tráfico y los datos lo permitan; el resultado depende de la oferta, el público y el recorrido actual."
+      },
+      {
+        "question": "¿Y si mi web tiene pocas visitas?",
+        "answer": "Igual podemos corregir un problema técnico o de uso bien definido. En ese caso evaluamos si el problema quedó resuelto, sin afirmar una mejora de conversión que los datos no alcanzan a demostrar."
+      },
+      {
+        "question": "¿Cuánto cuesta?",
+        "answer": "Cotizo la mejora después de revisar el flujo. Los arreglos pequeños y aislados parten de USD 100. Un rediseño más amplio, medición nueva o pruebas continuas necesitan su propio alcance."
+      },
+      {
+        "question": "¿Podés trabajar sobre mi web actual?",
+        "answer": "Sí, cuando la plataforma y los accesos lo permitan. Lo reviso antes de proponer el trabajo. Recibís los cambios acordados, los accesos correspondientes y una entrega clara."
+      }
+    ],
+    "projects": [
+      {
+        "name": "Tiki Cóctel Show",
+        "id": "tiki",
+        "url": "https://www.tikicoctelshow.com/",
+        "label": "Servicios para eventos · Sitio publicado",
+        "title": "Del evento a un presupuesto claro.",
+        "description": "Un sitio para un servicio de coctelería con selección de invitados, servicios y adicionales, un total estimado y un resumen preparado para continuar por WhatsApp.",
+        "cta": "Ver el sitio de Tiki",
+        "deliverables": [
+          "Selección de servicios y cotizador",
+          "Flujo de propuesta en PDF",
+          "Consulta y confirmación personal bien diferenciadas"
+        ],
+        "alt": "Página de Tiki Cóctel Show con acceso al cotizador de eventos"
+      },
+      {
+        "name": "Lucía Frick / Luli Digital",
+        "id": "lucia",
+        "url": "https://luciafrick.com/",
+        "label": "Servicios profesionales · Sitio publicado",
+        "title": "Una web con identidad propia.",
+        "description": "Un sitio para Luli Digital que reúne los servicios, la identidad visual y las formas de contacto de Lucía, con atención a la navegación móvil y al movimiento accesible.",
+        "cta": "Ver el sitio de Lucía",
+        "deliverables": [
+          "Sitio adaptable a distintas pantallas",
+          "Servicios y contacto bien organizados",
+          "Mejoras en navegación móvil y animaciones"
+        ],
+        "alt": "Página de Luli Digital con los servicios y la identidad visual de Lucía"
+      },
+      {
+        "name": "Filsen",
+        "id": "filsen",
+        "url": "https://filsen.com.ar/",
+        "label": "Producto propio · Beta",
+        "title": "Un marketplace local, del descubrimiento al pedido.",
+        "description": "Un marketplace para descubrir comercios locales, explorar sus tiendas y catálogos de productos, y realizar pedidos. Los turnos son una función dentro del producto. Es un producto propio, actualmente en beta.",
+        "cta": "Conocer Filsen",
+        "deliverables": [
+          "Descubrimiento de comercios y productos locales",
+          "Tiendas de comercios y catálogos de productos",
+          "Flujo de pedidos y reserva de turnos"
+        ],
+        "alt": "Marketplace local Filsen con descubrimiento de comercios y tiendas"
+      }
+    ],
+    "nav": {
+      "offer": "Oferta",
+      "work": "Trabajos",
+      "writing": "Notas (en inglés)",
+      "contact": "Contacto"
+    },
+    "anchors": {
+      "offer": "oferta",
+      "work": "trabajos",
+      "about": "sobre-mi",
+      "contact": "contacto"
+    },
+    "seo": {
+      "title": "Lautaro Gärtner | Más consultas desde tu web",
+      "description": "Mejoras concretas en páginas y formularios de consulta para negocios de servicios. Mirá trabajo real y definamos un cambio medible en tu web."
+    }
+  }
+}

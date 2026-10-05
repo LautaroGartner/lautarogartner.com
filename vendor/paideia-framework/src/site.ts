@@ -10,6 +10,13 @@ export type SitePage = {
   html?: string;
   nav?: boolean;
   shell?: "default" | "wide" | "full";
+  seoTitle?: string;
+  structuredData?: unknown;
+  canonicalPath?: string;
+  imagePath?: string;
+  headerHtml?: string;
+  footerHtml?: string;
+  alternates?: { language: string; path: string }[];
   tokenSummary?: string;
 };
 
@@ -34,6 +41,8 @@ export type SiteDefinition = {
   sourceUrl?: string;
   language?: string;
   styles?: string;
+  headerHtml?: string;
+  footerHtml?: string;
   pages: SitePage[];
   posts: WritingPost[];
 };

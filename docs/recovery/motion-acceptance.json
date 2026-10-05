@@ -1,0 +1,390 @@
+{
+  "frames": [
+    {
+      "frame": 100,
+      "elapsed": 152,
+      "opening": true,
+      "curtain": "none",
+      "animations": [
+        "opening-solid",
+        "opening-nav-color",
+        "opening-curtain-out",
+        "opening-greeting",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-image-in",
+        "mobile-image-in",
+        "mobile-image-in",
+        "signal-fold",
+        "signal-fold",
+        "signal-fold",
+        "signal-pulse",
+        "globe-axis",
+        "globe-ring",
+        "globe-ring",
+        "globe-ring"
+      ]
+    },
+    {
+      "frame": 500,
+      "elapsed": 537,
+      "opening": true,
+      "curtain": "none",
+      "animations": [
+        "opening-solid",
+        "opening-nav-color",
+        "opening-curtain-out",
+        "opening-greeting",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-image-in",
+        "mobile-image-in",
+        "mobile-image-in",
+        "signal-fold",
+        "signal-fold",
+        "signal-fold",
+        "signal-pulse",
+        "globe-axis",
+        "globe-ring",
+        "globe-ring",
+        "globe-ring"
+      ]
+    },
+    {
+      "frame": 1000,
+      "elapsed": 1037,
+      "opening": true,
+      "curtain": "none",
+      "animations": [
+        "opening-solid",
+        "opening-nav-color",
+        "opening-curtain-out",
+        "opening-greeting",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-image-in",
+        "mobile-image-in",
+        "mobile-image-in",
+        "signal-fold",
+        "signal-fold",
+        "signal-fold",
+        "signal-pulse",
+        "globe-axis",
+        "globe-ring",
+        "globe-ring",
+        "globe-ring"
+      ]
+    },
+    {
+      "frame": 1800,
+      "elapsed": 1846,
+      "opening": true,
+      "curtain": "matrix(1, 0, 0, 1, 0, -10.3331)",
+      "animations": [
+        "opening-solid",
+        "opening-nav-color",
+        "opening-curtain-out",
+        "opening-greeting",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-image-in",
+        "mobile-image-in",
+        "mobile-image-in",
+        "signal-fold",
+        "signal-fold",
+        "signal-fold",
+        "signal-pulse",
+        "globe-axis",
+        "globe-ring",
+        "globe-ring",
+        "globe-ring"
+      ]
+    },
+    {
+      "frame": 2400,
+      "elapsed": 2456,
+      "opening": true,
+      "curtain": "matrix(1, 0, 0, 1, 0, -648.281)",
+      "animations": [
+        "opening-solid",
+        "opening-nav-color",
+        "opening-curtain-out",
+        "opening-greeting",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-image-in",
+        "mobile-image-in",
+        "mobile-image-in",
+        "signal-fold",
+        "signal-fold",
+        "signal-fold",
+        "signal-pulse",
+        "globe-axis",
+        "globe-ring",
+        "globe-ring",
+        "globe-ring"
+      ]
+    },
+    {
+      "frame": 3100,
+      "elapsed": 3161,
+      "opening": true,
+      "curtain": "matrix(1, 0, 0, 1, 0, -760.15)",
+      "animations": [
+        "opening-solid",
+        "opening-nav-color",
+        "opening-curtain-out",
+        "opening-greeting",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-word-in",
+        "mobile-image-in",
+        "mobile-image-in",
+        "mobile-image-in",
+        "signal-fold",
+        "signal-fold",
+        "signal-fold",
+        "signal-pulse",
+        "globe-axis",
+        "globe-ring",
+        "globe-ring",
+        "globe-ring"
+      ]
+    },
+    {
+      "frame": 4000,
+      "elapsed": 4057,
+      "opening": false,
+      "curtain": "none",
+      "animations": [
+        "signal-fold",
+        "signal-fold",
+        "signal-fold",
+        "signal-pulse",
+        "globe-axis",
+        "globe-ring",
+        "globe-ring",
+        "globe-ring"
+      ]
+    },
+    {
+      "frame": 4500,
+      "elapsed": 4557,
+      "opening": false,
+      "curtain": "none",
+      "animations": [
+        "signal-fold",
+        "signal-fold",
+        "signal-fold",
+        "signal-pulse",
+        "globe-axis",
+        "globe-ring",
+        "globe-ring",
+        "globe-ring"
+      ]
+    }
+  ],
+  "scenes": [
+    {
+      "viewport": "desktop",
+      "id": "tiki",
+      "scrollY": 0,
+      "focus": "tiki",
+      "visible": "visible",
+      "images": [
+        {
+          "src": "http://127.0.0.1:8766/work/tiki-720.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8766/work/tiki-services-720.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8766/work/tiki-quote-720.webp",
+          "loaded": true
+        }
+      ],
+      "collision": false,
+      "overflow": false
+    },
+    {
+      "viewport": "desktop",
+      "id": "lucia",
+      "scrollY": 0,
+      "focus": "lucia",
+      "visible": "visible",
+      "images": [
+        {
+          "src": "http://127.0.0.1:8766/work/lucia-720.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8766/work/lucia-services-720.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8766/work/lucia-work-720.webp",
+          "loaded": true
+        }
+      ],
+      "collision": false,
+      "overflow": false
+    },
+    {
+      "viewport": "desktop",
+      "id": "filsen",
+      "scrollY": 0,
+      "focus": "filsen",
+      "visible": "visible",
+      "images": [
+        {
+          "src": "http://127.0.0.1:8766/work/filsen-720.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8766/work/filsen-browse-720.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8766/work/filsen-catalog-720.webp",
+          "loaded": true
+        }
+      ],
+      "collision": false,
+      "overflow": false
+    },
+    {
+      "viewport": "mobile",
+      "id": "tiki",
+      "visible": true,
+      "images": [
+        {
+          "src": "http://127.0.0.1:8766/work/tiki-services-720.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8766/work/tiki-quote-720.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "viewport": "mobile",
+      "id": "lucia",
+      "visible": true,
+      "images": [
+        {
+          "src": "http://127.0.0.1:8766/work/lucia-services-720.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8766/work/lucia-work-720.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": false
+    },
+    {
+      "viewport": "mobile",
+      "id": "filsen",
+      "visible": true,
+      "images": [
+        {
+          "src": "http://127.0.0.1:8766/work/filsen-browse-720.webp",
+          "loaded": true
+        },
+        {
+          "src": "http://127.0.0.1:8766/work/filsen-catalog-720.webp",
+          "loaded": true
+        }
+      ],
+      "overflow": false
+    }
+  ],
+  "exit": {
+    "active": true,
+    "label": ""
+  },
+  "enter": {
+    "active": true,
+    "internal": true,
+    "elapsed": 182.3999999910593,
+    "label": ""
+  },
+  "back": {
+    "opening": false,
+    "exit": false
+  },
+  "repeat": true,
+  "footerEntry": {
+    "progress": "0.6525",
+    "bend": "39.5781px",
+    "content": "0px 11.2532px",
+    "button": "-32.6548px"
+  },
+  "footerEnd": {
+    "progress": "1.0000",
+    "bend": "0.40625px",
+    "content": "0px 0.171738px",
+    "button": "-0.615869px"
+  },
+  "menuMid": {
+    "open": true,
+    "curve": "41.8872%",
+    "transform": "matrix(1, 0, 0, 1, 501.618, 0)"
+  },
+  "menuOpen": {
+    "open": true,
+    "focusInside": true,
+    "lock": "hidden"
+  },
+  "menuClosed": {
+    "open": false,
+    "focusReturned": true,
+    "lock": ""
+  },
+  "magnet": {
+    "outer": "matrix(1, 0, 0, 1, 4.23176, 2.28876)",
+    "inner": "matrix(1, 0, 0, 1, 2.11588, 1.14438)",
+    "x": "4.47441650390625px"
+  },
+  "brand": "matrix(1, 0, 0, 1, -153.13, 0)",
+  "work": {
+    "cursor": true,
+    "preview": true,
+    "images": 3,
+    "index": "1",
+    "stack": "matrix(1, 0, 0, 1, 0, -310)"
+  },
+  "mobileOpening": {
+    "active": true,
+    "curtain": "flex",
+    "contact": 57.578125
+  },
+  "mobileCase": "http://127.0.0.1:8766/work/filsen/"
+}
