@@ -120,15 +120,15 @@
         "id": "filsen",
         "url": "https://filsen.com.ar/",
         "label": "Own product · Beta",
-        "title": "An appointment workflow, from request to confirmation.",
-        "description": "A booking product with appointment requests, confirmation and cancellation flows, and transactional email. Built as my own product and currently in beta.",
+        "title": "A local marketplace, from discovery to orders.",
+        "description": "A marketplace for discovering local businesses, exploring merchant storefronts and product catalogues, and placing orders. Appointment booking is one feature within the broader product. Built as my own product and currently in beta.",
         "cta": "Explore Filsen",
         "deliverables": [
-          "Appointment request flow",
-          "Confirmation and cancellation",
-          "Transactional email and automated tests"
+          "Local business and product discovery",
+          "Merchant storefronts and product catalogues",
+          "Order flow and appointment booking"
         ],
-        "alt": "Filsen public homepage presenting local shops"
+        "alt": "Filsen local marketplace with business discovery and merchant storefronts"
       }
     ],
     "nav": {
@@ -269,15 +269,15 @@
         "id": "filsen",
         "url": "https://filsen.com.ar/",
         "label": "Producto propio · Beta",
-        "title": "Turnos, desde la solicitud hasta la confirmación.",
-        "description": "Un producto de reservas con solicitud, confirmación y cancelación de turnos, y correos transaccionales. Es un producto propio y está en beta.",
+        "title": "Un marketplace local, del descubrimiento al pedido.",
+        "description": "Un marketplace para descubrir comercios locales, explorar sus tiendas y catálogos de productos, y realizar pedidos. Los turnos son una función dentro del producto. Es un producto propio, actualmente en beta.",
         "cta": "Conocer Filsen",
         "deliverables": [
-          "Solicitud de turnos",
-          "Confirmación y cancelación",
-          "Correos transaccionales y pruebas automatizadas"
+          "Descubrimiento de comercios y productos locales",
+          "Tiendas de comercios y catálogos de productos",
+          "Flujo de pedidos y reserva de turnos"
         ],
-        "alt": "Portada pública de Filsen dedicada a comercios locales"
+        "alt": "Marketplace local Filsen con descubrimiento de comercios y tiendas"
       }
     ],
     "nav": {

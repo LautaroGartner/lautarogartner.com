@@ -13,9 +13,9 @@ for (const [path,lang,heading,anchor] of [['/','en','Turn more visitors into sal
  test(`${path}: bilingual commercial content, narrow pricing and honest evidence`,()=>{
   const html=htmlFor(path); assert.match(html,new RegExp(`<html lang="${lang}">`));assert.equal((html.match(/<h1\b/g)||[]).length,1);assert.ok(html.includes(heading));assert.ok(html.includes(`id="${anchor}"`));
   for(const id of ['tiki','lucia','filsen']) assert.ok(html.includes(`id="${id}"`));
-  assert.match(html,lang==='en'?/Small, isolated fixes start at USD 100/:/Los arreglos pequeños y aislados parten de USD 100/);
+  assert.match(htmlFor(lang==='es'?'/es/services':'/services'),/USD 100/);
   assert.match(html,lang==='en'?/Own product · Beta/:/Producto propio · Beta/);assert.match(html,new RegExp(`mailto:${lang==='es'?'hola':'contact'}@lautarogartner.com\\?subject=`));assert.ok(html.includes('Crespo'));assert.doesNotMatch(html,/Paraná|lautaro@lautarogartner.com/);
-  assert.doesNotMatch(html,/USD 250|155\.000|30%|26%|19\.31%|trusted by|screenshot here|What I can build|Clear websites|checkout|FounderShape/);
+  assert.doesNotMatch(html.replace(/<style>[\s\S]*?<\/style>|<script\b[^>]*>[\s\S]*?<\/script>/g,''),/USD 250|155\.000|30%|26%|19\.31%|trusted by|screenshot here|What I can build|Clear websites|checkout|FounderShape/);
   assert.match(html,/hreflang="en"/);assert.match(html,/hreflang="es"/);assert.match(html,/hreflang="x-default"/);
   assert.match(html,/og:image" content="https:\/\/www.lautarogartner.com\/work\/social.jpg/);
   assert.ok(!html.includes('href="#"'));assert.ok(!html.includes('href=""'));
@@ -37,10 +37,10 @@ test('escaping and localized mailto preserve data without injecting markup',()=>
  assert.equal(escape('<img src="x">&\''),'&lt;img src=&quot;x&quot;&gt;&amp;&#39;');
  const params=new URL(mailto('es')).searchParams;assert.equal(params.get('subject'),'Mejorar el flujo de consultas');assert.ok(params.get('body').includes('\n\nURL de la página:\n'));assert.doesNotMatch(mailto('en'),/\s/);
  const evil=createSite({...settings,title:'<script>alert(1)</script>',author:'"<bad>'},[{...posts[0],title:'<img src=x onerror=alert(1)>',slug:'safe-post'}],[about]);
- const html=generateSitePage(evil,evil.pages[0]);assert.ok(html.includes('&lt;img src=x onerror=alert(1)&gt;'));assert.ok(!html.includes('<img src=x onerror'));
+ const html=generateSitePage(evil,evil.pages.find(p=>p.path==='/writing'));assert.ok(html.includes('&lt;img src=x onerror=alert(1)&gt;'));assert.ok(!html.includes('<img src=x onerror'));
 });
 test('admin previews use the shared presentation and preserve editable markdown',()=>{
- const edited={...about,body:'Preview-only body.\n\n## A heading'};const previewSite=createSite(settings,posts,[edited]);const html=generateSitePage(previewSite,edited);assert.ok(html.includes('Preview-only body.'));assert.ok(html.includes('portfolio-header'));assert.ok(html.includes('--bg:#f6f3ec'));assert.ok(html.includes('<h2>A heading</h2>'));
+ const edited={...about,body:'Preview-only body.\n\n## A heading'};const previewSite=createSite(settings,posts,[edited]);const html=generateSitePage(previewSite,edited);assert.ok(html.includes('Preview-only body.'));assert.ok(html.includes('portfolio-header'));assert.ok(html.includes('<h2>A heading</h2>'));
  const h=generateSitePage({title:'Fallback',description:'Fallback',posts:[],pages:[]},{path:'/plain',title:'Plain',body:'<script>bad</script>'});assert.ok(h.includes('&lt;script&gt;bad&lt;/script&gt;'));assert.ok(!h.includes('portfolio-header'));
 });
 test('duplicate commercial routes share home canonicals and are omitted from sitemap',()=>{

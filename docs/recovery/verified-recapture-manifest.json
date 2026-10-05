@@ -1,0 +1,1165 @@
+[
+  {
+    "id": "filsen-browse",
+    "url": "https://www.filsen.com.ar/explorar?vista=productos",
+    "status": 200,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "dpr": 3,
+    "capturedAt": "2026-10-05T16:17:14.345Z",
+    "title": "Productos y comercios en Crespo | Filsen",
+    "h1": [
+      "Lo que buscás, acá."
+    ],
+    "links": [
+      {
+        "label": "Filsen\n.",
+        "href": "https://www.filsen.com.ar/"
+      },
+      {
+        "label": "Explorar",
+        "href": "https://www.filsen.com.ar/explorar"
+      },
+      {
+        "label": "Categorías",
+        "href": "https://www.filsen.com.ar/#categorias"
+      },
+      {
+        "label": "Para comercios",
+        "href": "https://www.filsen.com.ar/para-comercios"
+      },
+      {
+        "label": "Ingresar",
+        "href": "https://www.filsen.com.ar/admin"
+      },
+      {
+        "label": "Quiero vender",
+        "href": "https://www.filsen.com.ar/para-comercios"
+      },
+      {
+        "label": "LA CAJA MATERA\nYerba Compuesta\n$ 3.300 / unidad\n\nLa Caja Matera\n\nVer producto\n↗",
+        "href": "https://www.filsen.com.ar/lacajamatera?producto=07d46889-56bf-4963-8065-3bc35fd098a9&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "LA CAJA MATERA\nBuen Amanecer\n$ 4.000 / unidad\n\nLa Caja Matera\n\nVer producto\n↗",
+        "href": "https://www.filsen.com.ar/lacajamatera?producto=0b3dadbe-fc1b-4e56-8379-f22d6d325431&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "LA CAJA MATERA\nBuen Descanso\n$ 4.000 / unidad\n\nLa Caja Matera\n\nVer producto\n↗",
+        "href": "https://www.filsen.com.ar/lacajamatera?producto=1a1f50a3-934e-43e6-99ef-4309ce722559&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "LA CAJA MATERA\nTradición Fresca\n$ 4.000 / unidad\n\nLa Caja Matera\n\nVer producto\n↗",
+        "href": "https://www.filsen.com.ar/lacajamatera?producto=49219fab-ba09-4416-bdd0-6798f19ddd38&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "LA CAJA MATERA\nVerano Litoral\n$ 4.000 / unidad\n\nLa Caja Matera\n\nVer producto\n↗",
+        "href": "https://www.filsen.com.ar/lacajamatera?producto=747cfb96-7ae6-495e-80c5-d5aa28dded5f&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "LA CAJA MATERA\nYerba Barbacuá\n$ 3.300 / unidad\n\nLa Caja Matera\n\nVer producto\n↗",
+        "href": "https://www.filsen.com.ar/lacajamatera?producto=76d6ece2-3e29-48b7-909a-257689227c56&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "LA CAJA MATERA\nYerba Tradicional\n$ 3.300 / unidad\n\nLa Caja Matera\n\nVer producto\n",
+        "href": "https://www.filsen.com.ar/lacajamatera?producto=baf85158-5a4d-43fa-aad3-15cbaa1a286f&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "LA CAJA MATERA\nChispa Energética\n$ 4.500 / unidad\n\nLa Caja Matera\n\nVer producto\n",
+        "href": "https://www.filsen.com.ar/lacajamatera?producto=bfb0666b-fe9a-4309-8edd-6a65a40b2a71&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "LA CAJA MATERA\nYerba Canchada\n$ 3.300 / unidad\n\nLa Caja Matera\n\nVer producto\n↗",
+        "href": "https://www.filsen.com.ar/lacajamatera?producto=d43a2ee1-e483-473d-8668-a667f3f6004c&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "LA CAJA MATERA\nYerba Padrón Uruguayo\n$ 3.300 / unidad\n\nLa Caja Matera\n\nVer produ",
+        "href": "https://www.filsen.com.ar/lacajamatera?producto=d7609db1-4940-4a30-b6b9-188ca9950d56&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "BENK\nVerona Malva\n$ 30.000 / unidad\n\nPepés\n\nVer producto\n↗",
+        "href": "https://www.filsen.com.ar/pepes?producto=27f635ec-e6fb-48f5-b1c2-22515f032f32&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "ZAPATOS\nSt. Espejo Rosa\n$ 25.000 / unidad\n\nTalles 34\n\nPepés\n\nVer producto\n↗",
+        "href": "https://www.filsen.com.ar/pepes?producto=2cb5576d-863b-4baa-a26f-6494a91546b9&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "ZAPATERIA\nSt. Espejo\n$ 25.000 / unidad\n\nTalles 30\n\nPepés\n\nVer producto\n↗",
+        "href": "https://www.filsen.com.ar/pepes?producto=50182240-8564-4107-abbd-c901c0abb7f8&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "ZAPATOS\nVns Rosas\n$ 20.000 / unidad\n\nTalles 28 · 34\n\nPepés\n\nVer producto\n↗",
+        "href": "https://www.filsen.com.ar/pepes?producto=bd3e416a-8e12-4216-be97-c3e08515e467&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "Muestra\nCAFETERÍA\nCafé latte\n$ 3.200 / unidad\n\nMuestra · Café\n\nVer producto\n↗",
+        "href": "https://www.filsen.com.ar/comercios/cafe-jacaranda?producto=latte&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "Muestra\nPANADERÍA\nCroissant de manteca\n$ 2.800 / unidad\n\nMuestra · Café\n\nVer pro",
+        "href": "https://www.filsen.com.ar/comercios/cafe-jacaranda?producto=croissant&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "Muestra\nAgotado\nPASTELERÍA\nCheesecake de frutos rojos\n$ 4.500 / porción\n\nMuestra",
+        "href": "https://www.filsen.com.ar/comercios/cafe-jacaranda?producto=cheesecake&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "Muestra\nPASTELERÍA\nCookie de chocolate\n$ 2.200 / unidad\n\nMuestra · Café\n\nVer pro",
+        "href": "https://www.filsen.com.ar/comercios/cafe-jacaranda?producto=cookie&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "Muestra\nMUESTRA\nJabón artesanal\n$ 8.500 / unidad\n\nMuestra · Hogar\n\nVer producto\n",
+        "href": "https://www.filsen.com.ar/comercios/casa-nativa?producto=preview-hogar-0&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "Muestra\nMUESTRA\nPerfume para el hogar\n$ 12.500 / unidad\n\nMuestra · Hogar\n\nVer pr",
+        "href": "https://www.filsen.com.ar/comercios/casa-nativa?producto=preview-hogar-1&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "Muestra\nNORTE · MUESTRA\nJeans baggy clásico\n$ 42.500 / unidad\n\nTalles 36 · 38 · ",
+        "href": "https://www.filsen.com.ar/comercios/norte-indumentaria?producto=jeans-baggy&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "Muestra\nNORTE · MUESTRA\nJeans recto azul\n$ 39.900 / unidad\n\nTalles 38 · 40 · 42\n",
+        "href": "https://www.filsen.com.ar/comercios/norte-indumentaria?producto=jeans-recto&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "Muestra\nMUESTRA\nRemera de algodón\n$ 8.500 / unidad\n\nMuestra · Indumentaria\n\nVer ",
+        "href": "https://www.filsen.com.ar/comercios/norte-indumentaria?producto=preview-indumentaria-0&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "Muestra\nMUESTRA\nCamisa de lino\n$ 12.500 / unidad\n\nMuestra · Indumentaria\n\nVer pr",
+        "href": "https://www.filsen.com.ar/comercios/norte-indumentaria?producto=preview-indumentaria-1&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "Muestra\nSUR · MUESTRA\nJeans baggy oscuro\n$ 38.900 / unidad\n\nTalles 40 · 42 · 44\n",
+        "href": "https://www.filsen.com.ar/comercios/sur-denim?producto=jeans-baggy&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "Muestra\nAgotado\nSUR · MUESTRA\nJeans recto negro\n$ 35.900 / unidad\n\nTalles 38 · 4",
+        "href": "https://www.filsen.com.ar/comercios/sur-denim?producto=jeans-recto&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "Muestra\nMUESTRA\nRemera de algodón\n$ 8.500 / unidad\n\nMuestra · Denim\n\nVer product",
+        "href": "https://www.filsen.com.ar/comercios/sur-denim?producto=preview-indumentaria-0&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "Muestra\nMUESTRA\nCamisa de lino\n$ 12.500 / unidad\n\nMuestra · Denim\n\nVer producto\n",
+        "href": "https://www.filsen.com.ar/comercios/sur-denim?producto=preview-indumentaria-1&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "Muestra\nMUESTRA\nTaladro inalámbrico\n$ 8.500 / unidad\n\nMuestra · Ferretería\n\nVer ",
+        "href": "https://www.filsen.com.ar/comercios/ferreteria-central?producto=preview-ferreterias-0&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "Muestra\nMUESTRA\nKit de herramientas\n$ 12.500 / unidad\n\nMuestra · Ferretería\n\nVer",
+        "href": "https://www.filsen.com.ar/comercios/ferreteria-central?producto=preview-ferreterias-1&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "Muestra\nMUESTRA\nTaladro inalámbrico\n$ 8.500 / unidad\n\nMuestra · Tecnología\n\nVer ",
+        "href": "https://www.filsen.com.ar/comercios/lumen-tecnologia?producto=preview-ferreterias-0&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "Muestra\nMUESTRA\nKit de herramientas\n$ 12.500 / unidad\n\nMuestra · Tecnología\n\nVer",
+        "href": "https://www.filsen.com.ar/comercios/lumen-tecnologia?producto=preview-ferreterias-1&volver=%2Fexplorar%3Fvista%3Dproductos"
+      },
+      {
+        "label": "Quiero sumar mi comercio",
+        "href": "https://www.filsen.com.ar/para-comercios"
+      },
+      {
+        "label": "Sobre Filsen",
+        "href": "https://www.filsen.com.ar/nosotros"
+      },
+      {
+        "label": "Nuestro equipo",
+        "href": "https://www.filsen.com.ar/nosotros#equipo"
+      },
+      {
+        "label": "Cómo funciona",
+        "href": "https://www.filsen.com.ar/nosotros#como-funciona"
+      },
+      {
+        "label": "Preguntas frecuentes",
+        "href": "https://www.filsen.com.ar/preguntas-frecuentes"
+      },
+      {
+        "label": "Contacto",
+        "href": "https://www.filsen.com.ar/contacto"
+      },
+      {
+        "label": "Privacidad",
+        "href": "https://www.filsen.com.ar/privacidad"
+      },
+      {
+        "label": "Términos",
+        "href": "https://www.filsen.com.ar/terminos"
+      },
+      {
+        "label": "Cookies",
+        "href": "https://www.filsen.com.ar/cookies"
+      }
+    ],
+    "master": "filsen-browse.png",
+    "masterBytes": 2078057,
+    "sha256": "0c5d2797fbae82d9c413595484112cc74e84840d268592667fe05c1f0b603ba7",
+    "nativePixels": [
+      4320,
+      2700
+    ],
+    "derivatives": [
+      {
+        "file": "filsen-browse-720.webp",
+        "width": 720,
+        "bytes": 34540,
+        "sha256": "cce3f66bcd1b6a49b3fb7757eef1e5298e2fe3e1ce585f41c202d1a06e5e534c"
+      },
+      {
+        "file": "filsen-browse-1440.webp",
+        "width": 1440,
+        "bytes": 98648,
+        "sha256": "86f8219ad6be9eb7656aa0a16e5878c4980425173c2e18d7b279b44549d20f83"
+      },
+      {
+        "file": "filsen-browse-2160.webp",
+        "width": 2160,
+        "bytes": 180144,
+        "sha256": "906fa1982c5e4552242a359cf8ed0fecf907399dc76347ad9f74ab501aec978a"
+      },
+      {
+        "file": "filsen-browse-3840.webp",
+        "width": 3840,
+        "bytes": 397386,
+        "sha256": "d686a89b3f3def1fd5eb0de4e0386657d66f3ccbac4757f634ae888203056986"
+      }
+    ]
+  },
+  {
+    "id": "filsen-catalog",
+    "url": "https://www.filsen.com.ar/comercios/cafe-jacaranda",
+    "status": 200,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "dpr": 3,
+    "capturedAt": "2026-10-05T16:18:55.396Z",
+    "h1": [
+      "Muestra · Café"
+    ],
+    "scrollY": 650,
+    "dialogCount": 0,
+    "master": "filsen-catalog.png",
+    "masterBytes": 882542,
+    "sha256": "a9a7299e0c5b2dc97cfeebe60313f544344a24489bc0ba5ef48df104af07ee4c",
+    "nativePixels": [
+      4320,
+      2700
+    ],
+    "derivatives": [
+      {
+        "file": "filsen-catalog-720.webp",
+        "width": 720,
+        "bytes": 20060,
+        "sha256": "82cc4e78a5b03a571a070b3195e4a1414de902b8bee59284158f50c5f1295459"
+      },
+      {
+        "file": "filsen-catalog-1440.webp",
+        "width": 1440,
+        "bytes": 57280,
+        "sha256": "1db96ed3452f48a22fac2d98c0fed96b5fedb7128cffb7663f192e476d65be11"
+      },
+      {
+        "file": "filsen-catalog-2160.webp",
+        "width": 2160,
+        "bytes": 103074,
+        "sha256": "202f07c0670a80427007a5cdce152c12088277e9c174b49f57897f5bf7f46f9c"
+      },
+      {
+        "file": "filsen-catalog-3840.webp",
+        "width": 3840,
+        "bytes": 215752,
+        "sha256": "8853cc86d5587e67c2d06e886957d842f032df847cd237babd09f54ff3695ccc"
+      }
+    ]
+  },
+  {
+    "id": "filsen-product",
+    "url": "https://www.filsen.com.ar/comercios/cafe-jacaranda?producto=croissant&volver=%2Fexplorar%3Fvista%3Dproductos",
+    "status": 200,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "dpr": 3,
+    "capturedAt": "2026-10-05T16:18:58.937Z",
+    "h1": [
+      "Muestra · Café"
+    ],
+    "scrollY": 0,
+    "dialogCount": 1,
+    "master": "filsen-product.png",
+    "masterBytes": 2476837,
+    "sha256": "558b2ceffe18c8e3124002406d5929b1c889e626e04870f2ecfa321dcc52aa1d",
+    "nativePixels": [
+      4320,
+      2700
+    ],
+    "derivatives": [
+      {
+        "file": "filsen-product-720.webp",
+        "width": 720,
+        "bytes": 22826,
+        "sha256": "26b0a574c4db6cc4107cda0669dca86f30c03a64f50970a56170df8c8f17bb6d"
+      },
+      {
+        "file": "filsen-product-1440.webp",
+        "width": 1440,
+        "bytes": 62026,
+        "sha256": "cdee26ecf7bb76c7061fb50d68c798ef8131267a72a631895b0d21a4c3965f06"
+      },
+      {
+        "file": "filsen-product-2160.webp",
+        "width": 2160,
+        "bytes": 102722,
+        "sha256": "e8cb09ce40e14deef3502c62fef770354bbc3cfebaadcf20e3c089888c5d7d62"
+      },
+      {
+        "file": "filsen-product-3840.webp",
+        "width": 3840,
+        "bytes": 211156,
+        "sha256": "ee3741b4c4ea1c4f0090a9fc5f76ecc4ee88e1212dcbbbc044a3ff9b2608565f"
+      }
+    ]
+  },
+  {
+    "id": "filsen-store",
+    "url": "https://www.filsen.com.ar/comercios/cafe-jacaranda",
+    "status": 200,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "dpr": 3,
+    "capturedAt": "2026-10-05T16:18:52.015Z",
+    "h1": [
+      "Muestra · Café"
+    ],
+    "scrollY": 0,
+    "dialogCount": 0,
+    "master": "filsen-store.png",
+    "masterBytes": 2848582,
+    "sha256": "023aa578248ee6d2318f75f87dddc95e9f79235f7a4417d121a2659dbfaa17d3",
+    "nativePixels": [
+      4320,
+      2700
+    ],
+    "derivatives": [
+      {
+        "file": "filsen-store-720.webp",
+        "width": 720,
+        "bytes": 35470,
+        "sha256": "1399d323a4d88583faeb7cf34c3eb6c2a377418a8ca78a877ae96607941c935a"
+      },
+      {
+        "file": "filsen-store-1440.webp",
+        "width": 1440,
+        "bytes": 94160,
+        "sha256": "d2a0de6fcd8c7518346141d780ad30c26ca63ed787a85ef1ddfca01913d43cf2"
+      },
+      {
+        "file": "filsen-store-2160.webp",
+        "width": 2160,
+        "bytes": 163954,
+        "sha256": "fa77a8498a8e80fe9726c54b50d3b8f98f7245796de29802c6bd4d9d00409958"
+      },
+      {
+        "file": "filsen-store-3840.webp",
+        "width": 3840,
+        "bytes": 315468,
+        "sha256": "1399826d8e35dbe06bb32aa9bd83f73a589692876185e77ce90de216d97cd4d5"
+      }
+    ]
+  },
+  {
+    "id": "filsen",
+    "requested": "https://filsen.com.ar/",
+    "url": "https://www.filsen.com.ar/",
+    "status": 200,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "dpr": 3,
+    "capturedAt": "2026-10-05T16:12:53.629Z",
+    "title": "Filsen | Comercios y tiendas online en Crespo",
+    "links": [
+      {
+        "label": "Filsen\n.",
+        "href": "https://www.filsen.com.ar/"
+      },
+      {
+        "label": "Explorar",
+        "href": "https://www.filsen.com.ar/explorar"
+      },
+      {
+        "label": "Categorías",
+        "href": "https://www.filsen.com.ar/#categorias"
+      },
+      {
+        "label": "Para comercios",
+        "href": "https://www.filsen.com.ar/para-comercios"
+      },
+      {
+        "label": "Ingresar",
+        "href": "https://www.filsen.com.ar/admin"
+      },
+      {
+        "label": "Quiero vender",
+        "href": "https://www.filsen.com.ar/para-comercios"
+      },
+      {
+        "label": "Explorar productos",
+        "href": "https://www.filsen.com.ar/explorar"
+      },
+      {
+        "label": "Sumar mi comercio",
+        "href": "https://www.filsen.com.ar/para-comercios"
+      },
+      {
+        "label": "Gastronomía\nSabores y encuentros",
+        "href": "https://www.filsen.com.ar/explorar?categoria=Gastronom%C3%ADa"
+      },
+      {
+        "label": "Indumentaria\nTu próximo favorito",
+        "href": "https://www.filsen.com.ar/explorar?categoria=Indumentaria"
+      },
+      {
+        "label": "Estética\nUn momento para vos",
+        "href": "https://www.filsen.com.ar/explorar?categoria=Est%C3%A9tica%20y%20cosm%C3%A9ticos"
+      },
+      {
+        "label": "Ferretería\nIdeas que toman forma",
+        "href": "https://www.filsen.com.ar/explorar?categoria=Ferreter%C3%ADas"
+      },
+      {
+        "label": "Supermercados\nTodo para cada día",
+        "href": "https://www.filsen.com.ar/explorar?categoria=Supermercados"
+      },
+      {
+        "label": "Librería\nUn mundo por descubrir",
+        "href": "https://www.filsen.com.ar/explorar?categoria=Librer%C3%ADa%20y%20papeler%C3%ADa"
+      },
+      {
+        "label": "Hogar\nEspacios con tu estilo",
+        "href": "https://www.filsen.com.ar/explorar?categoria=Hogar"
+      },
+      {
+        "label": "Sumar mi comercio",
+        "href": "https://www.filsen.com.ar/para-comercios"
+      },
+      {
+        "label": "Crear mi tienda",
+        "href": "https://www.filsen.com.ar/para-comercios"
+      },
+      {
+        "label": "Sobre Filsen",
+        "href": "https://www.filsen.com.ar/nosotros"
+      },
+      {
+        "label": "Nuestro equipo",
+        "href": "https://www.filsen.com.ar/nosotros#equipo"
+      },
+      {
+        "label": "Cómo funciona",
+        "href": "https://www.filsen.com.ar/nosotros#como-funciona"
+      },
+      {
+        "label": "Preguntas frecuentes",
+        "href": "https://www.filsen.com.ar/preguntas-frecuentes"
+      },
+      {
+        "label": "Contacto",
+        "href": "https://www.filsen.com.ar/contacto"
+      },
+      {
+        "label": "Privacidad",
+        "href": "https://www.filsen.com.ar/privacidad"
+      },
+      {
+        "label": "Términos",
+        "href": "https://www.filsen.com.ar/terminos"
+      },
+      {
+        "label": "Cookies",
+        "href": "https://www.filsen.com.ar/cookies"
+      }
+    ],
+    "master": "filsen.png",
+    "masterBytes": 6266868,
+    "sha256": "95564f0c139cfb57eacee46705ccd37e34750e2db27db4e2b39a8952fc0cdf53",
+    "nativePixels": [
+      4320,
+      2700
+    ],
+    "derivatives": [
+      {
+        "file": "filsen-720.webp",
+        "width": 720,
+        "bytes": 72294,
+        "sha256": "91c5545a610ae12a6030ad6cade4e06034eb66551e5765d516be85284a5c1a4c"
+      },
+      {
+        "file": "filsen-1440.webp",
+        "width": 1440,
+        "bytes": 189304,
+        "sha256": "182c6f3250e3b87e3c5994eaa94f38efb283d8585d00ac3dd1f85d5ab03cc494"
+      },
+      {
+        "file": "filsen-2160.webp",
+        "width": 2160,
+        "bytes": 306686,
+        "sha256": "810dedaf927fa29db5b208efa4c674abd1f3a43612a2cd2781f15314691b969b"
+      },
+      {
+        "file": "filsen-3840.webp",
+        "width": 3840,
+        "bytes": 607414,
+        "sha256": "7fb7e3f98b13b61ac3e7e6f88182121f6ecbd8428eb2bfbb83a666b8c86bcc5a"
+      }
+    ]
+  },
+  {
+    "id": "lucia-about",
+    "url": "https://luciafrick.com/#sobre-mi",
+    "status": 200,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "dpr": 3,
+    "capturedAt": "2026-10-05T16:17:10.826Z",
+    "title": "Luli Digital · Lucía Frick — Redes con personalidad",
+    "h1": [
+      "Tu marca tienemucho paracontar."
+    ],
+    "links": [
+      {
+        "label": "Saltar al contenido",
+        "href": "https://luciafrick.com/#contenido"
+      },
+      {
+        "label": "Luli Digital",
+        "href": "https://luciafrick.com/#inicio"
+      },
+      {
+        "label": "Sobre mí",
+        "href": "https://luciafrick.com/#sobre-mi"
+      },
+      {
+        "label": "Servicios",
+        "href": "https://luciafrick.com/#servicios"
+      },
+      {
+        "label": "Trabajos",
+        "href": "https://luciafrick.com/#trabajos"
+      },
+      {
+        "label": "Contacto",
+        "href": "https://luciafrick.com/#contacto"
+      },
+      {
+        "label": "Descubrí lo que podemos crear",
+        "href": "https://luciafrick.com/#servicios"
+      },
+      {
+        "label": "Seguí descubriendo",
+        "href": "https://luciafrick.com/#sobre-mi"
+      },
+      {
+        "label": "Conocé cómo puedo acompañarte",
+        "href": "https://luciafrick.com/#servicios"
+      },
+      {
+        "label": "Hablemos de tu marca",
+        "href": "https://luciafrick.com/#contacto"
+      },
+      {
+        "label": "Volver arriba",
+        "href": "https://luciafrick.com/#inicio"
+      }
+    ],
+    "master": "lucia-about.png",
+    "masterBytes": 2334140,
+    "sha256": "5a5dad0f6a88f70bd39c4d7d348e56491971809ab8af8d0825b57acb47fd9de0",
+    "nativePixels": [
+      4320,
+      2700
+    ],
+    "derivatives": [
+      {
+        "file": "lucia-about-720.webp",
+        "width": 720,
+        "bytes": 32238,
+        "sha256": "3571a390548fe1ba7362359cfb81b88b457a68705f9a71d0827fd4154e9a1619"
+      },
+      {
+        "file": "lucia-about-1440.webp",
+        "width": 1440,
+        "bytes": 87350,
+        "sha256": "ed0c49ba432fb22c681afc24ddea580fe1c5af8ba35b93f5a84c3796da0b2a3d"
+      },
+      {
+        "file": "lucia-about-2160.webp",
+        "width": 2160,
+        "bytes": 152546,
+        "sha256": "c6125f700907b04198c3a976b299b4feaf763a00741271b79c1a214fddd9cf4c"
+      },
+      {
+        "file": "lucia-about-3840.webp",
+        "width": 3840,
+        "bytes": 285370,
+        "sha256": "3556f5242c1333fbb7316fb54c2b6d36b89932017af85af9c348f0c451ca1144"
+      }
+    ]
+  },
+  {
+    "id": "lucia-services",
+    "url": "https://luciafrick.com/#servicios",
+    "status": 200,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "dpr": 3,
+    "capturedAt": "2026-10-05T16:17:03.735Z",
+    "title": "Luli Digital · Lucía Frick — Redes con personalidad",
+    "h1": [
+      "Tu marca tienemucho paracontar."
+    ],
+    "links": [
+      {
+        "label": "Saltar al contenido",
+        "href": "https://luciafrick.com/#contenido"
+      },
+      {
+        "label": "Luli Digital",
+        "href": "https://luciafrick.com/#inicio"
+      },
+      {
+        "label": "Sobre mí",
+        "href": "https://luciafrick.com/#sobre-mi"
+      },
+      {
+        "label": "Servicios",
+        "href": "https://luciafrick.com/#servicios"
+      },
+      {
+        "label": "Trabajos",
+        "href": "https://luciafrick.com/#trabajos"
+      },
+      {
+        "label": "Contacto",
+        "href": "https://luciafrick.com/#contacto"
+      },
+      {
+        "label": "Descubrí lo que podemos crear",
+        "href": "https://luciafrick.com/#servicios"
+      },
+      {
+        "label": "Seguí descubriendo",
+        "href": "https://luciafrick.com/#sobre-mi"
+      },
+      {
+        "label": "Conocé cómo puedo acompañarte",
+        "href": "https://luciafrick.com/#servicios"
+      },
+      {
+        "label": "Hablemos de tu marca",
+        "href": "https://luciafrick.com/#contacto"
+      },
+      {
+        "label": "Volver arriba",
+        "href": "https://luciafrick.com/#inicio"
+      }
+    ],
+    "master": "lucia-services.png",
+    "masterBytes": 1388882,
+    "sha256": "75a84a524bd7cf8fc22aaf235175699af6294e74b544caee7f0e63238e816bca",
+    "nativePixels": [
+      4320,
+      2700
+    ],
+    "derivatives": [
+      {
+        "file": "lucia-services-720.webp",
+        "width": 720,
+        "bytes": 24918,
+        "sha256": "dfefe0b04eb9bda19b8597114dbe22d65f99d5a2281031f209c7309141dbb0f4"
+      },
+      {
+        "file": "lucia-services-1440.webp",
+        "width": 1440,
+        "bytes": 65600,
+        "sha256": "93cd5d62d20c66cda0c55d604ad76a4d7086e0cd78024b6940bdb4562310cae2"
+      },
+      {
+        "file": "lucia-services-2160.webp",
+        "width": 2160,
+        "bytes": 110858,
+        "sha256": "fb4e381bb83eafa62b0db7488b4c693a2a6104f32503e4338a9f7d18a6d1097c"
+      },
+      {
+        "file": "lucia-services-3840.webp",
+        "width": 3840,
+        "bytes": 225234,
+        "sha256": "bde6e9011a2b18d7f0c8a57c368fbdf5e747a9182cf0d9cbbc77ee8ff104c4f7"
+      }
+    ]
+  },
+  {
+    "id": "lucia-work",
+    "url": "https://luciafrick.com/#trabajos",
+    "status": 200,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "dpr": 3,
+    "capturedAt": "2026-10-05T16:17:07.404Z",
+    "title": "Luli Digital · Lucía Frick — Redes con personalidad",
+    "h1": [
+      "Tu marca tienemucho paracontar."
+    ],
+    "links": [
+      {
+        "label": "Saltar al contenido",
+        "href": "https://luciafrick.com/#contenido"
+      },
+      {
+        "label": "Luli Digital",
+        "href": "https://luciafrick.com/#inicio"
+      },
+      {
+        "label": "Sobre mí",
+        "href": "https://luciafrick.com/#sobre-mi"
+      },
+      {
+        "label": "Servicios",
+        "href": "https://luciafrick.com/#servicios"
+      },
+      {
+        "label": "Trabajos",
+        "href": "https://luciafrick.com/#trabajos"
+      },
+      {
+        "label": "Contacto",
+        "href": "https://luciafrick.com/#contacto"
+      },
+      {
+        "label": "Descubrí lo que podemos crear",
+        "href": "https://luciafrick.com/#servicios"
+      },
+      {
+        "label": "Seguí descubriendo",
+        "href": "https://luciafrick.com/#sobre-mi"
+      },
+      {
+        "label": "Conocé cómo puedo acompañarte",
+        "href": "https://luciafrick.com/#servicios"
+      },
+      {
+        "label": "Hablemos de tu marca",
+        "href": "https://luciafrick.com/#contacto"
+      },
+      {
+        "label": "Volver arriba",
+        "href": "https://luciafrick.com/#inicio"
+      }
+    ],
+    "master": "lucia-work.png",
+    "masterBytes": 4044654,
+    "sha256": "300fada423ee4c3b380abfddf128924729d10e49152713828fed78e2647fb6de",
+    "nativePixels": [
+      4320,
+      2700
+    ],
+    "derivatives": [
+      {
+        "file": "lucia-work-720.webp",
+        "width": 720,
+        "bytes": 35880,
+        "sha256": "1f9368b41c24f3a683f4e570052899da44e9c6438de4d5a19cc7464bd8861f7e"
+      },
+      {
+        "file": "lucia-work-1440.webp",
+        "width": 1440,
+        "bytes": 111214,
+        "sha256": "b76fe93becb77484e9849c3b23dfdb768328c9710af341fee61de0a71f12f547"
+      },
+      {
+        "file": "lucia-work-2160.webp",
+        "width": 2160,
+        "bytes": 206910,
+        "sha256": "2802a7db18e32363cf57e621a9b7f893f2998abd687fa3b97fcada9cd0d92651"
+      },
+      {
+        "file": "lucia-work-3840.webp",
+        "width": 3840,
+        "bytes": 423426,
+        "sha256": "2922f237970b0ac1c8105b127f65e5e9b87f6bbcfe9861c3cd753017aad84b24"
+      }
+    ]
+  },
+  {
+    "id": "lucia",
+    "requested": "https://luciafrick.com/",
+    "url": "https://luciafrick.com/",
+    "status": 200,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "dpr": 3,
+    "capturedAt": "2026-10-05T16:12:48.869Z",
+    "title": "Luli Digital · Lucía Frick — Redes con personalidad",
+    "links": [
+      {
+        "label": "Saltar al contenido",
+        "href": "https://luciafrick.com/#contenido"
+      },
+      {
+        "label": "Luli Digital",
+        "href": "https://luciafrick.com/#inicio"
+      },
+      {
+        "label": "Sobre mí",
+        "href": "https://luciafrick.com/#sobre-mi"
+      },
+      {
+        "label": "Servicios",
+        "href": "https://luciafrick.com/#servicios"
+      },
+      {
+        "label": "Trabajos",
+        "href": "https://luciafrick.com/#trabajos"
+      },
+      {
+        "label": "Contacto",
+        "href": "https://luciafrick.com/#contacto"
+      },
+      {
+        "label": "Descubrí lo que podemos crear",
+        "href": "https://luciafrick.com/#servicios"
+      },
+      {
+        "label": "Seguí descubriendo",
+        "href": "https://luciafrick.com/#sobre-mi"
+      },
+      {
+        "label": "Conocé cómo puedo acompañarte",
+        "href": "https://luciafrick.com/#servicios"
+      },
+      {
+        "label": "Hablemos de tu marca",
+        "href": "https://luciafrick.com/#contacto"
+      },
+      {
+        "label": "Volver arriba",
+        "href": "https://luciafrick.com/#inicio"
+      }
+    ],
+    "master": "lucia.png",
+    "masterBytes": 2138748,
+    "sha256": "a8e0f8482f1c4a6aa4bc5995adc0aa53bbbc3915c14f32edc0e3f3f553b2e97e",
+    "nativePixels": [
+      4320,
+      2700
+    ],
+    "derivatives": [
+      {
+        "file": "lucia-720.webp",
+        "width": 720,
+        "bytes": 29612,
+        "sha256": "a0bc8d5278ae52def1b8014ad215f93560b9b65604ec0ac688b24f3c414a67db"
+      },
+      {
+        "file": "lucia-1440.webp",
+        "width": 1440,
+        "bytes": 77218,
+        "sha256": "e6af3606704e9a1c423aef1e5d6f2fb86d10806739ccc3d4a580add33b830572"
+      },
+      {
+        "file": "lucia-2160.webp",
+        "width": 2160,
+        "bytes": 128524,
+        "sha256": "c93a321264a7d709055a26976717574c9dd206ded9a1b7a9cfde0b5c96e2dbed"
+      },
+      {
+        "file": "lucia-3840.webp",
+        "width": 3840,
+        "bytes": 254960,
+        "sha256": "df24c002d52b7b4558bd18b6d6381f6e7f6ea8a3f892595ff951f16e673c06c9"
+      }
+    ]
+  },
+  {
+    "id": "tiki-quote",
+    "url": "https://www.tikicoctelshow.com/#presupuesto",
+    "status": 200,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "dpr": 3,
+    "capturedAt": "2026-10-05T16:17:00.173Z",
+    "title": "Tiki Cóctel Show | Coctelería para eventos",
+    "h1": [
+      "Tu evento.Nuestra barra."
+    ],
+    "links": [
+      {
+        "label": "",
+        "href": "https://www.tikicoctelshow.com/"
+      },
+      {
+        "label": "ARMAR PRESUPUESTO",
+        "href": "https://www.tikicoctelshow.com/#presupuesto"
+      },
+      {
+        "label": "Armar mi presupuesto",
+        "href": "https://www.tikicoctelshow.com/#presupuesto"
+      },
+      {
+        "label": "Explorar servicios",
+        "href": "https://www.tikicoctelshow.com/#servicios"
+      },
+      {
+        "label": "1\nOZ\nAsesoramiento\ny Gestión\nPlanificamos tu barra, coordinamos los recursos y d",
+        "href": "https://www.tikicoctelshow.com/servicios/asesoramiento-y-gestion"
+      },
+      {
+        "label": "2\nOZ\nServicio Completo\nNos ocupamos de la barra completa, desde el mobiliario ha",
+        "href": "https://www.tikicoctelshow.com/servicios/servicio-completo"
+      },
+      {
+        "label": "3\nOZ\nSolo Servicio\nUn equipo profesional para atender la barra y hacer que todo ",
+        "href": "https://www.tikicoctelshow.com/servicios/solo-servicio"
+      },
+      {
+        "label": "Cómo cuidamos tus datos",
+        "href": "https://www.tikicoctelshow.com/privacidad"
+      },
+      {
+        "label": "Privacidad y datos",
+        "href": "https://www.tikicoctelshow.com/privacidad"
+      }
+    ],
+    "master": "tiki-quote.png",
+    "masterBytes": 318652,
+    "sha256": "34e25f4c633c5c32ce9ba88cb3f4b313ecc7292ec05254d0309098df5d5b8395",
+    "nativePixels": [
+      4320,
+      2700
+    ],
+    "derivatives": [
+      {
+        "file": "tiki-quote-720.webp",
+        "width": 720,
+        "bytes": 18236,
+        "sha256": "dc9fa7a0a458a44b37d6ddf3ab1d9233689ba682446b0e42b1c3dcd090e11bad"
+      },
+      {
+        "file": "tiki-quote-1440.webp",
+        "width": 1440,
+        "bytes": 45766,
+        "sha256": "57208594e4e3973e4e021819136da7a8e3a56c87f15e288422f70fc964a91e7f"
+      },
+      {
+        "file": "tiki-quote-2160.webp",
+        "width": 2160,
+        "bytes": 75322,
+        "sha256": "c9323470b2dd9033d09d3f2f1e6ab4db4f62ae0ec6be03b6493b6ada5109deb2"
+      },
+      {
+        "file": "tiki-quote-3840.webp",
+        "width": 3840,
+        "bytes": 151156,
+        "sha256": "a48611cc93411e5ae12dfc0413d6d5ecc34cd3c55e41cb58fc1bc56fe1b19f00"
+      }
+    ]
+  },
+  {
+    "id": "tiki-services",
+    "url": "https://www.tikicoctelshow.com/#servicios",
+    "status": 200,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "dpr": 3,
+    "capturedAt": "2026-10-05T16:16:57.003Z",
+    "title": "Tiki Cóctel Show | Coctelería para eventos",
+    "h1": [
+      "Tu evento.Nuestra barra."
+    ],
+    "links": [
+      {
+        "label": "",
+        "href": "https://www.tikicoctelshow.com/"
+      },
+      {
+        "label": "ARMAR PRESUPUESTO",
+        "href": "https://www.tikicoctelshow.com/#presupuesto"
+      },
+      {
+        "label": "Armar mi presupuesto",
+        "href": "https://www.tikicoctelshow.com/#presupuesto"
+      },
+      {
+        "label": "Explorar servicios",
+        "href": "https://www.tikicoctelshow.com/#servicios"
+      },
+      {
+        "label": "1\nOZ\nAsesoramiento\ny Gestión\nPlanificamos tu barra, coordinamos los recursos y d",
+        "href": "https://www.tikicoctelshow.com/servicios/asesoramiento-y-gestion"
+      },
+      {
+        "label": "2\nOZ\nServicio Completo\nNos ocupamos de la barra completa, desde el mobiliario ha",
+        "href": "https://www.tikicoctelshow.com/servicios/servicio-completo"
+      },
+      {
+        "label": "3\nOZ\nSolo Servicio\nUn equipo profesional para atender la barra y hacer que todo ",
+        "href": "https://www.tikicoctelshow.com/servicios/solo-servicio"
+      },
+      {
+        "label": "Cómo cuidamos tus datos",
+        "href": "https://www.tikicoctelshow.com/privacidad"
+      },
+      {
+        "label": "Privacidad y datos",
+        "href": "https://www.tikicoctelshow.com/privacidad"
+      }
+    ],
+    "master": "tiki-services.png",
+    "masterBytes": 723604,
+    "sha256": "d16b99b637b4980606ad0d427cb63d6bba059028497ccd60612d05238f4614f8",
+    "nativePixels": [
+      4320,
+      2700
+    ],
+    "derivatives": [
+      {
+        "file": "tiki-services-720.webp",
+        "width": 720,
+        "bytes": 22908,
+        "sha256": "1ca4531ae687a0fd6ea0b2866f8f1cee333b242040b54aa44488627dd0f0f50d"
+      },
+      {
+        "file": "tiki-services-1440.webp",
+        "width": 1440,
+        "bytes": 57650,
+        "sha256": "f020b2c9f13f74b90b8c0a05499f6b06634b4d25a80bcebe9335afa55422e7e2"
+      },
+      {
+        "file": "tiki-services-2160.webp",
+        "width": 2160,
+        "bytes": 98552,
+        "sha256": "cda08addc244693eb74a45768c8dbec2aceedd31f31ccac6c99c4ea1ac8f84d0"
+      },
+      {
+        "file": "tiki-services-3840.webp",
+        "width": 3840,
+        "bytes": 190754,
+        "sha256": "3967c12b2a166c3664289fea339cd0e366a1406e662a4f4ebb63ffa270c7d081"
+      }
+    ]
+  },
+  {
+    "id": "tiki",
+    "requested": "https://www.tikicoctelshow.com/",
+    "url": "https://www.tikicoctelshow.com/",
+    "status": 200,
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "dpr": 3,
+    "capturedAt": "2026-10-05T16:12:44.803Z",
+    "title": "Tiki Cóctel Show | Coctelería para eventos",
+    "links": [
+      {
+        "label": "",
+        "href": "https://www.tikicoctelshow.com/"
+      },
+      {
+        "label": "ARMAR PRESUPUESTO",
+        "href": "https://www.tikicoctelshow.com/#presupuesto"
+      },
+      {
+        "label": "Armar mi presupuesto",
+        "href": "https://www.tikicoctelshow.com/#presupuesto"
+      },
+      {
+        "label": "Explorar servicios",
+        "href": "https://www.tikicoctelshow.com/#servicios"
+      },
+      {
+        "label": "1\nOZ\nAsesoramiento\ny Gestión\nPlanificamos tu barra, coordinamos los recursos y d",
+        "href": "https://www.tikicoctelshow.com/servicios/asesoramiento-y-gestion"
+      },
+      {
+        "label": "2\nOZ\nServicio Completo\nNos ocupamos de la barra completa, desde el mobiliario ha",
+        "href": "https://www.tikicoctelshow.com/servicios/servicio-completo"
+      },
+      {
+        "label": "3\nOZ\nSolo Servicio\nUn equipo profesional para atender la barra y hacer que todo ",
+        "href": "https://www.tikicoctelshow.com/servicios/solo-servicio"
+      },
+      {
+        "label": "Cómo cuidamos tus datos",
+        "href": "https://www.tikicoctelshow.com/privacidad"
+      },
+      {
+        "label": "Privacidad y datos",
+        "href": "https://www.tikicoctelshow.com/privacidad"
+      }
+    ],
+    "master": "tiki.png",
+    "masterBytes": 2048937,
+    "sha256": "009872069e1c288de65ee5f22bcbc57aa09de67b68a85f895970b6f6bff24660",
+    "nativePixels": [
+      4320,
+      2700
+    ],
+    "derivatives": [
+      {
+        "file": "tiki-720.webp",
+        "width": 720,
+        "bytes": 34764,
+        "sha256": "48c408169e66793eafa28d80f91d88ff0f9b299889ab68d9a3cfc17a0caa2bc2"
+      },
+      {
+        "file": "tiki-1440.webp",
+        "width": 1440,
+        "bytes": 99330,
+        "sha256": "afd62829f15803b0015185e2cfd388a5d3c91c076fba63897c50652774b7c8fa"
+      },
+      {
+        "file": "tiki-2160.webp",
+        "width": 2160,
+        "bytes": 187166,
+        "sha256": "625e844a3d8f2a6325da9de7c1e71d2a183007cde7d5c95dfbe4e6cc675404de"
+      },
+      {
+        "file": "tiki-3840.webp",
+        "width": 3840,
+        "bytes": 424566,
+        "sha256": "ee8efc7382b0c5141b54191988b4b0beda25e8ebdedcf8b29cf1e977acd978b1"
+      }
+    ]
+  }
+]

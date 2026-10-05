@@ -1053,7 +1053,7 @@ ${postList}`,
     imagePath: page.imagePath,
     alternates: page.alternates,
     language: page.language,
-    structuredData,
+    structuredData: page.structuredData ?? structuredData,
   });
 }
 

@@ -1,0 +1,42 @@
+[
+  {
+    "path": "api/create-checkout.mjs",
+    "matchesOriginal": true
+  },
+  {
+    "path": "api/auth-start.mjs",
+    "matchesOriginal": true
+  },
+  {
+    "path": "api/auth-callback.mjs",
+    "matchesOriginal": true
+  },
+  {
+    "path": "api/posts.mjs",
+    "matchesOriginal": true
+  },
+  {
+    "path": "api/login.mjs",
+    "matchesOriginal": true
+  },
+  {
+    "path": "api/preview.mjs",
+    "matchesOriginal": true
+  },
+  {
+    "path": "api/settings.mjs",
+    "matchesOriginal": true
+  },
+  {
+    "path": "api/logout.mjs",
+    "matchesOriginal": true
+  },
+  {
+    "path": "api/session.mjs",
+    "matchesOriginal": true
+  },
+  {
+    "path": "admin/src/App.tsx",
+    "matchesOriginal": true
+  }
+]
