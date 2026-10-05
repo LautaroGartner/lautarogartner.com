@@ -419,5 +419,195 @@
   },
   "build": "passed",
   "typecheck": "passed",
-  "node_tests": 25
+  "node_tests": 25,
+  "animation_refinement": {
+    "open_duration_ms": 600,
+    "close_duration_ms": 460,
+    "edge_curve": "12% horizontal, 50% vertical, to zero",
+    "content_travel_px": 32,
+    "moving_frames": [
+      {
+        "width": 390,
+        "frames": [
+          {
+            "x": 390,
+            "curve": "12% 0px 0px 12% / 50% 0px 0px 50%",
+            "content": "matrix(1, 0, 0, 1, 32, 0)"
+          },
+          {
+            "x": 333.5162048339844,
+            "curve": "10.262% 0px 0px 10.262% / 42.7585% 0px 0px 42.7585%",
+            "content": "matrix(1, 0, 0, 1, 7.97754, 0)"
+          },
+          {
+            "x": 11.235801696777344,
+            "curve": "0.345717% 0px 0px 0.345717% / 1.44049% 0px 0px 1.44049%",
+            "content": "matrix(1, 0, 0, 1, 0.449274, 0)"
+          },
+          {
+            "x": 0,
+            "curve": "0px",
+            "content": "none"
+          }
+        ],
+        "closingAndInterruption": "passed"
+      },
+      {
+        "width": 1440,
+        "frames": [
+          {
+            "x": 1440,
+            "curve": "12% 0px 0px 12% / 50% 0px 0px 50%",
+            "content": "matrix(1, 0, 0, 1, 32, 0)"
+          },
+          {
+            "x": 1344.4189453125,
+            "curve": "9.79428% 0px 0px 9.79428% / 40.8095% 0px 0px 40.8095%",
+            "content": "matrix(1, 0, 0, 1, 7.01966, 0)"
+          },
+          {
+            "x": 924.2950439453125,
+            "curve": "0.0991168% 0px 0px 0.0991168% / 0.412986% 0px 0px 0.412986%",
+            "content": "matrix(1, 0, 0, 1, 0.137, 0)"
+          },
+          {
+            "x": 920,
+            "curve": "0px",
+            "content": "none"
+          }
+        ],
+        "closingAndInterruption": "passed"
+      }
+    ],
+    "interaction_verification": [
+      {
+        "mode": "desktop-motion",
+        "frames": [
+          {
+            "open": true,
+            "visible": true,
+            "x": 1440,
+            "overflow": "hidden",
+            "focus": false,
+            "scrollY": 400
+          },
+          {
+            "open": true,
+            "visible": true,
+            "x": 1393.5865478515625,
+            "overflow": "hidden",
+            "focus": false,
+            "scrollY": 400
+          },
+          {
+            "open": true,
+            "visible": true,
+            "x": 955.9705810546875,
+            "overflow": "hidden",
+            "focus": false,
+            "scrollY": 400
+          },
+          {
+            "open": true,
+            "visible": true,
+            "x": 920,
+            "overflow": "hidden",
+            "focus": false,
+            "scrollY": 400
+          }
+        ],
+        "interactionChecks": "Escape, focus trap/return, body lock, 5 interrupted opens, current route, close button, route handoff and history passed"
+      },
+      {
+        "mode": "mobile-motion",
+        "frames": [
+          {
+            "open": true,
+            "visible": true,
+            "x": 390,
+            "overflow": "hidden",
+            "focus": false,
+            "scrollY": 0
+          },
+          {
+            "open": true,
+            "visible": true,
+            "x": 369.404541015625,
+            "overflow": "hidden",
+            "focus": false,
+            "scrollY": 0
+          },
+          {
+            "open": true,
+            "visible": true,
+            "x": 44.41170883178711,
+            "overflow": "hidden",
+            "focus": false,
+            "scrollY": 0
+          },
+          {
+            "open": true,
+            "visible": true,
+            "x": 0,
+            "overflow": "hidden",
+            "focus": false,
+            "scrollY": 0
+          }
+        ],
+        "interactionChecks": "Escape, focus trap/return, body lock, 5 interrupted opens, current route, close button, route handoff and history passed"
+      },
+      {
+        "mode": "mobile-reduced",
+        "frames": [
+          {
+            "open": true,
+            "visible": true,
+            "x": 0,
+            "overflow": "hidden",
+            "focus": false,
+            "scrollY": 0
+          },
+          {
+            "open": true,
+            "visible": true,
+            "x": 0,
+            "overflow": "hidden",
+            "focus": false,
+            "scrollY": 0
+          },
+          {
+            "open": true,
+            "visible": true,
+            "x": 0,
+            "overflow": "hidden",
+            "focus": false,
+            "scrollY": 0
+          },
+          {
+            "open": true,
+            "visible": true,
+            "x": 0,
+            "overflow": "hidden",
+            "focus": false,
+            "scrollY": 0
+          }
+        ],
+        "interactionChecks": "Escape, focus trap/return, body lock, 5 interrupted opens, current route, close button, route handoff and history passed"
+      }
+    ],
+    "fallback_verification": {
+      "noJs": {
+        "work": "flex",
+        "languages": "flex",
+        "menu": "none",
+        "portrait": true,
+        "overflow": false
+      },
+      "changedPreference": {
+        "open": true,
+        "transform": "none",
+        "lock": "hidden"
+      }
+    }
+  }
 }

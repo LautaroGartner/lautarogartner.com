@@ -9,16 +9,16 @@ async page=>{
    const prepare=async()=>{if(!mode.touch){await p.evaluate(()=>scrollTo({top:400,behavior:'instant'}));await p.waitForTimeout(100);}};
    const state=()=>p.evaluate(()=>{const d=document.querySelector('.site-menu');return {open:d.open,visible:document.documentElement.classList.contains('menu-visible'),x:d.getBoundingClientRect().x,overflow:document.body.style.overflow,focus:document.activeElement===document.querySelector('[data-menu-open]'),scrollY};});
    await p.screenshot({path:'/tmp/menu-after-'+mode.name+'-about.png'});await prepare();await opener.click();
-   const frames=[];for(const delay of [0,100,160,240]){if(delay)await p.waitForTimeout(delay);frames.push(await state());await p.screenshot({path:'/tmp/menu-after-'+mode.name+'-open-'+frames.length+'.png'});}
+   const frames=[];for(const delay of [0,100,160,480]){if(delay)await p.waitForTimeout(delay);frames.push(await state());await p.screenshot({path:'/tmp/menu-after-'+mode.name+'-open-'+frames.length+'.png'});}
    if(!mode.reduced)assert(frames[0].x>frames[2].x&&frames[3].x===mode.width-Math.min(520,mode.width),'Panel did not animate coherently '+mode.name);
    assert((await state()).open&&(await state()).overflow==='hidden','Menu not locked/open');
    for(let n=0;n<12;n++){await p.keyboard.press(n%3?'Tab':'Shift+Tab');assert(await p.evaluate(()=>document.querySelector('.site-menu').contains(document.activeElement)),'Focus escaped dialog');}
    const lockedY=(await state()).scrollY;await p.mouse.wheel(0,300);await p.waitForTimeout(100);assert((await state()).scrollY===lockedY,'Background scroll was not locked');
-   await p.keyboard.press('Escape');await p.waitForTimeout(400);let closed=await state();assert(!closed.open&&!closed.visible&&closed.overflow===''&&closed.focus,'Escape/focus restore failed');
-   for(let n=0;n<5;n++){await opener.click();await p.waitForTimeout(25);await p.keyboard.press('Escape');await p.waitForTimeout(380);closed=await state();assert(!closed.open&&!closed.visible&&closed.overflow==='','Interrupted open stuck '+n);}
-   await opener.click();await p.waitForTimeout(450);await menu.locator('a[href="/es/about"]').click();await p.waitForTimeout(400);assert(!(await state()).open&&(await state()).overflow==='','Current page selection did not close');
-   await opener.click();await p.waitForTimeout(450);await p.locator('[data-menu-close]').click();await p.waitForTimeout(400);assert(!(await state()).open&&(await state()).focus,'Close button focus failed');
-   await opener.click();await p.waitForTimeout(450);await menu.locator('a[href="/es/work"]').click();
+   await p.keyboard.press('Escape');await p.waitForTimeout(550);let closed=await state();assert(!closed.open&&!closed.visible&&closed.overflow===''&&closed.focus,'Escape/focus restore failed');
+   for(let n=0;n<5;n++){await opener.click();await p.waitForTimeout(25);await p.keyboard.press('Escape');await p.waitForTimeout(550);closed=await state();assert(!closed.open&&!closed.visible&&closed.overflow==='','Interrupted open stuck '+n);}
+   await opener.click();await p.waitForTimeout(700);await menu.locator('a[href="/es/about"]').click();await p.waitForTimeout(550);assert(!(await state()).open&&(await state()).overflow==='','Current page selection did not close');
+   await opener.click();await p.waitForTimeout(700);await p.locator('[data-menu-close]').click();await p.waitForTimeout(550);assert(!(await state()).open&&(await state()).focus,'Close button focus failed');
+   await opener.click();await p.waitForTimeout(700);await menu.locator('a[href="/es/work"]').click();
    if(!mode.reduced){await p.waitForTimeout(150);const handoff=await state();assert(!handoff.visible,'Menu did not start closing during route handoff');await p.screenshot({path:'/tmp/menu-after-'+mode.name+'-handoff.png'});}
    await p.waitForURL(/\/es\/work\/?$/);await p.waitForTimeout(1200);assert(!(await state()).open&&(await state()).overflow==='','Route retained modal lock');
    await p.goBack({waitUntil:'domcontentloaded'});await p.waitForTimeout(200);assert(!(await state()).open&&(await state()).overflow==='','History restored locked menu');

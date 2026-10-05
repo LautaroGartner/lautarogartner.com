@@ -4,25 +4,28 @@
  const fine=matchMedia('(hover: hover) and (pointer: fine)');
  const ease='cubic-bezier(.76,0,.24,1)';
  const menu=document.querySelector('.site-menu'),open=document.querySelector('[data-menu-open]'),close=document.querySelector('[data-menu-close]');
+ const menuInner=menu?.querySelector('.menu-inner');
+ let contentAnimation;
  let previousOverflow='',menuAnimation,menuVersion=0,menuState='closed',returnFocus;
  const finishMenuClose=(focus=true)=>{
-  ++menuVersion;menuAnimation?.cancel();menuAnimation=null;menuState='closed';
+  ++menuVersion;menuAnimation?.cancel();contentAnimation?.cancel();menuAnimation=null;contentAnimation=null;menuState='closed';
   root.classList.remove('menu-visible');open?.setAttribute('aria-expanded','false');
-  if(menu?.open)menu.close();menu?.style.removeProperty('transform');
+  if(menu?.open)menu.close();menu?.style.removeProperty('transform');menu?.style.removeProperty('border-radius');menuInner?.style.removeProperty('transform');menuInner?.style.removeProperty('opacity');
   document.body.style.overflow=previousOverflow;
   if(focus&&returnFocus?.isConnected)returnFocus.focus({preventScroll:true});
  };
  const animateMenu=(opening)=>{
-  const from=getComputedStyle(menu).transform;
-  menuAnimation?.cancel();const version=++menuVersion;
+  const from=getComputedStyle(menu).transform,fromRadius=getComputedStyle(menu).borderRadius,contentFrom=getComputedStyle(menuInner).transform,contentOpacity=getComputedStyle(menuInner).opacity;
+  menuAnimation?.cancel();contentAnimation?.cancel();const version=++menuVersion;
   menuState=opening?'opening':'closing';
   root.classList.toggle('menu-visible',opening);open?.setAttribute('aria-expanded',String(opening));
-  if(reduced.matches){if(opening){menuState='open';menu.style.transform='none';}else finishMenuClose();return;}
+  if(reduced.matches){if(opening){menuState='open';menu.style.transform='none';menu.style.borderRadius='0px';menuInner.style.transform='none';menuInner.style.opacity='1';}else finishMenuClose();return;}
   const target=opening?'translateX(0)':'translateX(100%)';
-  menuAnimation=menu.animate([{transform:from==='none'&&!opening?'translateX(0)':from},{transform:target}],{duration:opening?420:320,easing:'cubic-bezier(.22,.61,.36,1)',fill:'forwards'});
+  menuAnimation=menu.animate([{transform:from==='none'&&!opening?'translateX(0)':from,borderRadius:fromRadius},{transform:target,borderRadius:opening?'0px':'12% 0 0 12% / 50% 0 0 50%'}],{duration:opening?600:460,easing:'cubic-bezier(.76,0,.24,1)',fill:'forwards'});
+  contentAnimation=menuInner.animate([{transform:contentFrom,opacity:contentOpacity},{transform:opening?'translateX(0)':'translateX(32px)',opacity:opening?1:0}],{duration:opening?600:420,easing:'cubic-bezier(.22,.61,.36,1)',fill:'forwards'});
   menuAnimation.finished.then(()=>{
    if(version!==menuVersion)return;
-   if(opening){menuState='open';menu.style.transform='none';menuAnimation.cancel();menuAnimation=null;}
+   if(opening){menuState='open';menu.style.transform='none';menu.style.borderRadius='0px';menuInner.style.transform='none';menuInner.style.opacity='1';menuAnimation.cancel();contentAnimation.cancel();menuAnimation=null;contentAnimation=null;}
    else finishMenuClose();
   }).catch(()=>{});
  };
@@ -31,6 +34,7 @@
   if(menu.open){if(menuState==='closing')animateMenu(true);else closeMenu();return;}
   returnFocus=open;previousOverflow=document.body.style.overflow;
   document.body.style.overflow='hidden';menu.style.transform=reduced.matches?'none':'translateX(100%)';
+  menu.style.borderRadius=reduced.matches?'0px':'12% 0 0 12% / 50% 0 0 50%';menuInner.style.transform=reduced.matches?'none':'translateX(32px)';menuInner.style.opacity=reduced.matches?'1':'0';
   menu.showModal();animateMenu(true);
  });
  close?.addEventListener('click',closeMenu);
@@ -137,5 +141,5 @@
   const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(!entry.isIntersecting)return;observer.unobserve(entry.target);if(!reduced.matches&&!root.classList.contains('route-enter')&&!root.classList.contains('motion-enter'))entry.target.animate([{opacity:.35,transform:'translateY(24px)'},{opacity:1,transform:'none'}],{duration:750,easing:ease});}),{threshold:.12});
   document.querySelectorAll('.route-head,.case-intro,.case-cover,.case-gallery figure,.work-card,.about-identity,.post-body h2').forEach(element=>observer.observe(element));
  }
- reduced.addEventListener('change',()=>{if(reduced.matches){if(menuState==='closing')finishMenuClose();else if(menu?.open){++menuVersion;menuAnimation?.cancel();menuAnimation=null;menuState='open';menu.style.transform='none';}root.classList.remove('work-cursor-visible','work-preview-visible','route-exit','route-enter');document.getAnimations().forEach(animation=>animation.cancel());paintScroll();}});
+ reduced.addEventListener('change',()=>{if(reduced.matches){if(menuState==='closing')finishMenuClose();else if(menu?.open){++menuVersion;menuAnimation?.cancel();contentAnimation?.cancel();menuAnimation=null;contentAnimation=null;menuState='open';menu.style.transform='none';menu.style.borderRadius='0px';menuInner.style.transform='none';menuInner.style.opacity='1';}root.classList.remove('work-cursor-visible','work-preview-visible','route-exit','route-enter');document.getAnimations().forEach(animation=>animation.cancel());paintScroll();}});
 })();
