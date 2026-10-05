@@ -1,0 +1,423 @@
+{
+  "base_commit": "b67e89041cd04e889e7633f978a60195ae1a8da4",
+  "publication": "local-only; production remains b67e890",
+  "engine": "Chromium",
+  "safari_tested": false,
+  "source_screenshots": [
+    "libfile_50f36b34deec81919fa0b4547c9d6d4b",
+    "libfile_a5ba2ec4f95481918c97799537c725a8",
+    "libfile_868d4247e4808191923fedb4f072b466"
+  ],
+  "before": {
+    "frames": [
+      {
+        "ms": 0,
+        "open": true,
+        "visible": true,
+        "transform": "matrix(1, 0, 0, 1, 409.5, 0)",
+        "bodyOverflow": "hidden",
+        "rect": {
+          "x": 409.5,
+          "width": 390
+        },
+        "viewport": 390,
+        "active": "menu-close"
+      },
+      {
+        "ms": 100,
+        "open": true,
+        "visible": true,
+        "transform": "matrix(1, 0, 0, 1, 396.296, 0)",
+        "bodyOverflow": "hidden",
+        "rect": {
+          "x": 396.29608154296875,
+          "width": 390
+        },
+        "viewport": 390,
+        "active": "menu-close"
+      },
+      {
+        "ms": 250,
+        "open": true,
+        "visible": true,
+        "transform": "matrix(1, 0, 0, 1, 178.328, 0)",
+        "bodyOverflow": "hidden",
+        "rect": {
+          "x": 178.32818603515625,
+          "width": 390
+        },
+        "viewport": 390,
+        "active": "menu-close"
+      },
+      {
+        "ms": 500,
+        "open": true,
+        "visible": true,
+        "transform": "matrix(1, 0, 0, 1, 5.41469, 0)",
+        "bodyOverflow": "hidden",
+        "rect": {
+          "x": 5.414687633514404,
+          "width": 390
+        },
+        "viewport": 390,
+        "active": "menu-close"
+      },
+      {
+        "ms": 900,
+        "open": true,
+        "visible": true,
+        "transform": "none",
+        "bodyOverflow": "hidden",
+        "rect": {
+          "x": 0,
+          "width": 390
+        },
+        "viewport": 390,
+        "active": "menu-close"
+      }
+    ],
+    "sameRoute": {
+      "open": true,
+      "visible": true,
+      "transform": "none",
+      "bodyOverflow": "hidden",
+      "rect": {
+        "x": 0,
+        "width": 390
+      },
+      "viewport": 390,
+      "active": ""
+    },
+    "handoff": {
+      "open": true,
+      "visible": true,
+      "transform": "none",
+      "bodyOverflow": "hidden",
+      "rect": {
+        "x": 0,
+        "width": 390
+      },
+      "viewport": 390,
+      "active": ""
+    }
+  },
+  "after": [
+    {
+      "mode": "desktop-motion",
+      "frames": [
+        {
+          "open": true,
+          "visible": true,
+          "x": 1440,
+          "overflow": "hidden",
+          "focus": false,
+          "scrollY": 400
+        },
+        {
+          "open": true,
+          "visible": true,
+          "x": 1010.9624633789062,
+          "overflow": "hidden",
+          "focus": false,
+          "scrollY": 400
+        },
+        {
+          "open": true,
+          "visible": true,
+          "x": 920,
+          "overflow": "hidden",
+          "focus": false,
+          "scrollY": 400
+        },
+        {
+          "open": true,
+          "visible": true,
+          "x": 920,
+          "overflow": "hidden",
+          "focus": false,
+          "scrollY": 400
+        }
+      ],
+      "interactionChecks": "Escape, focus trap/return, body lock, 5 interrupted opens, current route, close button, route handoff and history passed"
+    },
+    {
+      "mode": "mobile-motion",
+      "frames": [
+        {
+          "open": true,
+          "visible": true,
+          "x": 390,
+          "overflow": "hidden",
+          "focus": false,
+          "scrollY": 0
+        },
+        {
+          "open": true,
+          "visible": true,
+          "x": 98.99991607666016,
+          "overflow": "hidden",
+          "focus": false,
+          "scrollY": 0
+        },
+        {
+          "open": true,
+          "visible": true,
+          "x": 2.2048096656799316,
+          "overflow": "hidden",
+          "focus": false,
+          "scrollY": 0
+        },
+        {
+          "open": true,
+          "visible": true,
+          "x": 0,
+          "overflow": "hidden",
+          "focus": false,
+          "scrollY": 0
+        }
+      ],
+      "interactionChecks": "Escape, focus trap/return, body lock, 5 interrupted opens, current route, close button, route handoff and history passed"
+    },
+    {
+      "mode": "mobile-reduced",
+      "frames": [
+        {
+          "open": true,
+          "visible": true,
+          "x": 0,
+          "overflow": "hidden",
+          "focus": false,
+          "scrollY": 0
+        },
+        {
+          "open": true,
+          "visible": true,
+          "x": 0,
+          "overflow": "hidden",
+          "focus": false,
+          "scrollY": 0
+        },
+        {
+          "open": true,
+          "visible": true,
+          "x": 0,
+          "overflow": "hidden",
+          "focus": false,
+          "scrollY": 0
+        },
+        {
+          "open": true,
+          "visible": true,
+          "x": 0,
+          "overflow": "hidden",
+          "focus": false,
+          "scrollY": 0
+        }
+      ],
+      "interactionChecks": "Escape, focus trap/return, body lock, 5 interrupted opens, current route, close button, route handoff and history passed"
+    },
+    {
+      "width": 320,
+      "route": "/es",
+      "overflow": false,
+      "headerHeight": 76
+    },
+    {
+      "width": 320,
+      "route": "/es/about",
+      "overflow": false,
+      "headerHeight": 76,
+      "portrait": true
+    },
+    {
+      "width": 320,
+      "route": "/es/work",
+      "overflow": false,
+      "headerHeight": 76
+    },
+    {
+      "width": 320,
+      "route": "/es/contact",
+      "overflow": false,
+      "headerHeight": 76
+    },
+    {
+      "width": 320,
+      "route": "/writing",
+      "overflow": false,
+      "headerHeight": 76
+    },
+    {
+      "width": 390,
+      "route": "/es",
+      "overflow": false,
+      "headerHeight": 76
+    },
+    {
+      "width": 390,
+      "route": "/es/about",
+      "overflow": false,
+      "headerHeight": 76,
+      "portrait": true
+    },
+    {
+      "width": 390,
+      "route": "/es/work",
+      "overflow": false,
+      "headerHeight": 76
+    },
+    {
+      "width": 390,
+      "route": "/es/contact",
+      "overflow": false,
+      "headerHeight": 76
+    },
+    {
+      "width": 390,
+      "route": "/writing",
+      "overflow": false,
+      "headerHeight": 76
+    },
+    {
+      "width": 740,
+      "route": "/es",
+      "overflow": false,
+      "headerHeight": 76
+    },
+    {
+      "width": 740,
+      "route": "/es/about",
+      "overflow": false,
+      "headerHeight": 76,
+      "portrait": true
+    },
+    {
+      "width": 740,
+      "route": "/es/work",
+      "overflow": false,
+      "headerHeight": 76
+    },
+    {
+      "width": 740,
+      "route": "/es/contact",
+      "overflow": false,
+      "headerHeight": 76
+    },
+    {
+      "width": 740,
+      "route": "/writing",
+      "overflow": false,
+      "headerHeight": 76
+    },
+    {
+      "width": 741,
+      "route": "/es",
+      "overflow": false,
+      "headerHeight": 92
+    },
+    {
+      "width": 741,
+      "route": "/es/about",
+      "overflow": false,
+      "headerHeight": 92,
+      "portrait": true
+    },
+    {
+      "width": 741,
+      "route": "/es/work",
+      "overflow": false,
+      "headerHeight": 92
+    },
+    {
+      "width": 741,
+      "route": "/es/contact",
+      "overflow": false,
+      "headerHeight": 92
+    },
+    {
+      "width": 741,
+      "route": "/writing",
+      "overflow": false,
+      "headerHeight": 92
+    },
+    {
+      "width": 1024,
+      "route": "/es",
+      "overflow": false,
+      "headerHeight": 92
+    },
+    {
+      "width": 1024,
+      "route": "/es/about",
+      "overflow": false,
+      "headerHeight": 92,
+      "portrait": true
+    },
+    {
+      "width": 1024,
+      "route": "/es/work",
+      "overflow": false,
+      "headerHeight": 92
+    },
+    {
+      "width": 1024,
+      "route": "/es/contact",
+      "overflow": false,
+      "headerHeight": 92
+    },
+    {
+      "width": 1024,
+      "route": "/writing",
+      "overflow": false,
+      "headerHeight": 92
+    },
+    {
+      "width": 1440,
+      "route": "/es",
+      "overflow": false,
+      "headerHeight": 92
+    },
+    {
+      "width": 1440,
+      "route": "/es/about",
+      "overflow": false,
+      "headerHeight": 92,
+      "portrait": true
+    },
+    {
+      "width": 1440,
+      "route": "/es/work",
+      "overflow": false,
+      "headerHeight": 92
+    },
+    {
+      "width": 1440,
+      "route": "/es/contact",
+      "overflow": false,
+      "headerHeight": 92
+    },
+    {
+      "width": 1440,
+      "route": "/writing",
+      "overflow": false,
+      "headerHeight": 92
+    }
+  ],
+  "fallback": {
+    "noJs": {
+      "work": "flex",
+      "languages": "flex",
+      "menu": "none",
+      "portrait": true,
+      "overflow": false
+    },
+    "changedPreference": {
+      "open": true,
+      "transform": "none",
+      "lock": "hidden"
+    }
+  },
+  "build": "passed",
+  "typecheck": "passed",
+  "node_tests": 25
+}
