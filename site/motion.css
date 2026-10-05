@@ -282,7 +282,7 @@ html.opening-pending body{background:var(--bg)}.motion-enter::before{content:'';
 }
 @media(max-width:380px){.site-menu nav a{font-size:40px}.menu-inner{padding-left:24px;padding-right:24px}}
 @media(max-width:740px){html:not(.navigation-ready) .portfolio-header{height:auto;min-height:76px;flex-wrap:wrap;padding-right:0;gap:8px 20px}html:not(.navigation-ready) .portfolio-header nav,html:not(.navigation-ready) .portfolio-header .header-end{display:flex}html:not(.navigation-ready) .floating-menu-button{display:none}}
-@media(max-width:740px){.footer-invitation{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;min-width:0}.footer-invitation h2{min-width:0;font-size:clamp(30px,8vw,44px);overflow-wrap:break-word}.footer-invitation .round-link{width:56px;height:56px;translate:none}.footer-meta nav{flex-wrap:wrap;gap:8px 20px}.studio-footer::after{display:none}}
+@media(max-width:740px){.footer-invitation{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;min-width:0}.footer-invitation h2{min-width:0;font-size:clamp(30px,8vw,44px);overflow-wrap:break-word}.footer-invitation .round-link{width:56px;height:56px;translate:none}.footer-meta nav{flex-wrap:wrap;gap:8px 20px}}
 .about-layout{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr)}.about-portrait{max-width:440px}.about-layout .page-body a{overflow-wrap:anywhere}
 @media(max-width:1000px){.about-layout{grid-template-columns:1fr;gap:36px}.about-portrait{position:static;width:100%}.footer-meta{flex-wrap:wrap;align-items:flex-start}.footer-meta nav{flex-wrap:wrap}}
 
