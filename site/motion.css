@@ -285,3 +285,16 @@ html.opening-pending body{background:var(--bg)}.motion-enter::before{content:'';
 @media(max-width:740px){.footer-invitation{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;min-width:0}.footer-invitation h2{min-width:0;font-size:clamp(30px,8vw,44px);overflow-wrap:break-word}.footer-invitation .round-link{width:56px;height:56px;translate:none}.footer-meta nav{flex-wrap:wrap;gap:8px 20px}.studio-footer::after{display:none}}
 .about-layout{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr)}.about-portrait{max-width:440px}.about-layout .page-body a{overflow-wrap:anywhere}
 @media(max-width:1000px){.about-layout{grid-template-columns:1fr;gap:36px}.about-portrait{position:static;width:100%}.footer-meta{flex-wrap:wrap;align-items:flex-start}.footer-meta nav{flex-wrap:wrap}}
+
+.floating-menu-button .menu-top-label{display:none;transform:none!important;width:auto;height:auto;background:none;font-size:13px;font-weight:400;line-height:1.4}
+.menu-visible .floating-menu-button .menu-bar{transform:none}
+@media(max-width:740px){
+ .floating-menu-button,.is-scrolled .floating-menu-button{position:absolute;top:16px;right:max(20px,env(safe-area-inset-right));background:transparent;color:var(--text);gap:0}
+ .floating-menu-button .menu-top-label{display:block}
+ .floating-menu-button .menu-bar{display:none}
+ .menu-scrolled .floating-menu-button{position:fixed;background:#1c1d20;color:#f0eee8;gap:6px}
+ .menu-scrolled .floating-menu-button .menu-top-label{display:none}
+ .menu-scrolled .floating-menu-button .menu-bar{display:block}
+}
+
+@media(max-width:740px){.menu-visible:not(.menu-scrolled) .floating-menu-button{background:transparent;color:var(--text)}}

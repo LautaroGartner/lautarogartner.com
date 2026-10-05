@@ -133,7 +133,7 @@
  root.dataset.scrollDirection='down';let directionOrigin=scrollY;
  const footer=document.querySelector('.studio-footer');let scrollFrame=0;
  const paintScroll=()=>{
-  scrollFrame=0;if(Math.abs(scrollY-directionOrigin)>=12){root.dataset.scrollDirection=scrollY>directionOrigin?'down':'up';directionOrigin=scrollY;}root.classList.toggle('is-scrolled',scrollY>Math.min(260,innerHeight*.45));
+  scrollFrame=0;if(Math.abs(scrollY-directionOrigin)>=12){root.dataset.scrollDirection=scrollY>directionOrigin?'down':'up';directionOrigin=scrollY;}root.classList.toggle('is-scrolled',scrollY>Math.min(260,innerHeight*.45));root.classList.toggle('menu-scrolled',scrollY>76);
   if(footer){const box=footer.getBoundingClientRect();const progress=reduced.matches?1:Math.max(0,Math.min(1,(innerHeight-box.top)/box.height));footer.style.setProperty('--footer-progress',progress.toFixed(4));footer.style.setProperty('--footer-bend',`${Math.round(110*(1-progress))}px`);footer.style.setProperty('--footer-shift',`${Math.round(45*(1-progress))}px`);}
  };
  window.addEventListener('scroll',()=>{if(!scrollFrame)scrollFrame=requestAnimationFrame(paintScroll);},{passive:true});window.addEventListener('resize',paintScroll);paintScroll();

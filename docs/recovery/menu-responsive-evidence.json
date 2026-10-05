@@ -609,5 +609,43 @@
         "lock": "hidden"
       }
     }
+  },
+  "mobile_menu_label": {
+    "at_top": "Menu text, in the header",
+    "after_scroll": "fixed hamburger once the header leaves view (76px)",
+    "verification": [
+      {
+        "reduced": false,
+        "top": {
+          "label": "block",
+          "bars": "none",
+          "position": "absolute",
+          "overflow": false
+        },
+        "scrolled": {
+          "label": "none",
+          "bars": "block",
+          "position": "fixed",
+          "overflow": false
+        },
+        "openCloseAndReturn": "passed"
+      },
+      {
+        "reduced": true,
+        "top": {
+          "label": "block",
+          "bars": "none",
+          "position": "absolute",
+          "overflow": false
+        },
+        "scrolled": {
+          "label": "none",
+          "bars": "block",
+          "position": "fixed",
+          "overflow": false
+        },
+        "openCloseAndReturn": "passed"
+      }
+    ]
   }
 }
