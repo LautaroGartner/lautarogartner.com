@@ -11,7 +11,7 @@ function htmlFiles(directory) {
   });
 }
 
-fs.copyFileSync(path.join(process.cwd(), "public", "admin-edit.js"), path.join(dist, "admin-edit.js"));
+fs.cpSync(path.join(process.cwd(), "public"), dist, { recursive: true });
 let count = 0;
 for (const file of htmlFiles(dist)) {
   if (file.includes(`${path.sep}admin${path.sep}`)) continue;

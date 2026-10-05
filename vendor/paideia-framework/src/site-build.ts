@@ -83,11 +83,13 @@ function renderHead(options: {
   structuredData?: unknown;
   robots?: string;
   canonical?: boolean;
+  canonicalPath?: string;
+  alternates?: { language: string; path: string }[];
   language?: string;
 }): string {
   const canonical = options.canonical === false
     ? null
-    : canonicalUrl(options.site, options.path);
+    : canonicalUrl(options.site, options.canonicalPath ?? options.path);
   const author = options.site.author
     ? `\n    <meta name="author" content="${escapeHtml(options.site.author)}">`
     : "";
@@ -130,7 +132,7 @@ function renderHead(options: {
     <meta name="twitter:card" content="${imageUrl ? "summary_large_image" : "summary"}">
     <meta name="twitter:title" content="${escapeHtml(options.title)}">
     <meta name="twitter:description" content="${escapeHtml(options.description)}">
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">${author}${canonicalLink}${structuredData}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">${author}${canonicalLink}${(options.alternates ?? []).map(a => `\n    <link rel="alternate" hreflang="${escapeHtml(a.language)}" href="${escapeHtml(canonicalUrl(options.site, a.path) ?? a.path)}">`).join("")}${structuredData}
     <script defer data-website-id="dfid_TicEthGphV3CzxqMiE8Oq" data-domain="www.lautarogartner.com" src="https://datafa.st/js/script.js"></script>
     <script>
       (() => {
@@ -888,6 +890,10 @@ function renderLayout(options: {
   structuredData?: unknown;
   robots?: string;
   canonical?: boolean;
+  canonicalPath?: string;
+  alternates?: { language: string; path: string }[];
+  headerHtml?: string;
+  footerHtml?: string;
   language?: string;
 }): string {
   const shellClass = options.shell === "full"
@@ -914,6 +920,8 @@ function renderLayout(options: {
       structuredData: options.structuredData,
       robots: options.robots,
       canonical: options.canonical,
+      canonicalPath: options.canonicalPath,
+      alternates: options.alternates,
     })}
     <style>
       ${renderStyles()}${customStyles}
@@ -921,11 +929,11 @@ function renderLayout(options: {
   </head>
   <body>
     <div class="${shellClass}">
-      ${renderHeader(options.site, options.path)}
-      <main>
+      ${options.headerHtml ?? options.site.headerHtml ?? renderHeader(options.site, options.path)}
+      <main id="content" tabindex="-1">
 ${options.body}
       </main>
-      ${renderFooter(options.site)}
+      ${options.footerHtml ?? options.site.footerHtml ?? renderFooter(options.site)}
     </div>
   </body>
 </html>
@@ -990,10 +998,10 @@ export function generateSitePage(
   site: SiteDefinition,
   page: SitePage
 ): string {
-  const title =
+  const title = page.seoTitle ?? (
     page.path === "/"
       ? site.title
-      : `${page.title} - ${AUTHOR_NAME}`;
+      : `${page.title} - ${site.author ?? AUTHOR_NAME}`);
 
   const description =
     page.description ?? site.description;
@@ -1014,7 +1022,7 @@ export function generateSitePage(
     normalizePath(page.path) === "/" && !page.html
       ? renderPostList(site.posts)
       : "";
-  const canonical = canonicalUrl(site, page.path);
+  const canonical = canonicalUrl(site, page.canonicalPath ?? page.path);
   const structuredData = {
     "@context": "https://schema.org",
     "@type": isAbout ? "AboutPage" : "WebSite",
@@ -1039,6 +1047,11 @@ export function generateSitePage(
     body: `${pageBody}
 ${postList}`,
     shell: page.shell,
+    canonicalPath: page.canonicalPath,
+    headerHtml: page.headerHtml,
+    footerHtml: page.footerHtml,
+    imagePath: page.imagePath,
+    alternates: page.alternates,
     language: page.language,
     structuredData,
   });
@@ -1335,8 +1348,8 @@ export function generateSitemapXml(site: SiteDefinition): string {
   const orderedPosts = sortPosts(site.posts);
   const urls: string[] = [];
 
-  for (const page of site.pages) {
-    const canonical = canonicalUrl(site, page.path);
+  for (const page of site.pages.filter(page => !page.canonicalPath || page.canonicalPath === page.path)) {
+    const canonical = canonicalUrl(site, page.canonicalPath ?? page.path);
     if (canonical) {
       urls.push(`  <url>
     <loc>${escapeHtml(canonical)}</loc>

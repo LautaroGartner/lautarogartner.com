@@ -2,6 +2,8 @@ import { requireAuth } from "../server/auth.mjs";
 import { listContent } from "../server/content.mjs";
 import { generatePostPage, generateSitePage } from "../vendor/paideia-framework/build/site-build.js";
 
+import { createSite } from '../site/presentation.mjs';
+
 function clean(item) {
   const { kind: _kind, sha: _sha, status: _status, ...content } = item;
   return content;
@@ -32,29 +34,14 @@ export default async function handler(req, res) {
     if (item.kind === "post") posts.push(previewItem);
     else pages.push(previewItem);
 
-    const site = {
-      title: settings.title,
-      description: settings.description,
-      url: settings.url,
-      author: settings.author,
-      authorUrl: settings.authorUrl,
-      followLabel: settings.followLabel,
-      sourceUrl: settings.sourceUrl,
-      language: "en",
-      posts,
-      pages: [
-        { path: "/", title: settings.title, description: settings.description, body: "", nav: false },
-        ...pages,
-      ],
-    };
+    const site = createSite(settings, posts, pages);
 
     let html = item.kind === "post"
       ? generatePostPage(site, previewItem)
       : generateSitePage(site, previewItem);
 
     html = html
-      .replace(/\s*<script defer data-website-id="dfid_TicEthGphV3CzxqMiE8Oq" data-domain="www\.lautarogartner\.com" src="https:\/\/datafa\.st\/js\/script\.js"><\/script>/, "")
-      .replace("<head>", `<head>\n    <base href="${settings.url.replace(/\/+$/, "")}/">`);
+      .replace(/\s*<script defer data-website-id="dfid_TicEthGphV3CzxqMiE8Oq" data-domain="www\.lautarogartner\.com" src="https:\/\/datafa\.st\/js\/script\.js"><\/script>/, "");
 
     res.setHeader("Content-Type", "text/html; charset=utf-8");
     return res.status(200).send(html);
