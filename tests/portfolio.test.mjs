@@ -63,7 +63,7 @@ test('every local asset and anchor in generated commercial pages resolves',()=>{
  for(const page of site.pages.filter(p=>['/','/es','/web','/web/es'].includes(p.path))){
   const html=generateSitePage(site,page);
   for(const m of html.matchAll(/(?:src|href)="(\/[^"?#]*)(?:#([^"]+))?"/g)){
-   const pathname=m[1],anchor=m[2];const target=pathname.endsWith('.js')||pathname.endsWith('.svg')||pathname.endsWith('.jpg')||pathname.endsWith('.webp')?`dist${pathname}`:pathname==='/'?'dist/index.html':`dist${pathname}/index.html`;
+   const pathname=m[1],anchor=m[2];const target= /\.[a-z0-9]+$/i.test(pathname)?`dist${pathname}`:pathname==='/'?'dist/index.html':`dist${pathname}/index.html`;
    assert.ok(fs.existsSync(target),`${page.path}: ${pathname}`);if(anchor) assert.ok(fs.readFileSync(target,'utf8').includes(`id="${anchor}"`));
   }
   for(const m of html.matchAll(/href="#([^"]+)"/g)) assert.ok(html.includes(`id="${m[1]}"`));

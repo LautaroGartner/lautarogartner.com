@@ -132,7 +132,12 @@ function renderHead(options: {
     <meta name="twitter:card" content="${imageUrl ? "summary_large_image" : "summary"}">
     <meta name="twitter:title" content="${escapeHtml(options.title)}">
     <meta name="twitter:description" content="${escapeHtml(options.description)}">
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">${author}${canonicalLink}${(options.alternates ?? []).map(a => `\n    <link rel="alternate" hreflang="${escapeHtml(a.language)}" href="${escapeHtml(canonicalUrl(options.site, a.path) ?? a.path)}">`).join("")}${structuredData}
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any">
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#f0eee8">${author}${canonicalLink}${(options.alternates ?? []).map(a => `\n    <link rel="alternate" hreflang="${escapeHtml(a.language)}" href="${escapeHtml(canonicalUrl(options.site, a.path) ?? a.path)}">`).join("")}${structuredData}
     <script defer data-website-id="dfid_TicEthGphV3CzxqMiE8Oq" data-domain="www.lautarogartner.com" src="https://datafa.st/js/script.js"></script>
     <script>
       (() => {
