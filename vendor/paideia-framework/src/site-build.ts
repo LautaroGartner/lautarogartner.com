@@ -1146,7 +1146,7 @@ export function generateSiteManifestWithCapabilities(
       language: siteLanguage(site),
       pages: site.pages.map((page) => ({
         path: normalizePath(page.path),
-        canonical: canonicalUrl(site, page.path),
+        canonical: canonicalUrl(site, page.canonicalPath ?? page.path),
         title: page.title,
         description: page.description ?? null,
         nav: page.nav !== false,
@@ -1298,7 +1298,7 @@ export function generateContextJson(site: SiteDefinition): string {
     },
     pages: site.pages.map((page) => ({
       path: normalizePath(page.path),
-      canonical: canonicalUrl(site, page.path),
+      canonical: canonicalUrl(site, page.canonicalPath ?? page.path),
       title: page.title,
       description:
         page.description ?? site.description,
