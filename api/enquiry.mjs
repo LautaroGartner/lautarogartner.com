@@ -1,3 +1,4 @@
+import {isPhoneCountry} from '../site/phone-countries.mjs';
 import {enquiryServices} from '../site/enquiry-options.mjs';
 import {enquiryEmail} from './enquiry-email.mjs';
 import {createHmac, randomUUID, timingSafeEqual} from 'node:crypto';
@@ -42,7 +43,8 @@ export function createEnquiryHandler({env=process.env, request=fetch, now=Date.n
   if (limited(req,secret,time,req.method)) {res.setHeader('Retry-After','60');return res.status(429).json({error:'rate_limited'});}
   if(req.method==='GET') {
    const value=`${time}.${randomUUID()}`;
-   return res.status(200).json({token:`${value}.${signature(value,secret)}`});
+   const country=req.headers['x-vercel-ip-country'];
+   return res.status(200).json({token:`${value}.${signature(value,secret)}`,country:isPhoneCountry(country)?country:null});
   }
   if (!/^application\/json(?:;|$)/i.test(req.headers['content-type'] || '')) return res.status(415).json({error:'content_type'});
   let body;
@@ -52,14 +54,14 @@ export function createEnquiryHandler({env=process.env, request=fetch, now=Date.n
    body=JSON.parse(raw);
   } catch {return res.status(400).json({error:'validation'});}
   if (!body || typeof body!=='object' || Array.isArray(body) || !validToken(body.token,secret,time)) return res.status(400).json({error:'token'});
-  const {name,organization='',service,email,phone='',project,website='',budget='',company='',language}=body;
-  if (typeof name!=='string' || !name.trim() || name.length>120 || typeof phone!=='string' || phone.length>40 || typeof organization!=='string' || organization.length>160 || !enquiryServices.some(option=>option.value===service) || typeof email!=='string' || email.length>254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || /[\r\n]/.test(email) || typeof project!=='string' || project.trim().length<10 || project.length>4000 || typeof website!=='string' || website.length>2048 || typeof budget!=='string' || budget.length>100 || company!=='' || !['en','es'].includes(language)) return res.status(400).json({error:'validation'});
+  const {name,organization='',service,email,phone='',phoneCountry='',project,website='',budget='',company='',language}=body;
+  if (typeof name!=='string' || !name.trim() || name.length>120 || typeof phone!=='string' || phone.length>40 || (phoneCountry!=='' && !isPhoneCountry(phoneCountry)) || typeof organization!=='string' || organization.length>160 || !enquiryServices.some(option=>option.value===service) || typeof email!=='string' || email.length>254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || /[\r\n]/.test(email) || typeof project!=='string' || project.trim().length<10 || project.length>4000 || typeof website!=='string' || website.length>2048 || typeof budget!=='string' || budget.length>100 || company!=='' || !['en','es'].includes(language)) return res.status(400).json({error:'validation'});
   const nonce=body.token.split('.')[1];
   try {
    const response=await request('https://api.resend.com/emails', {
     method:'POST', signal:AbortSignal.timeout(10000),
     headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`, 'Content-Type':'application/json', 'Idempotency-Key':`enquiry/${nonce}`},
-    body:JSON.stringify({from:env.ENQUIRY_FROM,to:[RECIPIENT],reply_to:email.trim(),subject:language==='es'?'Consulta web — lautarogartner.com':'Website enquiry — lautarogartner.com',...enquiryEmail({name, organization, service, email, phone, project, website, budget, language})})
+    body:JSON.stringify({from:env.ENQUIRY_FROM,to:[RECIPIENT],reply_to:email.trim(),subject:language==='es'?'Consulta web — lautarogartner.com':'Website enquiry — lautarogartner.com',...enquiryEmail({name, organization, service, email, phone, phoneCountry, project, website, budget, language})})
    });
    const receipt=await response.json();
    if (!response.ok || typeof receipt.id!=='string' || !receipt.id) return res.status(502).json({error:'delivery'});

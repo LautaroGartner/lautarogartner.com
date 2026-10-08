@@ -2,11 +2,14 @@
  const form=document.querySelector('[data-contact-form]');if(!form)return;
  const es=form.dataset.contactLanguage==='es',button=form.querySelector('button[type=submit]'),status=form.querySelector('.contact-status');
  const labels=es?{send:'Enviar consulta ↗',busy:'Enviando…',ready:'',success:'¡Mensaje enviado! Gracias por escribirme.',error:'No se pudo enviar. Reintentá o escribime por email.',rate:'Esperá un minuto antes de volver a intentar, o escribime por email.',token:'El formulario no está disponible ahora. Podés escribirme directamente por email.'}:{send:'Send enquiry ↗',busy:'Sending…',ready:'',success:'Message sent. Thank you!',error:'Couldn’t send. Try again or email me directly.',rate:'Please wait a minute before retrying, or email me directly.',token:'The form is unavailable right now. You can email me directly.'};
+ const phoneCountry=form.querySelector('[name=phoneCountry]');let countryChanged=false;
+ phoneCountry.addEventListener('change',()=>{countryChanged=true;});
  let tokenPromise,token='',pending=false,accepted=false,submittedBody,preparedAt=0;
  const message=(text,state)=>{status.textContent=text;status.dataset.state=state;};
  const setLabel=text=>{(button.querySelector('.magnetic-label')||button).textContent=text;};
- const prepare=()=>tokenPromise ||= fetch('/api/enquiry',{headers:{Accept:'application/json'},credentials:'same-origin',signal:AbortSignal.timeout(10000)}).then(async response=>{const data=await response.json();if(!response.ok||!data.token)throw Error('unavailable');token=data.token;preparedAt=Date.now();return token;}).catch(()=>{tokenPromise=null;throw Error('unavailable');});
- // Prepare when the visitor engages, keeping a signed token out of public static HTML.
+ const prepare=()=>tokenPromise ||= fetch('/api/enquiry',{headers:{Accept:'application/json'},credentials:'same-origin',signal:AbortSignal.timeout(10000)}).then(async response=>{const data=await response.json();if(!response.ok||!data.token)throw Error('unavailable');token=data.token;preparedAt=Date.now();if(!countryChanged&&typeof data.country==='string'&&Array.from(phoneCountry.options).some(option=>option.value===data.country))phoneCountry.value=data.country;return token;}).catch(()=>{tokenPromise=null;throw Error('unavailable');});
+ // Prepare a fresh token and the IP country on load; manual country choices take priority.
+ prepare().catch(()=>{});
  form.addEventListener('focusin',()=>{if(!token&&!tokenPromise)prepare().catch(()=>{});});
  button.disabled=false;
  form.addEventListener('submit',async event=>{
@@ -17,8 +20,8 @@
    if(!token)await prepare();
    if(Date.now()-preparedAt<1100)await new Promise(resolve=>setTimeout(resolve,1100-(Date.now()-preparedAt)));
    // Keep the first request intact on retries: the provider uses its token as an idempotency key.
-   if(!submittedBody){const values=new FormData(form);submittedBody={token,name:values.get('name'),organization:values.get('organization'),website:values.get('website'),service:values.get('service'),email:values.get('email'),phone:values.get('phone'),project:values.get('project'),budget:values.get('budget'),company:values.get('company'),language:es?'es':'en'};}
-   form.querySelectorAll('input,textarea').forEach(field=>{field.readOnly=true;});form.querySelector('select').disabled=true;
+   if(!submittedBody){const values=new FormData(form);submittedBody={token,name:values.get('name'),organization:values.get('organization'),website:values.get('website'),service:values.get('service'),email:values.get('email'),phone:values.get('phone'),phoneCountry:values.get('phoneCountry'),project:values.get('project'),budget:values.get('budget'),company:values.get('company'),language:es?'es':'en'};}
+   form.querySelectorAll('input,textarea').forEach(field=>{field.readOnly=true;});form.querySelectorAll('select').forEach(field=>{field.disabled=true;});
    response=await fetch('/api/enquiry',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},credentials:'same-origin',body:JSON.stringify(submittedBody),signal:AbortSignal.timeout(15000)});
    const data=await response.json();
    if(!response.ok||data.accepted!==true||typeof data.reference!=='string')throw Error('rejected');
@@ -31,7 +34,7 @@
   }catch{
    message(response?.status===429?labels.rate:response?.status===503?labels.token:labels.error,'error');
    // Token/validation rejection has not sent email; allow corrected details and a fresh token.
-   if(response?.status===400){submittedBody=null;token='';tokenPromise=null;form.querySelectorAll('input,textarea').forEach(field=>{field.readOnly=false;});form.querySelector('select').disabled=false;}
+   if(response?.status===400){submittedBody=null;token='';tokenPromise=null;form.querySelectorAll('input,textarea').forEach(field=>{field.readOnly=false;});form.querySelectorAll('select').forEach(field=>{field.disabled=false;});}
   }finally{
    pending=false;form.removeAttribute('aria-busy');button.disabled=accepted;setLabel(accepted?(es?'¡Gracias!':'Thank you!'):labels.send);status.focus();
   }
