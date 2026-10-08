@@ -49,7 +49,7 @@
     },
     "contact": {
       "heading": "Tell me about your website.",
-      "body": "Tell me what needs fixing, how your quote form should work or what your business needs from a new website. Include a page address if you have one.",
+      "body": "Tell me what you have in mind. Share your website if you have one.",
       "CTA": "Send me your page",
       "secondary": "Copy email",
       "success": "Email copied",
@@ -102,7 +102,6 @@
         "case": {
           "heading": "A quote request with the event details already in place.",
           "body": "For a cocktail service, an enquiry needs context: guest count, the service and any extras. Tiki’s configurator brings those choices together, shows an estimated total and prepares a WhatsApp handoff for personal confirmation.",
-          "limit": "This documents the implemented flow. An estimate is not a confirmed booking. No increase in enquiries, conversion or revenue has been measured here; PDF delivery was not tested in this review.",
           "cta": "Discuss your quote form"
         }
       },
@@ -270,7 +269,7 @@
     },
     "contact": {
       "heading": "Contame sobre tu web.",
-      "body": "Contame qué necesitás arreglar, cómo debería funcionar tu formulario de presupuesto o qué necesita tu negocio de una web nueva. Sumá la dirección de la página si ya tenés una.",
+      "body": "Contame qué tenés en mente. Compartí tu web si ya tenés una.",
       "CTA": "Mandame tu página",
       "secondary": "Copiar email",
       "success": "Email copiado",
@@ -323,7 +322,6 @@
         "case": {
           "heading": "Una solicitud de presupuesto con los detalles del evento.",
           "body": "Para un servicio de cócteles, una consulta necesita contexto: cantidad de invitados, servicio y extras. El configurador de Tiki reúne esas decisiones, muestra un total estimado y prepara un mensaje para WhatsApp con confirmación personal.",
-          "limit": "Este caso describe el recorrido implementado. Un estimado no confirma una reserva. No se midió acá un aumento de consultas, conversión o ingresos; la entrega del PDF no se probó en esta revisión.",
           "cta": "Hablemos de tu formulario de presupuesto"
         }
       },

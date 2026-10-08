@@ -1,7 +1,7 @@
 (() => {
  const form=document.querySelector('[data-contact-form]');if(!form)return;
  const es=form.dataset.contactLanguage==='es',button=form.querySelector('button[type=submit]'),status=form.querySelector('.contact-status');
- const labels=es?{send:'Enviar consulta ↗',busy:'Enviando…',ready:'',success:'El servicio de email aceptó tu consulta para enviarla. Gracias. Esto no confirma todavía la entrega en mi bandeja.',error:'No pudimos confirmar el envío. Tus datos siguen acá: reintentá el mismo mensaje o escribime directamente por email.',rate:'Esperá un minuto antes de volver a intentar, o escribime por email.',token:'El formulario no está disponible ahora. Podés escribirme directamente por email.'}:{send:'Send enquiry ↗',busy:'Sending…',ready:'',success:'The email service accepted your enquiry for sending. Thank you. This does not yet confirm delivery to my inbox.',error:'We couldn’t confirm sending. Your details are still here: retry the same message or email me directly.',rate:'Please wait a minute before retrying, or email me directly.',token:'The form is unavailable right now. You can email me directly.'};
+ const labels=es?{send:'Enviar consulta ↗',busy:'Enviando…',ready:'',success:'',error:'No se pudo enviar. Reintentá o escribime por email.',rate:'Esperá un minuto antes de volver a intentar, o escribime por email.',token:'El formulario no está disponible ahora. Podés escribirme directamente por email.'}:{send:'Send enquiry ↗',busy:'Sending…',ready:'',success:'',error:'Couldn’t send. Try again or email me directly.',rate:'Please wait a minute before retrying, or email me directly.',token:'The form is unavailable right now. You can email me directly.'};
  let tokenPromise,token='',pending=false,accepted=false,submittedBody,preparedAt=0;
  const message=(text,state)=>{status.textContent=text;status.dataset.state=state;};
  const setLabel=text=>{(button.querySelector('.magnetic-label')||button).textContent=text;};
@@ -17,13 +17,13 @@
    if(!token)await prepare();
    if(Date.now()-preparedAt<1100)await new Promise(resolve=>setTimeout(resolve,1100-(Date.now()-preparedAt)));
    // Keep the first request intact on retries: the provider uses its token as an idempotency key.
-   if(!submittedBody){const values=new FormData(form);submittedBody={token,email:values.get('email'),project:values.get('project'),website:values.get('website'),company:values.get('company'),language:es?'es':'en'};}
-   form.querySelectorAll('input,textarea').forEach(field=>{field.readOnly=true;});
+   if(!submittedBody){const values=new FormData(form);submittedBody={token,name:values.get('name'),organization:values.get('organization'),website:values.get('website'),service:values.get('service'),email:values.get('email'),project:values.get('project'),budget:values.get('budget'),company:values.get('company'),language:es?'es':'en'};}
+   form.querySelectorAll('input,textarea').forEach(field=>{field.readOnly=true;});form.querySelector('select').disabled=true;
    response=await fetch('/api/enquiry',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},credentials:'same-origin',body:JSON.stringify(submittedBody),signal:AbortSignal.timeout(15000)});
    const data=await response.json();
    if(!response.ok||data.accepted!==true||typeof data.reference!=='string')throw Error('rejected');
    accepted=true;message(labels.success,'success');
-   form.querySelectorAll('input,textarea').forEach(field=>{field.disabled=true;});
+   form.querySelectorAll('input,textarea,select').forEach(field=>{field.disabled=true;});
    // Only acceptance counts. No form values or recipient are sent to analytics.
    const key=`enquiry-accepted:${data.reference}`;
    let tracked=false;try{tracked=sessionStorage.getItem(key)==='1';if(!tracked)sessionStorage.setItem(key,'1');}catch{}
@@ -31,9 +31,9 @@
   }catch{
    message(response?.status===429?labels.rate:response?.status===503?labels.token:labels.error,'error');
    // Token/validation rejection has not sent email; allow corrected details and a fresh token.
-   if(response?.status===400){submittedBody=null;token='';tokenPromise=null;form.querySelectorAll('input,textarea').forEach(field=>{field.readOnly=false;});}
+   if(response?.status===400){submittedBody=null;token='';tokenPromise=null;form.querySelectorAll('input,textarea').forEach(field=>{field.readOnly=false;});form.querySelector('select').disabled=false;}
   }finally{
-   pending=false;form.removeAttribute('aria-busy');button.disabled=accepted;setLabel(accepted?(es?'Consulta aceptada':'Enquiry accepted'):labels.send);status.focus();
+   pending=false;form.removeAttribute('aria-busy');button.disabled=accepted;setLabel(accepted?(es?'¡Gracias!':'Thank you!'):labels.send);status.focus();
   }
  });
 })();
