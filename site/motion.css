@@ -319,3 +319,5 @@ html.opening-pending body{background:var(--bg)}.motion-enter::before{content:'';
 .route-contact .contact-field input:focus,.route-contact .contact-field textarea:focus,.route-contact .contact-field select:focus{border-color:#a9baff;outline:2px solid #a9baff;outline-offset:2px}
 
 .route-contact .contact-status[data-state=success]{min-height:0;padding:16px 18px;background:#26372e;border:1px solid #718d7b;border-radius:3px;color:#e1f3e7;font-size:16px;line-height:1.5}
+
+.phone-controls{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}.phone-controls>*{min-width:0}.phone-controls select{text-overflow:ellipsis}.phone-controls input{font-variant-numeric:tabular-nums}@media(max-width:360px){.phone-controls{grid-template-columns:minmax(0,1fr)}}
