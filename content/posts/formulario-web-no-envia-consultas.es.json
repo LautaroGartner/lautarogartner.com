@@ -10,5 +10,23 @@
   "topics": [
     "formularios",
     "arreglos web"
+  ],
+  "illustrations": [
+    {
+      "afterHeading": "«Enviado» y «recibido» son comprobaciones distintas",
+      "src": "/articles/contact-form/checks-es.svg",
+      "width": 1600,
+      "height": 660,
+      "alt": "Cuatro comprobaciones distintas: Intento, Aceptación, Recepción, Consulta real.",
+      "caption": "Un esquema del recorrido, no un reporte de resultados del sitio."
+    },
+    {
+      "afterHeading": "El cambio en mi propio formulario",
+      "src": "/articles/contact-form/contact-es-4k.jpg",
+      "width": 3840,
+      "height": 2160,
+      "alt": "Formulario de contacto de Lautaro Gärtner, con campos vacíos y botón de envío directo.",
+      "caption": "El formulario actual de mi sitio. Captura real en 4K; tocá la imagen para verla completa. Esta pantalla muestra el contacto, no acredita recepción ni ventas."
+    }
   ]
 }

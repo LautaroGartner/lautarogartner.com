@@ -21,6 +21,7 @@ export type SitePage = {
 };
 
 export type WritingPost = {
+  illustrations?: { afterHeading: string; src: string; alt: string; caption: string; width: number; height: number }[];
   language?: string;
   alternates?: { language: string; path: string }[];
   headerHtml?: string;

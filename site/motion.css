@@ -321,3 +321,14 @@ html.opening-pending body{background:var(--bg)}.motion-enter::before{content:'';
 .route-contact .contact-status[data-state=success]{min-height:0;padding:16px 18px;background:#26372e;border:1px solid #718d7b;border-radius:3px;color:#e1f3e7;font-size:16px;line-height:1.5}
 
 .phone-controls{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}.phone-controls>*{min-width:0}.phone-controls select{text-overflow:ellipsis}.phone-controls input{font-variant-numeric:tabular-nums}@media(max-width:360px){.phone-controls{grid-template-columns:minmax(0,1fr)}}
+
+/* Article endings keep reading navigation outside the shared footer. */
+main:has(.post-body){padding-bottom:clamp(88px,9vw,144px)}
+.article-navigation{display:flex;justify-content:space-between;gap:24px;margin-top:56px;padding-top:24px;border-top:1px solid var(--line);font-size:14px}
+.article-navigation a{display:inline-flex;align-items:center;min-height:44px;text-decoration:none}
+.article-navigation a:hover{text-decoration:underline}
+#article-top{scroll-margin-top:32px}
+.article-figure{margin:48px 0}
+.article-figure img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:4px}
+.article-figure figcaption{font-size:13px;line-height:1.65;color:var(--muted);margin-top:14px}
+@media(max-width:740px){main:has(.post-body){padding-bottom:80px}.article-navigation{margin-top:40px;gap:16px;font-size:13px}.article-figure{margin:36px 0}}

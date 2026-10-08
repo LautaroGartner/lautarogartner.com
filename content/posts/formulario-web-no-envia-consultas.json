@@ -10,5 +10,23 @@
   "topics": [
     "contact forms",
     "website repairs"
+  ],
+  "illustrations": [
+    {
+      "afterHeading": "“Sent” and “received” are different checks",
+      "src": "/articles/contact-form/checks-en.svg",
+      "width": 1600,
+      "height": 660,
+      "alt": "Four separate checks: Attempt, Acceptance, Receipt, Real enquiry.",
+      "caption": "A diagram of the journey, not a report of this website’s results."
+    },
+    {
+      "afterHeading": "The change to my own form",
+      "src": "/articles/contact-form/contact-en-4k.jpg",
+      "width": 3840,
+      "height": 2160,
+      "alt": "Lautaro Gärtner’s contact form, with empty fields and a direct submission button.",
+      "caption": "The current form on my website. Real 4K screenshot; open the image to view it in full. This screen shows the contact interface, not proof of receipt or sales."
+    }
   ]
 }
