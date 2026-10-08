@@ -308,3 +308,14 @@ html.opening-pending body{background:var(--bg)}.motion-enter::before{content:'';
 .round-submit:disabled,.round-submit:disabled:hover{color:#fff;background:#2144d5;opacity:1;transform:none}
 
 .contact-field select{display:block;box-sizing:border-box;width:100%;min-height:48px;border:0;border-radius:0;padding:10px 0 10px 40px;background:transparent;color:var(--text);font:18px/1.5 Arial,Helvetica,sans-serif;color-scheme:dark;cursor:pointer}.contact-field select:focus{outline:2px solid var(--accent);outline-offset:3px}.contact-field select:disabled{opacity:1;cursor:default}@media(max-width:740px){.contact-field select{font-size:16px;padding-left:30px}}
+
+/* Give each form control a visible surface against the contact page. */
+.route-contact .contact-field{border-top:0;padding:20px 0}
+.route-contact .contact-field label{margin-bottom:12px}
+.route-contact .contact-field input,.route-contact .contact-field textarea,.route-contact .contact-field select{box-sizing:border-box;min-height:54px;padding:14px 16px;background:#2b2d32;border:1px solid #74767d;border-radius:3px;color:#f0eee8}
+.route-contact .contact-field textarea{min-height:160px}
+.route-contact .contact-field input::placeholder,.route-contact .contact-field textarea::placeholder{color:#b2b2b4;opacity:1}
+.route-contact .contact-field input:hover,.route-contact .contact-field textarea:hover,.route-contact .contact-field select:hover{border-color:#a3a5ad}
+.route-contact .contact-field input:focus,.route-contact .contact-field textarea:focus,.route-contact .contact-field select:focus{border-color:#a9baff;outline:2px solid #a9baff;outline-offset:2px}
+
+.route-contact .contact-status[data-state=success]{min-height:0;padding:16px 18px;background:#26372e;border:1px solid #718d7b;border-radius:3px;color:#e1f3e7;font-size:16px;line-height:1.5}

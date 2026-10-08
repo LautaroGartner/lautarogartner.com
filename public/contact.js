@@ -1,7 +1,7 @@
 (() => {
  const form=document.querySelector('[data-contact-form]');if(!form)return;
  const es=form.dataset.contactLanguage==='es',button=form.querySelector('button[type=submit]'),status=form.querySelector('.contact-status');
- const labels=es?{send:'Enviar consulta ↗',busy:'Enviando…',ready:'',success:'',error:'No se pudo enviar. Reintentá o escribime por email.',rate:'Esperá un minuto antes de volver a intentar, o escribime por email.',token:'El formulario no está disponible ahora. Podés escribirme directamente por email.'}:{send:'Send enquiry ↗',busy:'Sending…',ready:'',success:'',error:'Couldn’t send. Try again or email me directly.',rate:'Please wait a minute before retrying, or email me directly.',token:'The form is unavailable right now. You can email me directly.'};
+ const labels=es?{send:'Enviar consulta ↗',busy:'Enviando…',ready:'',success:'¡Mensaje enviado! Gracias por escribirme.',error:'No se pudo enviar. Reintentá o escribime por email.',rate:'Esperá un minuto antes de volver a intentar, o escribime por email.',token:'El formulario no está disponible ahora. Podés escribirme directamente por email.'}:{send:'Send enquiry ↗',busy:'Sending…',ready:'',success:'Message sent. Thank you!',error:'Couldn’t send. Try again or email me directly.',rate:'Please wait a minute before retrying, or email me directly.',token:'The form is unavailable right now. You can email me directly.'};
  let tokenPromise,token='',pending=false,accepted=false,submittedBody,preparedAt=0;
  const message=(text,state)=>{status.textContent=text;status.dataset.state=state;};
  const setLabel=text=>{(button.querySelector('.magnetic-label')||button).textContent=text;};
@@ -17,7 +17,7 @@
    if(!token)await prepare();
    if(Date.now()-preparedAt<1100)await new Promise(resolve=>setTimeout(resolve,1100-(Date.now()-preparedAt)));
    // Keep the first request intact on retries: the provider uses its token as an idempotency key.
-   if(!submittedBody){const values=new FormData(form);submittedBody={token,name:values.get('name'),organization:values.get('organization'),website:values.get('website'),service:values.get('service'),email:values.get('email'),project:values.get('project'),budget:values.get('budget'),company:values.get('company'),language:es?'es':'en'};}
+   if(!submittedBody){const values=new FormData(form);submittedBody={token,name:values.get('name'),organization:values.get('organization'),website:values.get('website'),service:values.get('service'),email:values.get('email'),phone:values.get('phone'),project:values.get('project'),budget:values.get('budget'),company:values.get('company'),language:es?'es':'en'};}
    form.querySelectorAll('input,textarea').forEach(field=>{field.readOnly=true;});form.querySelector('select').disabled=true;
    response=await fetch('/api/enquiry',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},credentials:'same-origin',body:JSON.stringify(submittedBody),signal:AbortSignal.timeout(15000)});
    const data=await response.json();
