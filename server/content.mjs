@@ -33,9 +33,15 @@ export async function listContent() {
   return { posts, pages };
 }
 
+export function contentPath(post) {
+  const page = post.kind === "page";
+  if (!/^(?:es\/)?[a-z0-9]+(?:-[a-z0-9]+)*$/.test(post.slug) || (page && post.slug.includes("/"))) throw new Error("Invalid content slug");
+  const filename = post.slug.startsWith("es/") ? post.slug.slice(3) + ".es" : post.slug;
+  return `content/${page ? "pages" : "posts"}/${filename}.json`;
+}
+
 export async function writeContent(post) {
-  const directory = post.kind === "page" ? "pages" : "posts";
-  const pathname = `content/${directory}/${post.slug}.json`;
+  const pathname = contentPath(post);
   const { sha, ...content } = post;
   if (!token()) {
     await fs.writeFile(path.join(process.cwd(), pathname), `${JSON.stringify(content, null, 2)}\n`);

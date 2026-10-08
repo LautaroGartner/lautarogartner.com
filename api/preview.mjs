@@ -37,7 +37,7 @@ export default async function handler(req, res) {
     const site = createSite(settings, posts, pages);
 
     let html = item.kind === "post"
-      ? generatePostPage(site, previewItem)
+      ? generatePostPage(site, site.posts.find(post => post.slug === previewItem.slug) ?? previewItem)
       : generateSitePage(site, previewItem);
 
     html = html

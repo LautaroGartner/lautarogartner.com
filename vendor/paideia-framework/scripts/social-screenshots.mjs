@@ -56,6 +56,7 @@ const chromeProfileRoot = fs.mkdtempSync(
 );
 
 for (const post of captures) {
+  fs.mkdirSync(path.dirname(post.outputPath), { recursive: true });
   const result = spawnSync(
     chromePath,
     [

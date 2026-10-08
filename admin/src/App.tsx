@@ -7,6 +7,7 @@ type View = "posts" | "pages" | "settings";
 type ContentItem = {
   kind: ContentKind;
   slug: string;
+  language?: string;
   path?: string;
   title: string;
   description: string;
@@ -33,6 +34,7 @@ let csrfToken = "";
 const today = () => new Date().toISOString().slice(0, 10);
 const emptyPost = (): ContentItem => ({ kind: "post", slug: "", title: "Untitled post", description: "", publishedAt: today(), topics: [], body: "", tokenSummary: "", status: "draft" });
 const slugify = (value: string) => value.toLowerCase().trim().replace(/[’'\"]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const articleSlugify = (value: string) => value.startsWith("es/") ? "es/" + slugify(value.slice(3)) : slugify(value);
 const editorTarget = () => { const params = new URLSearchParams(window.location.search); return { kind: params.get("type"), slug: params.get("slug") }; };
 const isLocal = ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
 const publicUrl = (path: string) => isLocal ? `http://127.0.0.1:3000${path}` : path;
@@ -158,7 +160,7 @@ export function App() {
 function Editor({ item, topics, busy, onTopics, onUpdate, onSave, onPreview }: { item: ContentItem; topics: string; busy: boolean; onTopics: (value: string) => void; onUpdate: <K extends keyof ContentItem>(key: K, value: ContentItem[K]) => void; onSave: (status?: Status) => void; onPreview: () => void }) {
   const page = item.kind === "page";
   return <main className="editor"><div className="editor-heading"><div><p className="eyebrow">{page ? "Page" : item.status}</p><h1>{page ? "Edit page" : "Edit post"}</h1></div><div className="editor-actions"><button disabled={busy} onClick={onPreview}>{busy ? "Rendering…" : "Preview"}</button>{page ? <button className="primary" disabled={busy} onClick={() => onSave()}>Save page</button> : <><button disabled={busy} onClick={() => onSave("draft")}>Save draft</button><button className="primary" disabled={busy} onClick={() => onSave("published")}>Publish</button></>}</div></div>
-    <div className="fields"><label><span>Title</span><input className="title-input" value={item.title} onChange={event => { onUpdate("title", event.target.value); if (!item.sha && !page) onUpdate("slug", slugify(event.target.value)); }} /></label>{!page && <label><span>Slug</span><input value={item.slug} onChange={event => onUpdate("slug", slugify(event.target.value))} /></label>}<label><span>Description</span><textarea rows={2} value={item.description} onChange={event => onUpdate("description", event.target.value)} /></label>{!page && <div className="field-pair"><label><span>Topics</span><input value={topics} onChange={event => onTopics(event.target.value)} /></label><label><span>Date</span><input type="date" value={item.publishedAt} onChange={event => onUpdate("publishedAt", event.target.value)} /></label></div>}<label className="body-label"><span>Markdown</span><textarea value={item.body} onChange={event => onUpdate("body", event.target.value)} /></label><div className="word-count">{item.body.trim().split(/\s+/).filter(Boolean).length} words · {item.body.length.toLocaleString()} characters</div></div>
+    <div className="fields"><label><span>Title</span><input className="title-input" value={item.title} onChange={event => { onUpdate("title", event.target.value); if (!item.sha && !page) onUpdate("slug", slugify(event.target.value)); }} /></label>{!page && <label><span>Slug</span><input value={item.slug} onChange={event => onUpdate("slug", articleSlugify(event.target.value))} /></label>}<label><span>Description</span><textarea rows={2} value={item.description} onChange={event => onUpdate("description", event.target.value)} /></label>{!page && <div className="field-pair"><label><span>Topics</span><input value={topics} onChange={event => onTopics(event.target.value)} /></label><label><span>Date</span><input type="date" value={item.publishedAt} onChange={event => onUpdate("publishedAt", event.target.value)} /></label></div>}<label className="body-label"><span>Markdown</span><textarea value={item.body} onChange={event => onUpdate("body", event.target.value)} /></label><div className="word-count">{item.body.trim().split(/\s+/).filter(Boolean).length} words · {item.body.length.toLocaleString()} characters</div></div>
   </main>;
 }
 

@@ -82,8 +82,8 @@ const runtimeCapabilities = [
 
 const socialAssetsRoot = path.join("assets", "social");
 const socialArtifacts = existsSync(socialAssetsRoot)
-  ? readdirSync(socialAssetsRoot)
-      .filter((entry) => entry.endsWith(".png"))
+  ? readdirSync(socialAssetsRoot, { recursive: true })
+      .filter((entry): entry is string => typeof entry === "string" && entry.endsWith(".png"))
       .sort()
       .map((entry) => ({
         path: `social/${entry}`,

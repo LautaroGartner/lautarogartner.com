@@ -157,6 +157,12 @@ function renderHead(options: {
             (today.getTime() - published.getTime()) / 86400000
           );
 
+          if (document.documentElement.lang === "es") {
+            const relative = new Intl.RelativeTimeFormat("es", { numeric: "auto" });
+            if (diffDays < 30) return relative.format(-Math.max(0, diffDays), "day");
+            if (diffDays < 365) return relative.format(-Math.floor(diffDays / 30), "month");
+            return relative.format(-Math.floor(diffDays / 365), "year");
+          }
           if (diffDays <= 0) return "today";
           if (diffDays === 1) return "1d ago";
           if (diffDays < 30) return diffDays + "d ago";
@@ -229,8 +235,8 @@ function postOutputPath(post: WritingPost): string {
   return `${post.slug}/index.html`;
 }
 
-function formatDate(value: string): string {
-  return new Intl.DateTimeFormat("en", {
+function formatDate(value: string, language = "en"): string {
+  return new Intl.DateTimeFormat(language, {
     month: "short",
     day: "numeric",
     year: "numeric",
@@ -359,7 +365,7 @@ function renderInline(value: string): string {
     rendered += escapeHtml(value.slice(cursor, index));
 
     if (match[2]) {
-      rendered += `<strong>${escapeHtml(match[2])}</strong>`;
+      rendered += `<strong>${renderInline(match[2])}</strong>`;
     } else {
       const href = match[4];
       const safeHref = /^(?:https?:\/\/|mailto:|\/)/.test(href) ? href : "#";
@@ -402,7 +408,7 @@ function renderBody(value: string): string {
       continue;
     }
 
-    if (block.split("\n").every((line) => line.trim().startsWith("* "))) {
+    if (block.split("\n").every((line) => /^[*-] /.test(line.trim()))) {
       const items = block
         .split("\n")
         .map((line) => `<li>${renderInline(line.trim().slice(2))}</li>`)
@@ -412,6 +418,16 @@ function renderBody(value: string): string {
       continue;
     }
 
+    if (block.split("\n").every((line) => /^\d+\. /.test(line.trim()))) {
+      const items = block.split("\n").map(line => `<li>${renderInline(line.trim().replace(/^\d+\. /, ""))}</li>`).join("");
+      rendered.push(`<ol>${items}</ol>`);
+      continue;
+    }
+    if (block.split("\n").every((line) => line.trim().startsWith(">"))) {
+      const lines = block.split("\n").map(line => line.trim().replace(/^> ?/, "")).filter(Boolean);
+      rendered.push(`<blockquote>${lines.map(line => `<p>${renderInline(line)}</p>`).join("")}</blockquote>`);
+      continue;
+    }
     const paragraph = block.replace(/\s*\n\s*/g, " ");
     const className = /^\[[^\]]+\]\([^)\s]+\)$/.test(paragraph)
       ? ` class="page-actions"`
@@ -972,7 +988,7 @@ function renderPostList(posts: WritingPost[], options: {
           ${visiblePosts
             .map(
               (post) => `<article class="post-item">
-            <time datetime="${escapeHtml(post.publishedAt)}">${escapeHtml(formatDate(post.publishedAt))}</time>
+            <time datetime="${escapeHtml(post.publishedAt)}">${escapeHtml(formatDate(post.publishedAt, post.language))}</time>
             <div>
               <h2><a class="post-title-link" href="${escapeHtml(postPath(post))}">${escapeHtml(post.title)}</a></h2>
               ${renderPostTopics(post)}
@@ -1074,6 +1090,10 @@ export function generatePostPage(
   return renderLayout({
     site,
     path: postPath(post),
+    language: post.language,
+    alternates: post.alternates,
+    headerHtml: post.headerHtml,
+    footerHtml: post.footerHtml,
     title: `${post.title} - ${site.author ?? AUTHOR_NAME}`,
     description: post.description,
     imagePath: options.imagePath,
@@ -1083,6 +1103,7 @@ export function generatePostPage(
     structuredData: {
       "@context": "https://schema.org",
       "@type": "BlogPosting",
+      inLanguage: post.language ?? siteLanguage(site),
       headline: post.title,
       description: post.description,
       datePublished: post.publishedAt,
@@ -1100,7 +1121,7 @@ export function generatePostPage(
       },
     },
     body: `        <h1 class="post-title">${escapeHtml(post.title)}</h1>
-        <div class="meta"><a href="${escapeHtml(site.authorUrl ?? X_PROFILE_URL)}" rel="me">${escapeHtml(authorSocialLabel(site))}</a> | <time datetime="${escapeHtml(post.publishedAt)}">${escapeHtml(formatDate(post.publishedAt))}</time><span data-relative-date-label data-published-at="${escapeHtml(post.publishedAt)}" hidden> | <span data-relative-date></span></span></div>
+        <div class="meta"><a href="${escapeHtml(site.authorUrl ?? X_PROFILE_URL)}" rel="me">${escapeHtml(authorSocialLabel(site))}</a> | <time datetime="${escapeHtml(post.publishedAt)}">${escapeHtml(formatDate(post.publishedAt, post.language))}</time><span data-relative-date-label data-published-at="${escapeHtml(post.publishedAt)}" hidden> | <span data-relative-date></span></span></div>
         <p class="description">${escapeHtml(post.description)}</p>
         <div class="post-body">
           ${renderBody(post.body)}
