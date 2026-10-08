@@ -1,13 +1,13 @@
 import { requireAuth } from "../server/auth.mjs";
 import { listContent, writeContent } from "../server/content.mjs";
 
-const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const slugPattern = /^(?:es\/)?[a-z0-9]+(?:-[a-z0-9]+)*$/;
 function validate(post) {
   const required = post?.kind === "page"
     ? ["slug", "path", "title", "description", "body", "tokenSummary"]
     : ["slug", "title", "description", "publishedAt", "body", "tokenSummary"];
   for (const field of required) if (typeof post?.[field] !== "string" || !post[field].trim()) return `${field} is required`;
-  if (!slugPattern.test(post.slug)) return "Slug may contain lowercase letters, numbers, and hyphens";
+  if (!slugPattern.test(post.slug) || (post.kind === "page" && post.slug.includes("/"))) return "Slug must use lowercase letters, numbers and hyphens, with an optional es/ article prefix";
   if (post.kind !== "page" && !/^\d{4}-\d{2}-\d{2}$/.test(post.publishedAt)) return "Date must use YYYY-MM-DD";
   if (post.kind !== "page" && !["draft", "published"].includes(post.status)) return "Status must be draft or published";
   if (post.topics && (!Array.isArray(post.topics) || post.topics.some(topic => typeof topic !== "string"))) return "Topics must be text";
