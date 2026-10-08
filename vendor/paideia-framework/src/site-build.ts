@@ -378,7 +378,7 @@ function renderInline(value: string): string {
   return rendered + escapeHtml(value.slice(cursor));
 }
 
-function renderBody(value: string): string {
+function renderBody(value: string, illustrations: WritingPost["illustrations"] = []): string {
   const blocks = value.trim().split(/\n{2,}/);
   const rendered = [];
 
@@ -399,7 +399,12 @@ function renderBody(value: string): string {
     }
 
     if (block.startsWith("## ")) {
-      rendered.push(`<h2>${renderInline(block.slice(3).trim())}</h2>`);
+      const heading = block.slice(3).trim();
+      rendered.push(`<h2>${renderInline(heading)}</h2>`);
+      for (const illustration of illustrations ?? []) {
+        if (illustration.afterHeading !== heading || !/^\/articles\/[a-z0-9/.-]+$/.test(illustration.src)) continue;
+        rendered.push(`<figure class="article-figure"><a href="${escapeHtml(illustration.src)}" aria-label="${escapeHtml(illustration.alt)}"><img src="${escapeHtml(illustration.src)}" width="${illustration.width}" height="${illustration.height}" alt="${escapeHtml(illustration.alt)}" loading="lazy" decoding="async"></a><figcaption>${escapeHtml(illustration.caption)}</figcaption></figure>`);
+      }
       continue;
     }
 
@@ -1120,12 +1125,16 @@ export function generatePostPage(
         name: site.author ?? AUTHOR_NAME,
       },
     },
-    body: `        <h1 class="post-title">${escapeHtml(post.title)}</h1>
+    body: `        <h1 id="article-top" class="post-title">${escapeHtml(post.title)}</h1>
         <div class="meta"><a href="${escapeHtml(site.authorUrl ?? X_PROFILE_URL)}" rel="me">${escapeHtml(authorSocialLabel(site))}</a> | <time datetime="${escapeHtml(post.publishedAt)}">${escapeHtml(formatDate(post.publishedAt, post.language))}</time><span data-relative-date-label data-published-at="${escapeHtml(post.publishedAt)}" hidden> | <span data-relative-date></span></span></div>
         <p class="description">${escapeHtml(post.description)}</p>
         <div class="post-body">
-          ${renderBody(post.body)}
-        </div>`,
+          ${renderBody(post.body, post.illustrations)}
+        </div>
+        <nav class="article-navigation" aria-label="${post.language === "es" ? "Navegación del artículo" : "Article navigation"}">
+          <a href="${post.language === "es" ? "/es/writing" : "/writing"}">← ${post.language === "es" ? "Volver a artículos" : "Back to articles"}</a>
+          <a href="#article-top">${post.language === "es" ? "Volver arriba" : "Back to top"} ↑</a>
+        </nav>`,
   });
 }
 
