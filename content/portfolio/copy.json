@@ -49,7 +49,7 @@
     },
     "contact": {
       "heading": "Tell me about your website.",
-      "body": "Tell me what needs fixing, how your quote form should work or what your business needs from a new website. Include a page address if you have one.",
+      "body": "Tell me what you have in mind. Share your website if you have one.",
       "CTA": "Send me your page",
       "secondary": "Copy email",
       "success": "Email copied",
@@ -270,7 +270,7 @@
     },
     "contact": {
       "heading": "Contame sobre tu web.",
-      "body": "Contame qué necesitás arreglar, cómo debería funcionar tu formulario de presupuesto o qué necesita tu negocio de una web nueva. Sumá la dirección de la página si ya tenés una.",
+      "body": "Contame qué tenés en mente. Compartí tu web si ya tenés una.",
       "CTA": "Mandame tu página",
       "secondary": "Copiar email",
       "success": "Email copiado",

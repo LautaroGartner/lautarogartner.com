@@ -1,3 +1,4 @@
+import {enquiryEmail} from './enquiry-email.mjs';
 import {createHmac, randomUUID, timingSafeEqual} from 'node:crypto';
 
 const windows = new Map();
@@ -57,7 +58,7 @@ export function createEnquiryHandler({env=process.env, request=fetch, now=Date.n
    const response=await request('https://api.resend.com/emails', {
     method:'POST', signal:AbortSignal.timeout(10000),
     headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`, 'Content-Type':'application/json', 'Idempotency-Key':`enquiry/${nonce}`},
-    body:JSON.stringify({from:env.ENQUIRY_FROM,to:[RECIPIENT],reply_to:email.trim(),subject:language==='es'?'Consulta web — lautarogartner.com':'Website enquiry — lautarogartner.com',text:`Website enquiry (${language})\n\nReply email: ${email.trim()}\nWebsite: ${website.trim() || 'Not provided'}\n\n${project.trim()}\n\nReference: ${nonce}`})
+    body:JSON.stringify({from:env.ENQUIRY_FROM,to:[RECIPIENT],reply_to:email.trim(),subject:language==='es'?'Consulta web — lautarogartner.com':'Website enquiry — lautarogartner.com',...enquiryEmail({email, project, website, language})})
    });
    const receipt=await response.json();
    if (!response.ok || typeof receipt.id!=='string' || !receipt.id) return res.status(502).json({error:'delivery'});

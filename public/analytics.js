@@ -3,7 +3,7 @@
  // A public measurement ID is supplied at build time. Local previews never collect live data.
  if(!/^G-[A-Z0-9]{6,20}$/.test(id||'') || !['www.lautarogartner.com','lautarogartner.com'].includes(location.hostname))return;
  const key='lg-analytics-choice-v1',es=document.documentElement.lang==='es';
- const labels=es?{title:'¿Permitís analítica opcional?',body:'Google Analytics usa cookies para medir visitas y consultas aceptadas. No enviamos el contenido del formulario. Podés cambiar tu decisión cuando quieras.',allow:'Permitir',deny:'Rechazar',settings:'Preferencias de analítica'}:{title:'Allow optional analytics?',body:'Google Analytics uses cookies to measure page visits and accepted enquiries. We don’t send form contents. You can change your choice at any time.',allow:'Allow',deny:'Decline',settings:'Analytics preferences'};
+ const labels=es?{title:'¿Permitís analítica opcional?',body:'Google Analytics usa cookies para medir visitas y consultas, sin el contenido del formulario.',allow:'Permitir',deny:'Rechazar',settings:'Analítica'}:{title:'Allow optional analytics?',body:'Google Analytics uses cookies to measure visits and enquiries, without form contents.',allow:'Allow',deny:'Decline',settings:'Analytics'};
  let enabled=false,loaded=false,pageTracked=false;
  let choice=null;try{const saved=JSON.parse(localStorage.getItem(key));if(saved&&saved.expires>Date.now())choice=saved.choice;}catch{}
  const panel=document.createElement('section');panel.className='analytics-choice';panel.hidden=true;panel.setAttribute('aria-label',labels.title);
