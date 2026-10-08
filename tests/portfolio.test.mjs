@@ -23,8 +23,9 @@ for (const [path,lang,heading,anchor] of [['/','en','Turn more visitors into sal
  });
 }
 test('all original posts retain source metadata and output URLs; drafts absent',()=>{
- assert.equal(posts.length,5);const index=htmlFor('/writing');
- for(const p of posts){assert.ok(index.includes(`href="/${p.slug}"`));assert.ok(fs.existsSync(`dist/${p.slug}/index.html`));const h=generatePostPage(site,p);assert.ok(h.includes(escape(p.title)));assert.ok(h.includes(p.publishedAt));assert.ok(h.includes(`https://www.lautarogartner.com/${p.slug}`));}
+ const originalSlugs=['agent-readable-web','building-paideia','framework-becomes-a-tool','generated-systems-should-explain-themselves','why-ai-agents-need-observable-runtime-receipts'];
+ const originals=posts.filter(p=>originalSlugs.includes(p.slug));assert.equal(originals.length,5);const index=htmlFor('/writing');
+ for(const p of originals){assert.ok(index.includes(`href="/${p.slug}"`));assert.ok(fs.existsSync(`dist/${p.slug}/index.html`));const h=generatePostPage(site,p);assert.ok(h.includes(escape(p.title)));assert.ok(h.includes(p.publishedAt));assert.ok(h.includes(`https://www.lautarogartner.com/${p.slug}`));}
  for(const p of allPosts.filter(p=>p.status==='draft')) assert.ok(!fs.existsSync(`dist/${p.slug}/index.html`));
  const compiled=fs.readFileSync('src/generated/content.ts','utf8');assert.doesNotMatch(compiled,/"status": "draft"/);
 });
@@ -36,7 +37,7 @@ test('URLs, redirects, admin and public artifacts preserved',()=>{
 test('escaping and localized mailto preserve data without injecting markup',()=>{
  assert.equal(escape('<img src="x">&\''),'&lt;img src=&quot;x&quot;&gt;&amp;&#39;');
  const params=new URL(mailto('es')).searchParams;assert.equal(params.get('subject'),'Mejorar el flujo de consultas');assert.ok(params.get('body').includes('\n\nURL de la página:\n'));assert.doesNotMatch(mailto('en'),/\s/);
- const evil=createSite({...settings,title:'<script>alert(1)</script>',author:'"<bad>'},[{...posts[0],title:'<img src=x onerror=alert(1)>',slug:'safe-post'}],[about]);
+ const evil=createSite({...settings,title:'<script>alert(1)</script>',author:'"<bad>'},[{...posts[0],language:'en',title:'<img src=x onerror=alert(1)>',slug:'safe-post'}],[about]);
  const html=generateSitePage(evil,evil.pages.find(p=>p.path==='/writing'));assert.ok(html.includes('&lt;img src=x onerror=alert(1)&gt;'));assert.ok(!html.includes('<img src=x onerror'));
 });
 test('admin previews use the shared presentation and preserve editable markdown',()=>{

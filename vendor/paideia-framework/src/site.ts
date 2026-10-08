@@ -21,6 +21,10 @@ export type SitePage = {
 };
 
 export type WritingPost = {
+  language?: string;
+  alternates?: { language: string; path: string }[];
+  headerHtml?: string;
+  footerHtml?: string;
   slug: string;
   title: string;
   label?: string;
