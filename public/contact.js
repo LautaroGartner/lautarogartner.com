@@ -17,7 +17,7 @@
    if(!token)await prepare();
    if(Date.now()-preparedAt<1100)await new Promise(resolve=>setTimeout(resolve,1100-(Date.now()-preparedAt)));
    // Keep the first request intact on retries: the provider uses its token as an idempotency key.
-   if(!submittedBody){const values=new FormData(form);submittedBody={token,email:values.get('email'),project:values.get('project'),website:values.get('website'),company:values.get('company'),language:es?'es':'en'};}
+   if(!submittedBody){const values=new FormData(form);submittedBody={token,email:values.get('email'),project:values.get('project'),website:values.get('website'),budget:values.get('budget'),company:values.get('company'),language:es?'es':'en'};}
    form.querySelectorAll('input,textarea').forEach(field=>{field.readOnly=true;});
    response=await fetch('/api/enquiry',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},credentials:'same-origin',body:JSON.stringify(submittedBody),signal:AbortSignal.timeout(15000)});
    const data=await response.json();

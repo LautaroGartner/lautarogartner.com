@@ -51,14 +51,14 @@ export function createEnquiryHandler({env=process.env, request=fetch, now=Date.n
    body=JSON.parse(raw);
   } catch {return res.status(400).json({error:'validation'});}
   if (!body || typeof body!=='object' || Array.isArray(body) || !validToken(body.token,secret,time)) return res.status(400).json({error:'token'});
-  const {email,project,website='',company='',language}=body;
-  if (typeof email!=='string' || email.length>254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || /[\r\n]/.test(email) || typeof project!=='string' || project.trim().length<10 || project.length>4000 || typeof website!=='string' || website.length>2048 || company!=='' || !['en','es'].includes(language)) return res.status(400).json({error:'validation'});
+  const {email,project,website='',budget='',company='',language}=body;
+  if (typeof email!=='string' || email.length>254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || /[\r\n]/.test(email) || typeof project!=='string' || project.trim().length<10 || project.length>4000 || typeof website!=='string' || website.length>2048 || typeof budget!=='string' || budget.length>100 || company!=='' || !['en','es'].includes(language)) return res.status(400).json({error:'validation'});
   const nonce=body.token.split('.')[1];
   try {
    const response=await request('https://api.resend.com/emails', {
     method:'POST', signal:AbortSignal.timeout(10000),
     headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`, 'Content-Type':'application/json', 'Idempotency-Key':`enquiry/${nonce}`},
-    body:JSON.stringify({from:env.ENQUIRY_FROM,to:[RECIPIENT],reply_to:email.trim(),subject:language==='es'?'Consulta web — lautarogartner.com':'Website enquiry — lautarogartner.com',...enquiryEmail({email, project, website, language})})
+    body:JSON.stringify({from:env.ENQUIRY_FROM,to:[RECIPIENT],reply_to:email.trim(),subject:language==='es'?'Consulta web — lautarogartner.com':'Website enquiry — lautarogartner.com',...enquiryEmail({email, project, website, budget, language})})
    });
    const receipt=await response.json();
    if (!response.ok || typeof receipt.id!=='string' || !receipt.id) return res.status(502).json({error:'delivery'});
