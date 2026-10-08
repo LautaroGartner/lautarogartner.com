@@ -37,13 +37,6 @@
   const route=legacy[location.hash.slice(1)];
   if(route&&location.replace){location.replace((lang==='es'?'/es':'')+'/'+route);return;}
  }
- const draft=document.querySelector('[data-contact-draft]');
- if(draft)draft.addEventListener('submit',event=>{
-  event.preventDefault();if(!draft.reportValidity())return;
-  const values=new FormData(draft);
-  const text=`Email: ${values.get('email')}\n\n${values.get('project')}\n\n${values.get('website')||''}`;
-  location.href=`mailto:${draft.dataset.to}?subject=${encodeURIComponent(draft.dataset.subject)}&body=${encodeURIComponent(text)}`;
- });
  const workIndex=document.querySelector('[data-work-index]');
  if(workIndex){
   document.querySelectorAll('[data-work-filter]').forEach(button=>button.addEventListener('click',()=>{

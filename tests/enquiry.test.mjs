@@ -1,0 +1,21 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {createEnquiryHandler} from '../api/enquiry.mjs';
+const env={SESSION_SECRET:'test-only-signing-secret',RESEND_API_KEY:'test-only-provider-key',ENQUIRY_FROM:'Website <contact@lautarogartner.com>',NODE_ENV:'production'};
+let index=0;
+function fixture(overrides={}){
+ let time=1791480000000,calls=[];
+ const handler=createEnquiryHandler({env,now:()=>time,request:async(url,options)=>{calls.push({url,options});return {ok:true,json:async()=>({id:'synthetic-provider-id'})};},...overrides});
+ const ip=`synthetic-${++index}`;
+ const invoke=async(method,body,headers={})=>{let status=200,json,head={};const res={setHeader:(k,v)=>head[k]=v,status:n=>{status=n;return res;},json:v=>json=v};await handler({method,body,headers:{origin:'https://www.lautarogartner.com','content-type':'application/json','x-forwarded-for':ip,...headers}},res);return {status,json,head};};
+ return {invoke,calls,advance:()=>time+=2000};
+}
+async function requestBody(f){const {json}=await f.invoke('GET');f.advance();return {token:json.token,email:'synthetic@example.invalid',project:'[TEST ONLY] Synthetic website repair enquiry.',website:'https://example.invalid',company:'',language:'en'};}
+test('missing delivery configuration fails closed; no provider call',async()=>{const f=fixture({env:{}});assert.equal((await f.invoke('POST',{})).status,503);assert.equal(f.calls.length,0);});
+test('configured request sends plain text only to verified owner and returns acceptance, not inbox receipt',async()=>{const f=fixture();const b=await requestBody(f);const r=await f.invoke('POST',b);assert.equal(r.status,200);assert.equal(r.json.accepted,true);assert.equal(f.calls.length,1);const sent=JSON.parse(f.calls[0].options.body);assert.deepEqual(sent.to,['lautaro@lautarogartner.com']);assert.equal(sent.reply_to,b.email);assert.equal(sent.html,undefined);assert.match(sent.text,/TEST ONLY/);assert.ok(f.calls[0].options.headers['Idempotency-Key'].endsWith(r.json.reference));assert.equal(r.json.email,undefined);});
+test('retries use the same provider idempotency key',async()=>{const f=fixture();const b=await requestBody(f);await f.invoke('POST',b);await f.invoke('POST',b);assert.equal(f.calls[0].options.headers['Idempotency-Key'],f.calls[1].options.headers['Idempotency-Key']);});
+test('bad origin, method, content type and oversized body never send',async()=>{const f=fixture();const b=await requestBody(f);assert.equal((await f.invoke('POST',b,{origin:'https://attacker.invalid'})).status,403);assert.equal((await f.invoke('POST',b,{origin:undefined})).status,403);assert.equal((await f.invoke('DELETE',b)).status,405);assert.equal((await f.invoke('POST',b,{'content-type':'text/plain'})).status,415);assert.equal((await f.invoke('POST','x'.repeat(12001))).status,413);assert.equal(f.calls.length,0);});
+test('tampered token, honeypot, header injection and invalid fields never send',async()=>{for(const patch of [{token:'invalid'},{company:'bot'},{email:'ok@example.invalid\r\nBcc: other@example.invalid'},{project:'tiny'},{website:12},{language:'de'}]){const f=fixture();const b=await requestBody(f);assert.equal((await f.invoke('POST',{...b,...patch})).status,400);assert.equal(f.calls.length,0);}});
+test('per-instance POST rate limit stops repeated attempts',async()=>{const f=fixture();const b=await requestBody(f);for(let i=0;i<5;i++)assert.equal((await f.invoke('POST',b)).status,200);assert.equal((await f.invoke('POST',b)).status,429);assert.equal(f.calls.length,5);});
+test('provider rejection, missing receipt and network failure do not report acceptance',async()=>{for(const request of [async()=>({ok:false,json:async()=>({error:'provider'})}),async()=>({ok:true,json:async()=>({})}),async()=>{throw Error('network');}]){const f=fixture({request});const r=await f.invoke('POST',await requestBody(f));assert.equal(r.status,502);assert.equal(r.json.accepted,undefined);}});
+test('fresh and expired tokens do not send',async()=>{let time=1791480000000;const f=fixture({now:()=>time});const {json}=await f.invoke('GET');const b={token:json.token,email:'synthetic@example.invalid',project:'[TEST ONLY] Synthetic enquiry.',language:'es'};assert.equal((await f.invoke('POST',b)).status,400);time+=31*60000;assert.equal((await f.invoke('POST',b)).status,400);});
