@@ -19,8 +19,8 @@ async page=>{
    await p.getByRole('button',{name:lang==='es'?'Analítica':'Analytics',exact:true}).click();await p.getByRole('button',{name:lang==='es'?'Permitir':'Allow',exact:true}).click();
    await p.waitForFunction(()=>window.dataLayer?.some(x=>x[0]==='event'&&x[1]==='page_view'));
    if(googleLoads!==1)throw Error('Repeated Google loader');
-   const email=lang==='es'?'Tu email':'Your email',need=lang==='es'?'¿Qué necesitás resolver?':'What do you need help with?';
-   await p.getByLabel(email,{exact:true}).fill('synthetic@example.invalid');await p.getByLabel(need).fill('[TEST ONLY] No form data goes to analytics.');await p.getByRole('button',{name:lang==='es'?'Enviar consulta':'Send enquiry'}).click();await p.waitForFunction(()=>document.querySelector('.contact-status').dataset.state==='success');
+   const email=lang==='es'?'Email':'Mail',need=lang==='es'?'Tu mensaje':'Your message';
+   await p.locator('#contact-name').fill('Synthetic Owner');await p.locator('#contact-service').selectOption('forms');await p.getByLabel(email,{exact:true}).fill('synthetic@example.invalid');await p.getByLabel(need).fill('[TEST ONLY] No form data goes to analytics.');await p.getByRole('button',{name:lang==='es'?'Enviar consulta':'Send enquiry'}).click();await p.waitForFunction(()=>document.querySelector('.contact-status').dataset.state==='success');
    const events=await p.evaluate(()=>window.dataLayer.filter(x=>x[0]==='event').map(x=>[x[1],x[2]]));
    if(events.filter(x=>x[0]==='enquiry_accepted').length!==1)throw Error('Wrong enquiry count');if(JSON.stringify(events).includes('synthetic@example')||JSON.stringify(events).includes('TEST ONLY')||JSON.stringify(events).includes('DO_NOT_TRACK'))throw Error('PII in analytics');
    await p.evaluate(()=>document.querySelector('form').requestSubmit());if(submits!==1)throw Error('Repeated submission');

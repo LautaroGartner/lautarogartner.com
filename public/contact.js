@@ -17,13 +17,13 @@
    if(!token)await prepare();
    if(Date.now()-preparedAt<1100)await new Promise(resolve=>setTimeout(resolve,1100-(Date.now()-preparedAt)));
    // Keep the first request intact on retries: the provider uses its token as an idempotency key.
-   if(!submittedBody){const values=new FormData(form);submittedBody={token,email:values.get('email'),project:values.get('project'),website:values.get('website'),budget:values.get('budget'),company:values.get('company'),language:es?'es':'en'};}
-   form.querySelectorAll('input,textarea').forEach(field=>{field.readOnly=true;});
+   if(!submittedBody){const values=new FormData(form);submittedBody={token,name:values.get('name'),organization:values.get('organization'),service:values.get('service'),email:values.get('email'),project:values.get('project'),budget:values.get('budget'),company:values.get('company'),language:es?'es':'en'};}
+   form.querySelectorAll('input,textarea').forEach(field=>{field.readOnly=true;});form.querySelector('select').disabled=true;
    response=await fetch('/api/enquiry',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},credentials:'same-origin',body:JSON.stringify(submittedBody),signal:AbortSignal.timeout(15000)});
    const data=await response.json();
    if(!response.ok||data.accepted!==true||typeof data.reference!=='string')throw Error('rejected');
    accepted=true;message(labels.success,'success');
-   form.querySelectorAll('input,textarea').forEach(field=>{field.disabled=true;});
+   form.querySelectorAll('input,textarea,select').forEach(field=>{field.disabled=true;});
    // Only acceptance counts. No form values or recipient are sent to analytics.
    const key=`enquiry-accepted:${data.reference}`;
    let tracked=false;try{tracked=sessionStorage.getItem(key)==='1';if(!tracked)sessionStorage.setItem(key,'1');}catch{}
@@ -31,7 +31,7 @@
   }catch{
    message(response?.status===429?labels.rate:response?.status===503?labels.token:labels.error,'error');
    // Token/validation rejection has not sent email; allow corrected details and a fresh token.
-   if(response?.status===400){submittedBody=null;token='';tokenPromise=null;form.querySelectorAll('input,textarea').forEach(field=>{field.readOnly=false;});}
+   if(response?.status===400){submittedBody=null;token='';tokenPromise=null;form.querySelectorAll('input,textarea').forEach(field=>{field.readOnly=false;});form.querySelector('select').disabled=false;}
   }finally{
    pending=false;form.removeAttribute('aria-busy');button.disabled=accepted;setLabel(accepted?(es?'¡Gracias!':'Thank you!'):labels.send);status.focus();
   }
