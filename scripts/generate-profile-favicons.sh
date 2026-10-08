@@ -4,6 +4,8 @@ set -eu
 icon_tmp=$(mktemp -d)
 trap 'rm -rf "$icon_tmp"' EXIT
 magick public/portrait/lautaro-1122.webp -crop 1000x1000+61+130 +repage -strip -resize 512x512 "$icon_tmp/master.png"
+magick -size 512x512 xc:none -fill white -draw 'circle 256,256 256,1' "$icon_tmp/mask.png"
+magick "$icon_tmp/master.png" "$icon_tmp/mask.png" -alpha off -compose CopyOpacity -composite "$icon_tmp/master.png"
 magick "$icon_tmp/master.png" -define icon:auto-resize=48,32,16 public/favicon.ico
 magick "$icon_tmp/master.png" -resize 32x32 public/favicon-32.png
 magick "$icon_tmp/master.png" -resize 180x180 -colors 256 PNG8:public/apple-touch-icon.png

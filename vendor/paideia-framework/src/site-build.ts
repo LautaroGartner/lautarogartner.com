@@ -132,11 +132,11 @@ function renderHead(options: {
     <meta name="twitter:card" content="${imageUrl ? "summary_large_image" : "summary"}">
     <meta name="twitter:title" content="${escapeHtml(options.title)}">
     <meta name="twitter:description" content="${escapeHtml(options.description)}">
-    <link rel="icon" href="/favicon.ico?v=portrait-20261008" sizes="16x16 32x32 48x48">
-    <link rel="icon" href="/favicon.svg?v=portrait-20261008" type="image/svg+xml" sizes="any">
-    <link rel="icon" href="/favicon-32.png?v=portrait-20261008" type="image/png" sizes="32x32">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=portrait-20261008" sizes="180x180">
-    <link rel="manifest" href="/site.webmanifest?v=portrait-20261008">
+    <link rel="icon" href="/favicon.ico?v=portrait-circle-20261008" sizes="16x16 32x32 48x48">
+    <link rel="icon" href="/favicon.svg?v=portrait-circle-20261008" type="image/svg+xml" sizes="any">
+    <link rel="icon" href="/favicon-32.png?v=portrait-circle-20261008" type="image/png" sizes="32x32">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=portrait-circle-20261008" sizes="180x180">
+    <link rel="manifest" href="/site.webmanifest?v=portrait-circle-20261008">
     <meta name="theme-color" content="#f0eee8">${author}${canonicalLink}${(options.alternates ?? []).map(a => `\n    <link rel="alternate" hreflang="${escapeHtml(a.language)}" href="${escapeHtml(canonicalUrl(options.site, a.path) ?? a.path)}">`).join("")}${structuredData}
     <script defer src="/analytics.js?v=1" data-measurement-id="${escapeHtml(/^G-[A-Z0-9]{6,20}$/.test(process.env.GA_MEASUREMENT_ID ?? "") ? process.env.GA_MEASUREMENT_ID! : "")}"></script>
     <script>
