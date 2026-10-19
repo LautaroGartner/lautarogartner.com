@@ -1,3 +1,4 @@
+import { quoteDemoPage } from './quote-demo.mjs';
 import fs from 'node:fs';
 import {composeRoutes} from './routes.mjs';
 import {projectMedia} from './project-media.mjs';
@@ -58,7 +59,9 @@ function createLegacySite(settings, posts, pages) {
   return { ...settings, language: "en", styles, headerHtml: header("en", "/"), footerHtml: footer("en"), posts: [...posts], pages: [...commercial, ...pages, { path: "/writing", title: "Writing", description: "Notes on software, products and agent-readable systems by Lautaro G\xE4rtner.", body: "Software, products and readable systems.", nav: false, tokenSummary: "Index of the original published essays; their URLs, text and dates are preserved.", html: `<h1 class="page-title">Writing</h1><p class="page-lede">Software, products and readable systems.</p><div class="writing-list">${posts.map((p) => `<article><time datetime="${e(p.publishedAt)}">${e(p.publishedAt)}</time><h2><a href="/${e(p.slug)}">${e(p.title)}</a></h2><p>${e(p.description)}</p></article>`).join("")}</div>` }] };
 }
 function createSite(settings, posts, pages) {
-  return composeRoutes(createLegacySite(settings, posts, pages), copy, { escape, mailto, picture });
+  const site = composeRoutes(createLegacySite(settings, posts, pages), copy, { escape, mailto, picture });
+  site.pages.push(quoteDemoPage());
+  return site;
 }
 
 export {createSite,escape,mailto};
