@@ -1,6 +1,61 @@
-/* Loaded only by the standalone demo. Keep the production site's theme untouched. */
-:root{--bg:#f6f3ec;--text:#1e231f;--muted:#626960;--accent:#2e5a45;--line:#d7d9cd;--soft:#dae6ba;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:var(--bg);color-scheme:light}
-body{margin:0;background:var(--bg);color:var(--text);font-size:16px;line-height:1.65}*{box-sizing:border-box}a{color:inherit}a:hover{color:var(--accent)}h1,h2,h3,p{margin-top:0}h1,h2,h3{letter-spacing:-.045em;line-height:1.12;color:var(--text)}p{color:var(--muted)}.shell.shell-wide{max-width:1248px;margin:0 auto;padding:0 40px 32px}main{flex:1;min-width:0}a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:5px}main:focus{outline:none}.quote-header{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:88px;height:auto;padding:20px 0;border-bottom:1px solid var(--line);margin:0}.quote-header a{font-size:14px;text-decoration:none;min-height:44px;display:inline-flex;align-items:center}.quote-header .identity{font-weight:650;letter-spacing:-.035em;font-size:19px!important;white-space:nowrap}.identity-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);margin-left:10px}.skip-link{position:absolute;left:24px;top:-100px;z-index:10;padding:12px 18px;background:var(--text);color:var(--bg)}.skip-link:focus{top:10px}.quote-summary .button{display:flex;align-items:center;justify-content:center;background:var(--accent);color:white;text-decoration:none;font-weight:600;min-height:52px;border-radius:3px}.quote-summary .button:hover{background:var(--text);color:var(--bg)}.portfolio-footer{display:flex;justify-content:space-between;gap:30px;align-items:start;border-top:1px solid var(--line);padding:34px 0;font-size:13px;line-height:1.6;margin-top:20px}.portfolio-footer a{display:inline-flex;min-height:44px;align-items:center;text-decoration:none}
-@media(prefers-color-scheme:dark){:root{--bg:#191e1a;--text:#f2f0e8;--muted:#b5bcb1;--accent:#bbd99f;--line:#414940;color-scheme:dark}.quote-summary .button{background:#bbd99f;color:#1e231f}.quote-summary .button:hover{background:#f2f0e8;color:#1e231f}}
-@media(max-width:740px){.shell.shell-wide{padding:0 22px 20px}html:not(.navigation-ready) .quote-header{padding:15px 0;flex-wrap:nowrap;gap:18px;min-height:76px;height:auto}.quote-header .identity{font-size:17px!important}.portfolio-footer{flex-direction:column;gap:12px;padding-top:26px;padding-bottom:110px}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+/* Standalone demo theme: semantic surfaces and states, loaded only on this route. */
+:root {
+  --background: #f8f9fc;
+  --foreground: #20202b;
+  --card: #fff;
+  --primary: #6941d9;
+  --primary-foreground: #fff;
+  --selection: #f3efff;
+  --muted-foreground: #696975;
+  --border: #e3e3eb;
+  --ring: #8d6be7;
+  --receipt: #22212d;
+  --receipt-foreground: #f9f8ff;
+  --receipt-muted: #c0bdcf;
+  --radius: 16px;
+  --bg: var(--background);
+  --text: var(--foreground);
+  --muted: var(--muted-foreground);
+  --accent: var(--primary);
+  --line: var(--border);
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--background);
+  color: var(--foreground);
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--background); color: var(--foreground); font-size: 16px; line-height: 1.6; }
+a { color: inherit; }
+a:hover { color: var(--primary); }
+h1, h2, h3, p { margin-top: 0; }
+h1, h2, h3 { color: var(--foreground); letter-spacing: -.045em; line-height: 1.12; }
+p { color: var(--muted-foreground); }
+.shell.shell-wide { max-width: 1320px; margin: 0 auto; padding: 0 48px 32px; }
+main { flex: 1; min-width: 0; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--ring); outline-offset: 5px; }
+main:focus { outline: none; }
+.quote-header { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 100px; height: auto; padding: 20px 0; border-bottom: 1px solid var(--border); margin: 0; }
+.quote-header a { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; font-weight: 500; text-decoration: none; }
+.quote-header .identity { gap: 12px; font-size: 15px!important; font-weight: 650; letter-spacing: -.03em; white-space: nowrap; }
+.quote-brand-mark { display: grid; place-items: center; width: 42px; height: 42px; color: var(--primary); background: var(--selection); border: 1px solid color-mix(in srgb, var(--primary) 15%, transparent); border-radius: 12px; }
+.quote-brand-mark svg { width: 25px; height: 25px; }
+.quote-brand-caption { display: block; margin-top: 3px; color: var(--muted-foreground); font-size: 11px; font-weight: 400; letter-spacing: 0; }
+.action-icon { width: 17px; height: 17px; flex: none; }
+.skip-link { position: absolute; left: 24px; top: -100px; z-index: 10; padding: 12px 18px; background: var(--foreground); color: var(--background); }
+.skip-link:focus { top: 10px; }
+.portfolio-footer { display: flex; justify-content: space-between; gap: 30px; align-items: center; border-top: 1px solid var(--border); padding: 28px 0; font: 12px/1.6 ui-sans-serif, system-ui, sans-serif; margin-top: 20px; color: var(--muted-foreground); }
+.portfolio-footer a { display: inline-flex; min-height: 44px; align-items: center; text-decoration: none; }
+@media (prefers-color-scheme: dark) {
+  :root { --background: #131319; --foreground: #f0eef8; --card: #1d1d25; --primary: #b9a0ff; --primary-foreground: #21143e; --selection: #292238; --muted-foreground: #aaa6b8; --border: #34323f; --ring: #b9a0ff; --receipt: #24212f; color-scheme: dark; }
+}
+@media (max-width: 740px) {
+  .shell.shell-wide { padding: 0 20px 20px; }
+  html:not(.navigation-ready) .quote-header { padding: 16px 0; flex-wrap: nowrap; gap: 16px; min-height: 88px; height: auto; }
+  .quote-header .identity { font-size: 13px!important; gap: 9px; }
+  .quote-brand-mark { width: 36px; height: 36px; border-radius: 10px; }
+  .quote-brand-caption { font-size: 10px; }
+  .portfolio-footer { flex-direction: column; gap: 5px; align-items: start; padding-bottom: 100px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto!important; animation: none!important; transition: none!important; }
+}
