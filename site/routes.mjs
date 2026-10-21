@@ -54,7 +54,7 @@ export function composeRoutes(site,copy,{escape:e,mailto,picture}){
  const about=site.pages.find(p=>p.path==='/about');
  if(about){
   const publicBody=about.body.split('\n\n').filter(block=>!block.startsWith('The machine-readable files below')).join('\n\n');
-  const spanishBody=`Soy Lautaro Gärtner, desarrollador de software y creador independiente de Crespo, Argentina. Desarrollo sitios web, aplicaciones y herramientas a medida para negocios y para mis propios experimentos.
+  const spanishBody=`Desarrollo sitios web y software para negocios, desde mejoras puntuales hasta flujos completos de producto. Soy fundador de FounderShape y cofundador de Filsen, donde lidero producto e ingeniería junto a Rafa. Mi experiencia trabajando en gastronomía también influye en cómo diseño software: tiene que servir durante una jornada real de trabajo.
 
 ## Trabajo
 
