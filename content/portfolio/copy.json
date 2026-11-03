@@ -134,6 +134,25 @@
           "Order flow and appointment booking"
         ],
         "alt": "Filsen’s current public introduction, with the Crespo launch presentation and Plaza Sarmiento photograph"
+      },
+      {
+        "id": "carcost",
+        "name": "The Real Cost of Your Car",
+        "url": "https://carcost.lautarogartner.com",
+        "label": "Interactive tool · Published",
+        "title": "Look beyond the monthly payment.",
+        "description": "A car loan calculator with transparent assumptions, five side-by-side terms, an interactive principal/interest chart and a full monthly schedule. Built with Next.js, TypeScript and Tailwind CSS; no login or lender quotes.",
+        "cta": "Open the calculator",
+        "deliverables": [
+          "Fixed-rate amortization and 27 unit tests",
+          "Five loan terms, interactive chart and schedule CSV",
+          "Static export, keyboard access and responsive layouts"
+        ],
+        "alt": "Silver car on a sculptural payment road, an illustration for the car loan calculator",
+        "featured": false,
+        "tool": true,
+        "tutorial": "/building-a-car-loan-calculator",
+        "tutorialLabel": "Read the build tutorial"
       }
     ],
     "nav": {
@@ -354,6 +373,25 @@
           "Flujo de pedidos y reserva de turnos"
         ],
         "alt": "Presentación pública actual de Filsen, con el lanzamiento en Crespo y una fotografía de Plaza Sarmiento"
+      },
+      {
+        "id": "carcost",
+        "name": "The Real Cost of Your Car",
+        "url": "https://carcost.lautarogartner.com",
+        "label": "Herramienta interactiva · Publicada",
+        "title": "Mirá más allá de la cuota.",
+        "description": "Una calculadora de préstamos para autos con supuestos explícitos, cinco plazos comparables, un gráfico de capital e interés y el cronograma completo. Construida con Next.js, TypeScript y Tailwind CSS, sin cuentas ni cotizaciones de entidades.",
+        "cta": "Abrir la calculadora",
+        "deliverables": [
+          "Amortización a tasa fija y 27 pruebas unitarias",
+          "Cinco plazos, gráfico interactivo y cronograma CSV",
+          "Exportación estática, teclado y diseño adaptable"
+        ],
+        "alt": "Auto plateado sobre un camino de pagos esculpido, ilustración de la calculadora",
+        "featured": false,
+        "tool": true,
+        "tutorial": "/es/building-a-car-loan-calculator",
+        "tutorialLabel": "Leer el tutorial de construcción"
       }
     ],
     "nav": {

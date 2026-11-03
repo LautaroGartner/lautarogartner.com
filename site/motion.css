@@ -213,7 +213,7 @@ html.opening-pending body{background:var(--bg)}.motion-enter::before{content:'';
 .site-menu nav a:hover{background:transparent!important;color:#f0eee8}.site-menu nav a::after{content:'';position:absolute;left:-25px;top:50%;width:7px;height:7px;border-radius:50%;background:#2144d5;transform:scale(0);transition:transform .3s var(--motion-ease)}.site-menu nav a:hover::after{transform:scale(1)}
 @media(prefers-reduced-motion:reduce){.motion-enter::before{display:none}}
 /* Article shell keeps editorial reading width while navigation uses the shared full width. */
-.shell:has(.post-title){max-width:1600px;padding:0 32px 32px}.shell:has(.post-title) main{max-width:760px;margin-inline:auto;padding-top:65px}.portfolio-header nav,.header-end,.languages{white-space:nowrap;flex-shrink:0}.portfolio-header nav{flex-wrap:nowrap}.header-contact{white-space:nowrap;flex-shrink:0}
+.shell:has(.post-title){max-width:1600px;padding:0 32px 32px}.shell:has(.post-title) main{width:100%;max-width:760px;margin-inline:auto;padding-top:65px}.portfolio-header nav,.header-end,.languages{white-space:nowrap;flex-shrink:0}.portfolio-header nav{flex-wrap:nowrap}.header-contact{white-space:nowrap;flex-shrink:0}
 .portfolio-header nav a,.header-contact{border-radius:0;background:transparent!important}.portfolio-header nav a::before,.header-contact::before{display:none}.portfolio-header nav a:hover,.portfolio-header nav a[aria-current]:hover,.header-contact:hover{color:var(--accent)}.route-curtain span{display:none!important}
 @media(max-width:1000px) and (min-width:741px){.portfolio-header nav{gap:14px}.header-end{gap:14px}.identity{font-size:17px!important}.portfolio-header nav a{padding:10px 8px}}
 @media(max-width:740px){.shell:has(.post-title){padding:0 20px 24px}.shell:has(.post-title) main{padding-top:38px}.portfolio-header nav{flex-shrink:1}}
@@ -332,3 +332,7 @@ main:has(.post-body){padding-bottom:clamp(88px,9vw,144px)}
 .article-figure img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:4px}
 .article-figure figcaption{font-size:13px;line-height:1.65;color:var(--muted);margin-top:14px}
 @media(max-width:740px){main:has(.post-body){padding-bottom:80px}.article-navigation{margin-top:40px;gap:16px;font-size:13px}.article-figure{margin:36px 0}}
+
+/* A published interactive tool, alongside the existing featured client work. */
+.home-tool{display:grid;grid-template-columns:minmax(220px,.8fr) 1.2fr;align-items:center;gap:7%;padding:50px 0;border-top:1px solid var(--line);margin-bottom:36px}.home-tool figure{overflow:hidden;background:#101011}.home-tool img{width:100%;aspect-ratio:16/9;object-fit:cover}.home-tool h2{font-size:clamp(28px,3.5vw,48px);font-weight:450;line-height:1.1;max-width:600px;margin-bottom:16px}.home-tool .section-label{margin-bottom:17px}.home-tool p:not(.section-label){font-size:16px;margin-bottom:23px}.home-tool .actions{flex-wrap:wrap;gap:14px 28px}.home-tool .text-link{font-size:13px;min-height:44px}
+@media(max-width:740px){.home-tool{grid-template-columns:1fr;gap:24px;padding:32px 0}.home-tool h2{font-size:34px}.home-tool .actions{align-items:flex-start;flex-direction:column;gap:8px}}
