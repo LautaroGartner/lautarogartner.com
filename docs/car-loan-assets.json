@@ -4,18 +4,18 @@
   "images": [
     {
       "file": "calculator.webp",
-      "width": 1536,
-      "height": 1024
+      "width": 1280,
+      "height": 1020
     },
     {
       "file": "comparison.webp",
-      "width": 1356,
-      "height": 825
+      "width": 1240,
+      "height": 847
     },
     {
       "file": "amortization.webp",
-      "width": 1356,
-      "height": 850
+      "width": 1240,
+      "height": 839
     }
   ],
   "derivatives": "Project cover variants include resized 3840px exports. These are interpolated derivatives of the real UI captures, not native 4K detail.",
