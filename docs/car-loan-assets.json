@@ -1,63 +1,23 @@
 {
-  "method": "Built-in Image Gen; technical resizing and encoding with Pillow",
-  "resolutionNote": "The generation service returned smaller originals. The 3840×2160 publication masters are explicitly upscaled, not native 4K renders. Native 4K generation through the connected service was rejected by its plan; no paid job was submitted and no plan was upgraded.",
+  "method": "Actual calculator screenshots captured in the browser",
+  "capturedAt": "2026-11-03",
   "images": [
     {
-      "name": "cover",
-      "generatedOriginal": "exec-1b00af1c-0ae1-4ea5-8405-7c4366e2843b.png",
-      "originalSize": [
-        1672,
-        941
-      ],
-      "masterSize": [
-        3840,
-        2160
-      ],
-      "master": "cover-4k.jpg",
-      "pageSize": [
-        1600,
-        900
-      ],
-      "pageBytes": 61356,
-      "upscaled": true
+      "file": "calculator.webp",
+      "width": 1536,
+      "height": 1024
     },
     {
-      "name": "amortization",
-      "generatedOriginal": "exec-c8a8a098-5722-4cc4-8b1f-c61072e64b84.png",
-      "originalSize": [
-        1672,
-        941
-      ],
-      "masterSize": [
-        3840,
-        2160
-      ],
-      "master": "amortization-4k.jpg",
-      "pageSize": [
-        1600,
-        900
-      ],
-      "pageBytes": 41656,
-      "upscaled": true
+      "file": "comparison.webp",
+      "width": 1356,
+      "height": 825
     },
     {
-      "name": "build",
-      "generatedOriginal": "exec-07f25eb8-c370-4ac3-8f38-14a9ecedd23f.png",
-      "originalSize": [
-        1672,
-        941
-      ],
-      "masterSize": [
-        3840,
-        2160
-      ],
-      "master": "build-4k.jpg",
-      "pageSize": [
-        1600,
-        900
-      ],
-      "pageBytes": 64820,
-      "upscaled": true
+      "file": "amortization.webp",
+      "width": 1356,
+      "height": 850
     }
-  ]
+  ],
+  "derivatives": "Project cover variants include resized 3840px exports. These are interpolated derivatives of the real UI captures, not native 4K detail.",
+  "stockImagesUsed": false
 }

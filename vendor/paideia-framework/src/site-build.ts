@@ -378,7 +378,11 @@ function renderInline(value: string): string {
   return rendered + escapeHtml(value.slice(cursor));
 }
 
-function renderBody(value: string, illustrations: WritingPost["illustrations"] = []): string {
+function headingId(value: string): string {
+  return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+}
+
+function renderBody(value: string, illustrations: WritingPost["illustrations"] = [], withAnchors = false): string {
   const blocks = value.trim().split(/\n{2,}/);
   const rendered = [];
 
@@ -400,7 +404,7 @@ function renderBody(value: string, illustrations: WritingPost["illustrations"] =
 
     if (block.startsWith("## ")) {
       const heading = block.slice(3).trim();
-      rendered.push(`<h2>${renderInline(heading)}</h2>`);
+      rendered.push(`<h2${withAnchors ? ` id="${escapeHtml(headingId(heading))}"` : ""}>${renderInline(heading)}</h2>`);
       for (const illustration of illustrations ?? []) {
         if (illustration.afterHeading !== heading || !/^\/articles\/[a-z0-9/.-]+$/.test(illustration.src)) continue;
         rendered.push(`<figure class="article-figure"><a href="${escapeHtml(illustration.src)}" aria-label="${escapeHtml(illustration.alt)}"><img src="${escapeHtml(illustration.src)}" width="${illustration.width}" height="${illustration.height}" alt="${escapeHtml(illustration.alt)}" loading="lazy" decoding="async"></a><figcaption>${escapeHtml(illustration.caption)}</figcaption></figure>`);
@@ -1112,13 +1116,14 @@ export function generatePostPage(
       headline: post.title,
       description: post.description,
       datePublished: post.publishedAt,
+      ...(options.imagePath ? { image: siteAssetUrl(site, options.imagePath) } : {}),
       url: canonical ?? undefined,
       mainEntityOfPage: canonical ?? undefined,
       keywords: post.topics ?? [],
       author: {
         "@type": "Person",
         name: site.author ?? AUTHOR_NAME,
-        url: site.authorUrl ?? site.url ?? undefined,
+        url: post.authorUrl ?? site.authorUrl ?? site.url ?? undefined,
       },
       publisher: {
         "@type": "Person",
@@ -1126,10 +1131,11 @@ export function generatePostPage(
       },
     },
     body: `        <h1 id="article-top" class="post-title">${escapeHtml(post.title)}</h1>
-        <div class="meta"><a href="${escapeHtml(site.authorUrl ?? X_PROFILE_URL)}" rel="me">${escapeHtml(authorSocialLabel(site))}</a> | <time datetime="${escapeHtml(post.publishedAt)}">${escapeHtml(formatDate(post.publishedAt, post.language))}</time><span data-relative-date-label data-published-at="${escapeHtml(post.publishedAt)}" hidden> | <span data-relative-date></span></span></div>
+        <div class="meta"><a href="${escapeHtml(post.authorUrl ?? site.authorUrl ?? X_PROFILE_URL)}" rel="me">${escapeHtml(post.authorUrl ? (site.author ?? AUTHOR_NAME) : authorSocialLabel(site))}</a> | <time datetime="${escapeHtml(post.publishedAt)}">${escapeHtml(formatDate(post.publishedAt, post.language))}</time><span data-relative-date-label data-published-at="${escapeHtml(post.publishedAt)}" hidden> | <span data-relative-date></span></span></div>
         <p class="description">${escapeHtml(post.description)}</p>
         <div class="post-body">
-          ${renderBody(post.body, post.illustrations)}
+          ${post.tableOfContents ? `<nav class="article-toc" aria-label="${post.language === "es" ? "En esta guía" : "In this guide"}"><p><strong>${post.language === "es" ? "En esta guía" : "In this guide"}</strong></p><ul>${post.body.split(/\n{2,}/).filter(block=>block.startsWith("## ")).map(block=>{const heading=block.slice(3).trim();return `<li><a href="#${escapeHtml(headingId(heading))}">${escapeHtml(heading)}</a></li>`;}).join("")}</ul></nav>` : ""}
+          ${renderBody(post.body, post.illustrations, post.tableOfContents)}
         </div>
         <nav class="article-navigation" aria-label="${post.language === "es" ? "Navegación del artículo" : "Article navigation"}">
           <a href="${post.language === "es" ? "/es/writing" : "/writing"}">← ${post.language === "es" ? "Volver a artículos" : "Back to articles"}</a>

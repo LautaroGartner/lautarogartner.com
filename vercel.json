@@ -12,6 +12,16 @@
       "source": "/en/",
       "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/building-a-car-loan-calculator",
+      "destination": "/car-loan-calculator-guide",
+      "permanent": true
+    },
+    {
+      "source": "/es/building-a-car-loan-calculator",
+      "destination": "/es/car-loan-calculator-guide",
+      "permanent": true
     }
   ],
   "rewrites": [

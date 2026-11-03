@@ -86,6 +86,25 @@
     ],
     "projects": [
       {
+        "id": "carcost",
+        "name": "The Real Cost of Your Car",
+        "url": "https://carcost.lautarogartner.com",
+        "label": "Interactive tool · Published",
+        "title": "Estimate your car payment. Understand the whole purchase.",
+        "description": "Free car loan calculator with sales tax and fees, monthly budget planning, five loan terms and a downloadable amortization schedule. Compare the monthly payment and total interest before you buy.",
+        "cta": "Open the calculator",
+        "deliverables": [
+          "Monthly payments with tax and fee financing options",
+          "Five loan terms, budget estimator and principal/interest chart",
+          "Monthly amortization schedule and CSV download"
+        ],
+        "alt": "Real car loan calculator screenshot with a $608.29 monthly payment",
+        "featured": false,
+        "tool": true,
+        "tutorial": "/car-loan-calculator-guide",
+        "tutorialLabel": "Read the car buying guide"
+      },
+      {
         "name": "Tiki Cóctel Show",
         "id": "tiki",
         "url": "https://www.tikicoctelshow.com/",
@@ -134,25 +153,6 @@
           "Order flow and appointment booking"
         ],
         "alt": "Filsen’s current public introduction, with the Crespo launch presentation and Plaza Sarmiento photograph"
-      },
-      {
-        "id": "carcost",
-        "name": "The Real Cost of Your Car",
-        "url": "https://carcost.lautarogartner.com",
-        "label": "Interactive tool · Published",
-        "title": "Look beyond the monthly payment.",
-        "description": "A car loan calculator with transparent assumptions, five side-by-side terms, an interactive principal/interest chart and a full monthly schedule. Built with Next.js, TypeScript and Tailwind CSS; no login or lender quotes.",
-        "cta": "Open the calculator",
-        "deliverables": [
-          "Fixed-rate amortization and 27 unit tests",
-          "Five loan terms, interactive chart and schedule CSV",
-          "Static export, keyboard access and responsive layouts"
-        ],
-        "alt": "Silver car on a sculptural payment road, an illustration for the car loan calculator",
-        "featured": false,
-        "tool": true,
-        "tutorial": "/building-a-car-loan-calculator",
-        "tutorialLabel": "Read the build tutorial"
       }
     ],
     "nav": {
@@ -325,6 +325,25 @@
     ],
     "projects": [
       {
+        "id": "carcost",
+        "name": "The Real Cost of Your Car",
+        "url": "https://carcost.lautarogartner.com",
+        "label": "Herramienta interactiva · Publicada",
+        "title": "Estimá la cuota del auto. Entendé el costo completo.",
+        "description": "Calculadora gratuita con impuestos y gastos, presupuesto mensual, cinco plazos y un cronograma de amortización descargable. Compará cuota e intereses antes de comprar.",
+        "cta": "Abrir la calculadora",
+        "deliverables": [
+          "Cuotas con impuestos y gastos financiados o al inicio",
+          "Cinco plazos, presupuesto mensual y gráfico de capital e intereses",
+          "Cronograma mensual y descarga CSV"
+        ],
+        "alt": "Captura real de la calculadora con una cuota mensual de USD 608,29",
+        "featured": false,
+        "tool": true,
+        "tutorial": "/es/car-loan-calculator-guide",
+        "tutorialLabel": "Leer la guía de compra"
+      },
+      {
         "name": "Tiki Cóctel Show",
         "id": "tiki",
         "url": "https://www.tikicoctelshow.com/",
@@ -373,25 +392,6 @@
           "Flujo de pedidos y reserva de turnos"
         ],
         "alt": "Presentación pública actual de Filsen, con el lanzamiento en Crespo y una fotografía de Plaza Sarmiento"
-      },
-      {
-        "id": "carcost",
-        "name": "The Real Cost of Your Car",
-        "url": "https://carcost.lautarogartner.com",
-        "label": "Herramienta interactiva · Publicada",
-        "title": "Mirá más allá de la cuota.",
-        "description": "Una calculadora de préstamos para autos con supuestos explícitos, cinco plazos comparables, un gráfico de capital e interés y el cronograma completo. Construida con Next.js, TypeScript y Tailwind CSS, sin cuentas ni cotizaciones de entidades.",
-        "cta": "Abrir la calculadora",
-        "deliverables": [
-          "Amortización a tasa fija y 27 pruebas unitarias",
-          "Cinco plazos, gráfico interactivo y cronograma CSV",
-          "Exportación estática, teclado y diseño adaptable"
-        ],
-        "alt": "Auto plateado sobre un camino de pagos esculpido, ilustración de la calculadora",
-        "featured": false,
-        "tool": true,
-        "tutorial": "/es/building-a-car-loan-calculator",
-        "tutorialLabel": "Leer el tutorial de construcción"
       }
     ],
     "nav": {
