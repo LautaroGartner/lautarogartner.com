@@ -417,6 +417,17 @@ function renderBody(value: string, illustrations: WritingPost["illustrations"] =
       continue;
     }
 
+    const tableLines = block.split("\n").map(line => line.trim());
+    if (tableLines.length >= 3 && tableLines[0].startsWith("|") && /^\|?(\s*:?-{3,}:?\s*\|)+\s*$/.test(tableLines[1])) {
+      const cells = (line: string) => line.replace(/^\||\|$/g, "").split("|").map(cell => cell.trim());
+      const headers = cells(tableLines[0]);
+      const rows = tableLines.slice(2).map(cells);
+      if (rows.every(row => row.length === headers.length)) {
+        rendered.push(`<div class="article-table-scroll" role="region" tabindex="0" aria-label="${escapeHtml(headers.join(" · "))}"><table><thead><tr>${headers.map(cell=>`<th scope="col">${renderInline(cell)}</th>`).join("")}</tr></thead><tbody>${rows.map(row=>`<tr>${row.map((cell,i)=>i===0 ? `<th scope="row">${renderInline(cell)}</th>` : `<td>${renderInline(cell)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`);
+        continue;
+      }
+    }
+
     if (block.split("\n").every((line) => /^[*-] /.test(line.trim()))) {
       const items = block
         .split("\n")
@@ -1120,6 +1131,7 @@ export function generatePostPage(
       url: canonical ?? undefined,
       mainEntityOfPage: canonical ?? undefined,
       keywords: post.topics ?? [],
+      ...(post.applicationUrl ? { about: { "@type": "WebApplication", "@id": post.applicationUrl + "/#calculator", name: "The Real Cost of Your Car", url: post.applicationUrl } } : {}),
       author: {
         "@type": "Person",
         name: site.author ?? AUTHOR_NAME,
