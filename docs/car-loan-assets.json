@@ -16,6 +16,11 @@
       "file": "amortization.webp",
       "width": 1240,
       "height": 839
+    },
+    {
+      "file": "calculator-tax-fees.webp",
+      "width": 1280,
+      "height": 1089
     }
   ],
   "derivatives": "Project cover variants include resized 3840px exports. These are interpolated derivatives of the real UI captures, not native 4K detail.",
