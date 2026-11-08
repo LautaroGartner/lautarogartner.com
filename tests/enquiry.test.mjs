@@ -30,3 +30,9 @@ test('optional international phone is included only when supplied',async()=>{for
 
 test('token response uses a supported Vercel IP country or null',async()=>{for(const [country,expected] of [['AR','AR'],['US','US'],['ZZ',null],[undefined,null]]){const f=fixture();const result=await f.invoke('GET',undefined,{'x-vercel-ip-country':country});assert.equal(result.status,200);assert.equal(result.json.country,expected);assert.match(result.json.token,/^[0-9]{13}\./);}});
 test('selected phone country formats national numbers and blank phones omit region',async()=>{for(const phone of ['(415) 555-2671','']){const f=fixture();const b={...await requestBody(f),phone,phoneCountry:'US'};assert.equal((await f.invoke('POST',b)).status,200);const sent=JSON.parse(f.calls[0].options.body);if(phone){assert.ok(sent.text.includes('+1 415 555 2671'));assert.ok(sent.text.includes('United States'));}else{assert.ok(!sent.text.includes('Country / region'));}}});
+
+test('calculator enquiries retain their service label through the delivery boundary',async()=>{
+ const f=fixture();const b={...await requestBody(f),service:'quote-calculator'};
+ const r=await f.invoke('POST',b);assert.equal(r.status,200);
+ const sent=JSON.parse(f.calls[0].options.body);assert.match(sent.text,/Custom quote calculator/);
+});

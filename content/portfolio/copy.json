@@ -3,7 +3,7 @@
     "hero": {
       "Eyebrow": "Lautaro Gärtner · Independent developer",
       "H1": "Turn more visitors into sales enquiries.",
-      "Body": "I help service businesses fix the friction between an interested visitor and a completed quote or contact request. One focused improvement to the website you already have.",
+      "Body": "I build custom websites, quote calculators and enquiry workflows for service businesses. From your pricing rules to a working contact journey, work directly with me to scope, build and check the result.",
       "Primary CTA": "Send me your page",
       "Secondary CTA": "See the work",
       "Small line": "For service businesses with an existing website and traffic. Based in Crespo, Argentina."
@@ -168,12 +168,12 @@
       "contact": "contact"
     },
     "seo": {
-      "title": "Lautaro Gärtner | Website Enquiry Conversion",
-      "description": "Focused improvements to existing quote and contact flows for service businesses. Explore real work and discuss a measurable website change with Lautaro Gärtner."
+      "title": "Custom Websites & Quote Calculators | Lautaro Gärtner",
+      "description": "Custom websites, quote calculators and contact-form repairs for service businesses. Explore working examples and scope your project directly with Lautaro Gärtner."
     },
     "services": {
-      "title": "Website repairs, quote forms and small-business websites",
-      "intro": "A broken contact form, a confusing quote request or a business website that needs a clearer next step. Tell me what needs to work, and we’ll agree a practical scope before I build it.",
+      "title": "Custom websites, quote calculators and form repair",
+      "intro": "A tool for your pricing rules, a form that needs fixing or a new business website. Choose the starting point and we’ll agree a concrete scope.",
       "items": [
         [
           "Website repairs",
@@ -242,7 +242,7 @@
     "hero": {
       "Eyebrow": "Lautaro Gärtner · Desarrollador independiente",
       "H1": "Convertí más visitas en consultas comerciales.",
-      "Body": "Ayudo a negocios de servicios a corregir las trabas entre una visita interesada y una consulta enviada. Una mejora concreta en la web que ya tenés.",
+      "Body": "Desarrollo sitios web, cotizadores y flujos de consulta para negocios de servicios. Desde tus reglas de precios hasta un formulario que funcione: trabajás directamente conmigo para definir, construir y verificar el resultado.",
       "Primary CTA": "Mandame tu página",
       "Secondary CTA": "Ver trabajos",
       "Small line": "Para negocios de servicios que ya tienen web y visitas. Desde Crespo, Argentina."
@@ -407,12 +407,12 @@
       "contact": "contacto"
     },
     "seo": {
-      "title": "Lautaro Gärtner | Más consultas desde tu web",
-      "description": "Mejoras concretas en páginas y formularios de consulta para negocios de servicios. Mirá trabajo real y definamos un cambio medible en tu web."
+      "title": "Sitios web y cotizadores a medida | Lautaro Gärtner",
+      "description": "Sitios web, cotizadores y reparación de formularios para negocios de servicios. Explorá ejemplos de cálculo y acordá tu proyecto directamente con Lautaro Gärtner."
     },
     "services": {
-      "title": "Arreglos web, formularios de presupuesto y sitios para negocios",
-      "intro": "Un formulario que no funciona, una solicitud de presupuesto confusa o una web que necesita un próximo paso más claro. Contame qué necesitás resolver y acordamos un alcance concreto antes de empezar.",
+      "title": "Sitios web, cotizadores y reparación de formularios",
+      "intro": "Una herramienta para tus reglas de precios, un formulario que necesita un arreglo o un sitio nuevo. Elegí el punto de partida y acordemos un alcance concreto.",
       "items": [
         [
           "Arreglos en tu web",

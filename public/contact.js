@@ -2,6 +2,9 @@
  const form=document.querySelector('[data-contact-form]');if(!form)return;
  const es=form.dataset.contactLanguage==='es',button=form.querySelector('button[type=submit]'),status=form.querySelector('.contact-status');
  const labels=es?{send:'Enviar consulta ↗',busy:'Enviando…',ready:'',success:'¡Mensaje enviado! Gracias por escribirme.',error:'No se pudo enviar. Reintentá o escribime por email.',rate:'Esperá un minuto antes de volver a intentar, o escribime por email.',token:'El formulario no está disponible ahora. Podés escribirme directamente por email.'}:{send:'Send enquiry ↗',busy:'Sending…',ready:'',success:'Message sent. Thank you!',error:'Couldn’t send. Try again or email me directly.',rate:'Please wait a minute before retrying, or email me directly.',token:'The form is unavailable right now. You can email me directly.'};
+ const requestedService=new URLSearchParams(location.search).get('service');
+ const serviceField=form.querySelector('[name=service]');
+ if(Array.from(serviceField.options).some(option=>option.value===requestedService))serviceField.value=requestedService;
  const phoneCountry=form.querySelector('[name=phoneCountry]');let countryChanged=false;
  phoneCountry.addEventListener('change',()=>{countryChanged=true;});
  let tokenPromise,token='',pending=false,accepted=false,submittedBody,preparedAt=0;
@@ -30,7 +33,7 @@
    // Only acceptance counts. No form values or recipient are sent to analytics.
    const key=`enquiry-accepted:${data.reference}`;
    let tracked=false;try{tracked=sessionStorage.getItem(key)==='1';if(!tracked)sessionStorage.setItem(key,'1');}catch{}
-   if(!tracked){try{window.dispatchEvent(new CustomEvent('enquiry:accepted',{detail:{language:es?'es':'en'}}));}catch{}}
+   if(!tracked){try{window.dispatchEvent(new CustomEvent('enquiry:accepted',{detail:{language:es?'es':'en',service:submittedBody.service}}));}catch{}}
   }catch{
    message(response?.status===429?labels.rate:response?.status===503?labels.token:labels.error,'error');
    // Token/validation rejection has not sent email; allow corrected details and a fresh token.

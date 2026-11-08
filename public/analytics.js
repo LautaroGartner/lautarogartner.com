@@ -35,6 +35,6 @@
   settings.focus();
  };
  allow.addEventListener('click',()=>choose('allow'));deny.addEventListener('click',()=>choose('deny'));settings.addEventListener('click',()=>{panel.hidden=false;allow.focus();});
- window.addEventListener('enquiry:accepted',event=>{if(!enabled)return;const language=event.detail?.language;if(['en','es'].includes(language))track('enquiry_accepted',{language});});
+ window.addEventListener('enquiry:accepted',event=>{if(!enabled)return;const language=event.detail?.language;if(['en','es'].includes(language))track('enquiry_accepted',{language,...(['quote-calculator','website-repair','forms','new-website','other'].includes(event.detail?.service)?{service:event.detail.service}:{})});});
  if(choice==='allow')enable();else if(choice!=='deny')panel.hidden=false;
 })();
