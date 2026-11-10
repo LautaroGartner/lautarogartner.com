@@ -46,5 +46,5 @@ test('calculator enquiry service is accepted by the shared form and API catalogu
   const {enquiryServices}=await import('../site/enquiry-options.mjs');
   assert.ok(enquiryServices.some(option=>option.value==='quote-calculator'));
   const html=fs.readFileSync('dist/contact/index.html','utf8');
-  assert.ok(html.includes('<option value="quote-calculator">Custom quote calculator</option>'));
+  assert.ok(html.includes('<option value="quote-calculator" hidden>Custom quote calculator</option>'));
 });

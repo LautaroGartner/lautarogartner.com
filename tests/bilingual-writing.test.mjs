@@ -32,7 +32,7 @@ test('seven article pairs have reciprocal alternatives, own canonicals and match
 test('each writing index lists seven matching-language articles and no untranslated duplicates',()=>{
  for(const lang of ['en','es']){
   const html=fs.readFileSync(`dist/${lang==='es'?'es/':''}writing/index.html`,'utf8');
-  assert.equal((html.match(/<article>/g)||[]).length,7);
+  assert.equal((html.match(/<article\b/g)||[]).length,7);
   for(const p of sources){const same=(p.language??'en')===lang;assert.equal(html.includes(`href="/${p.slug}"`),same,p.slug);}
  }
 });

@@ -10,26 +10,48 @@ function fixture(overrides={}){
  const invoke=async(method,body,headers={})=>{let status=200,json,head={};const res={setHeader:(k,v)=>head[k]=v,status:n=>{status=n;return res;},json:v=>json=v};await handler({method,body,headers:{origin:'https://www.lautarogartner.com','content-type':'application/json','x-forwarded-for':ip,...headers}},res);return {status,json,head};};
  return {invoke,calls,advance:()=>time+=2000};
 }
-async function requestBody(f){const {json}=await f.invoke('GET');f.advance();return {token:json.token,name:'Synthetic Owner',service:'forms',email:'synthetic@example.invalid',project:'[TEST ONLY] Synthetic website repair enquiry.',website:'https://example.invalid',company:'',language:'en'};}
+async function requestBody(f){const {json}=await f.invoke('GET');f.advance();return {token:json.token,name:'Synthetic Owner',service:'forms',email:'synthetic@example.invalid',phone:'+54 9 343 123-4567',budget:'not-sure',project:'[TEST ONLY] Synthetic website repair enquiry.',website:'https://example.invalid',company:'',language:'en'};}
 test('missing delivery configuration fails closed; no provider call',async()=>{const f=fixture({env:{}});assert.equal((await f.invoke('POST',{})).status,503);assert.equal(f.calls.length,0);});
 test('configured request sends branded HTML and plain text only to verified owner and returns acceptance, not inbox receipt',async()=>{const f=fixture();const b=await requestBody(f);const r=await f.invoke('POST',b);assert.equal(r.status,200);assert.equal(r.json.accepted,true);assert.equal(f.calls.length,1);const sent=JSON.parse(f.calls[0].options.body);assert.deepEqual(sent.to,['lautaro@lautarogartner.com']);assert.equal(sent.reply_to,b.email);assert.match(sent.html,/Lautaro Gärtner/);assert.match(sent.html,/#2144d5/);assert.match(sent.text,/TEST ONLY/);assert.ok(f.calls[0].options.headers['Idempotency-Key'].endsWith(r.json.reference));assert.equal(r.json.email,undefined);});
 test('retries use the same provider idempotency key',async()=>{const f=fixture();const b=await requestBody(f);await f.invoke('POST',b);await f.invoke('POST',b);assert.equal(f.calls[0].options.headers['Idempotency-Key'],f.calls[1].options.headers['Idempotency-Key']);});
 test('bad origin, method, content type and oversized body never send',async()=>{const f=fixture();const b=await requestBody(f);assert.equal((await f.invoke('POST',b,{origin:'https://attacker.invalid'})).status,403);assert.equal((await f.invoke('POST',b,{origin:undefined})).status,403);assert.equal((await f.invoke('DELETE',b)).status,405);assert.equal((await f.invoke('POST',b,{'content-type':'text/plain'})).status,415);assert.equal((await f.invoke('POST','x'.repeat(12001))).status,413);assert.equal(f.calls.length,0);});
-test('tampered token, honeypot, header injection and invalid fields never send',async()=>{for(const patch of [{token:'invalid'},{company:'bot'},{email:'ok@example.invalid\r\nBcc: other@example.invalid'},{project:'tiny'},{name:''},{name:'x'.repeat(121)},{phoneCountry:'ZZ'},{phoneCountry:12},{phone:12},{phone:'x'.repeat(41)},{organization:12},{organization:'x'.repeat(161)},{service:'invalid'},{website:12},{budget:12},{budget:'x'.repeat(101)},{language:'de'}]){const f=fixture();const b=await requestBody(f);assert.equal((await f.invoke('POST',{...b,...patch})).status,400);assert.equal(f.calls.length,0);}});
+test('tampered token, honeypot, header injection and invalid fields never send',async()=>{for(const patch of [{token:'invalid'},{company:'bot'},{email:'ok@example.invalid\r\nBcc: other@example.invalid'},{project:'tiny'},{name:''},{name:'x'.repeat(121)},{phoneCountry:'ZZ'},{phoneCountry:12},{phone:undefined},{phone:'   '},{phone:12},{phone:'x'.repeat(41)},{organization:12},{organization:'x'.repeat(161)},{service:'invalid'},{website:12},{budget:undefined},{budget:''},{budget:12},{budget:'unlisted'},{language:'de'}]){const f=fixture();const b=await requestBody(f);assert.equal((await f.invoke('POST',{...b,...patch})).status,400);assert.equal(f.calls.length,0);}});
 test('per-instance POST rate limit stops repeated attempts',async()=>{const f=fixture();const b=await requestBody(f);for(let i=0;i<5;i++)assert.equal((await f.invoke('POST',b)).status,200);assert.equal((await f.invoke('POST',b)).status,429);assert.equal(f.calls.length,5);});
 test('provider rejection, missing receipt and network failure do not report acceptance',async()=>{for(const request of [async()=>({ok:false,json:async()=>({error:'provider'})}),async()=>({ok:true,json:async()=>({})}),async()=>{throw Error('network');}]){const f=fixture({request});const r=await f.invoke('POST',await requestBody(f));assert.equal(r.status,502);assert.equal(r.json.accepted,undefined);}});
-test('fresh and expired tokens do not send',async()=>{let time=1791480000000;const f=fixture({now:()=>time});const {json}=await f.invoke('GET');const b={token:json.token,name:'Synthetic Owner',service:'forms',email:'synthetic@example.invalid',project:'[TEST ONLY] Synthetic enquiry.',language:'es'};assert.equal((await f.invoke('POST',b)).status,400);time+=31*60000;assert.equal((await f.invoke('POST',b)).status,400);});
+test('fresh and expired tokens do not send',async()=>{let time=1791480000000;const f=fixture({now:()=>time});const {json}=await f.invoke('GET');const b={token:json.token,name:'Synthetic Owner',service:'forms',email:'synthetic@example.invalid',phone:'+54 9 343 123-4567',budget:'not-sure',project:'[TEST ONLY] Synthetic enquiry.',language:'es'};assert.equal((await f.invoke('POST',b)).status,400);time+=31*60000;assert.equal((await f.invoke('POST',b)).status,400);});
 
 test('email escapes user content, preserves line breaks and omits an empty website',async()=>{const f=fixture();const b=await requestBody(f);b.project='<img src=x onerror=alert(1)>\nA second line.';b.website='';b.language='es';await f.invoke('POST',b);const sent=JSON.parse(f.calls[0].options.body);assert.match(sent.html,/Nueva consulta/);assert.match(sent.html,/&lt;img src=x onerror=alert\(1\)&gt;<br>A second line/);assert.doesNotMatch(sent.html,/<img|Sitio web|Reference:/);assert.ok(sent.text.includes(b.project));});
 
-test('optional budget is omitted when blank and safely included when supplied',async()=>{for(const language of ['en','es']){for(const budget of ['', 'USD 500–1,000 <flexible>']){const f=fixture();const b={...await requestBody(f),budget,language};const result=await f.invoke('POST',b);assert.equal(result.status,200);const sent=JSON.parse(f.calls[0].options.body);const label=language==='es'?'Presupuesto':'Budget';if(budget){assert.ok(sent.text.includes(label+'\n'+budget));assert.match(sent.html,/USD 500–1,000 &lt;flexible&gt;/);}else{assert.ok(!sent.text.includes(label));assert.ok(!sent.html.includes(label));}}}});
+test('budget selections reach the owner with localized labels',async()=>{
+ for(const [language,value,label] of [['es','not-sure','Todavía no sé'],['en','not-sure','I don’t know yet'],['es','2000-5000','USD 2.000–5.000'],['en','2000-5000','USD 2,000–5,000']]){
+  const f=fixture();const b={...await requestBody(f),budget:value,language};
+  assert.equal((await f.invoke('POST',b)).status,200);
+  const sent=JSON.parse(f.calls[0].options.body);
+  assert.ok(sent.text.includes((language==='es'?'Presupuesto':'Budget')+'\n'+label));
+  assert.ok(sent.html.includes(label));
+ }
+});
 
 test('name, organization and localized service reach the owner with safe formatting',async()=>{for(const language of ['en','es']){const f=fixture();const b={...await requestBody(f),name:'Alex <Owner>',organization:'Studio & Co',service:'new-website',language};assert.equal((await f.invoke('POST',b)).status,200);const sent=JSON.parse(f.calls[0].options.body);assert.match(sent.html,/Alex &lt;Owner&gt;/);assert.match(sent.html,/Studio &amp; Co/);assert.ok(sent.text.includes(language==='es'?'Web para tu negocio':'Small-business website'));}});
 
-test('optional international phone is included only when supplied',async()=>{for(const language of ['en','es']){for(const phone of ['', '+54 9 343 123-4567']){const f=fixture();const b={...await requestBody(f),phone,language};assert.equal((await f.invoke('POST',b)).status,200);const sent=JSON.parse(f.calls[0].options.body);const label=language==='es'?'Teléfono':'Phone';if(phone){assert.ok(sent.text.includes(label+'\n+54 9 343 123 4567'));assert.ok(sent.html.includes('+54 9 343 123 4567'));}else{assert.ok(!sent.text.includes(label));}}}});
+test('international phone is included in the enquiry email',async()=>{
+ for(const language of ['en','es']){
+  const f=fixture();const b={...await requestBody(f),language};
+  assert.equal((await f.invoke('POST',b)).status,200);
+  const sent=JSON.parse(f.calls[0].options.body);
+  assert.ok(sent.text.includes((language==='es'?'Teléfono':'Phone')+'\n+54 9 343 123 4567'));
+  assert.ok(sent.html.includes('+54 9 343 123 4567'));
+ }
+});
 
 test('token response uses a supported Vercel IP country or null',async()=>{for(const [country,expected] of [['AR','AR'],['US','US'],['ZZ',null],[undefined,null]]){const f=fixture();const result=await f.invoke('GET',undefined,{'x-vercel-ip-country':country});assert.equal(result.status,200);assert.equal(result.json.country,expected);assert.match(result.json.token,/^[0-9]{13}\./);}});
-test('selected phone country formats national numbers and blank phones omit region',async()=>{for(const phone of ['(415) 555-2671','']){const f=fixture();const b={...await requestBody(f),phone,phoneCountry:'US'};assert.equal((await f.invoke('POST',b)).status,200);const sent=JSON.parse(f.calls[0].options.body);if(phone){assert.ok(sent.text.includes('+1 415 555 2671'));assert.ok(sent.text.includes('United States'));}else{assert.ok(!sent.text.includes('Country / region'));}}});
+test('selected phone country formats national numbers',async()=>{
+ const f=fixture();const b={...await requestBody(f),phone:'(415) 555-2671',phoneCountry:'US'};
+ assert.equal((await f.invoke('POST',b)).status,200);
+ const sent=JSON.parse(f.calls[0].options.body);
+ assert.ok(sent.text.includes('+1 415 555 2671'));
+ assert.ok(sent.text.includes('United States'));
+});
 
 test('calculator enquiries retain their service label through the delivery boundary',async()=>{
  const f=fixture();const b={...await requestBody(f),service:'quote-calculator'};

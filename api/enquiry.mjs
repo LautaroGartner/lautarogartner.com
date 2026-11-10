@@ -1,5 +1,5 @@
 import {isPhoneCountry} from '../site/phone-countries.mjs';
-import {enquiryServices} from '../site/enquiry-options.mjs';
+import {enquiryBudgets, enquiryServices} from '../site/enquiry-options.mjs';
 import {enquiryEmail} from './enquiry-email.mjs';
 import {createHmac, randomUUID, timingSafeEqual} from 'node:crypto';
 
@@ -54,8 +54,9 @@ export function createEnquiryHandler({env=process.env, request=fetch, now=Date.n
    body=JSON.parse(raw);
   } catch {return res.status(400).json({error:'validation'});}
   if (!body || typeof body!=='object' || Array.isArray(body) || !validToken(body.token,secret,time)) return res.status(400).json({error:'token'});
-  const {name,organization='',service,email,phone='',phoneCountry='',project,website='',budget='',company='',language}=body;
-  if (typeof name!=='string' || !name.trim() || name.length>120 || typeof phone!=='string' || phone.length>40 || (phoneCountry!=='' && !isPhoneCountry(phoneCountry)) || typeof organization!=='string' || organization.length>160 || !enquiryServices.some(option=>option.value===service) || typeof email!=='string' || email.length>254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || /[\r\n]/.test(email) || typeof project!=='string' || project.trim().length<10 || project.length>4000 || typeof website!=='string' || website.length>2048 || typeof budget!=='string' || budget.length>100 || company!=='' || !['en','es'].includes(language)) return res.status(400).json({error:'validation'});
+  const {name,organization='',service,email,phone,phoneCountry='',project,website='',budget,company='',language}=body;
+  if (typeof phone!=='string' || !phone.trim() || phone.length>40 || !enquiryBudgets.some(option=>option.value===budget)) return res.status(400).json({error:'validation'});
+  if (typeof name!=='string' || !name.trim() || name.length>120 || (phoneCountry!=='' && !isPhoneCountry(phoneCountry)) || typeof organization!=='string' || organization.length>160 || !enquiryServices.some(option=>option.value===service) || typeof email!=='string' || email.length>254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || /[\r\n]/.test(email) || typeof project!=='string' || project.trim().length<10 || project.length>4000 || typeof website!=='string' || website.length>2048 || company!=='' || !['en','es'].includes(language)) return res.status(400).json({error:'validation'});
   const nonce=body.token.split('.')[1];
   try {
    const response=await request('https://api.resend.com/emails', {

@@ -10,7 +10,7 @@ export function servicePages({ lang, page, head, escape: e, base }) {
   const contact = kind => `${base('contact')}?service=${kind}`;
   const calculatorPath = base(serviceRoutes.calculator);
   const repairPath = base(serviceRoutes.repair);
-  const link = (url, label, button = false) => `<a class="${button ? 'button' : 'text-link'}" href="${e(url)}">${e(label)} <span aria-hidden="true">↗</span></a>`;
+  const link = (url, label, button = false) => `<a class="${button ? 'button' : 'text-link'}" href="${e(url)}">${e(label)}</a>`;
   const section = (title, body) => `<section class="service-next"><h2>${e(title)}</h2>${body}</section>`;
   const paragraphs = lines => lines.map(line => `<p>${e(line)}</p>`).join('');
   const list = lines => `<ul>${lines.map(line => `<li>${e(line)}</li>`).join('')}</ul>`;

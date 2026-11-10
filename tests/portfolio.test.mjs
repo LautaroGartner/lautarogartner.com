@@ -9,12 +9,12 @@ const posts=allPosts.filter(p=>p.status==='published').sort((a,b)=>b.publishedAt
 const about=JSON.parse(fs.readFileSync('content/pages/about.json'));
 const site=createSite(settings,posts,[about]);
 const htmlFor=path=>generateSitePage(site,site.pages.find(p=>p.path===path));
-for (const [path,lang,heading,anchor] of [['/','en','Turn more visitors into sales enquiries.','work'],['/es','es','Convertí más visitas en consultas comerciales.','trabajos'],['/web','en','Turn more visitors into sales enquiries.','work'],['/web/es','es','Convertí más visitas en consultas comerciales.','trabajos']]) {
+for (const [path,lang,heading,anchor] of [['/','en','Software that scales with you.','work'],['/es','es','Software para escalar tu negocio.','trabajos'],['/web','en','Software that scales with you.','work'],['/web/es','es','Software para escalar tu negocio.','trabajos']]) {
  test(`${path}: bilingual commercial content, narrow pricing and honest evidence`,()=>{
-  const html=htmlFor(path); assert.match(html,new RegExp(`<html lang="${lang}">`));assert.equal((html.match(/<h1\b/g)||[]).length,1);assert.ok(html.includes(heading));assert.ok(html.includes(`id="${anchor}"`));
-  for(const id of ['tiki','lucia','filsen']) assert.ok(html.includes(`id="${id}"`));
-  assert.match(htmlFor(lang==='es'?'/es/services':'/services'),/USD 100/);
-  assert.match(html,lang==='en'?/Own product · Beta/:/Producto propio · Beta/);assert.match(html,new RegExp(`mailto:${lang==='es'?'hola':'contact'}@lautarogartner.com\\?subject=`));assert.ok(html.includes('Crespo'));assert.doesNotMatch(html,/Paraná|lautaro@lautarogartner.com/);
+  const html=htmlFor(path); assert.match(html,new RegExp(`<html lang="${lang}">`));assert.equal((html.match(/<h1\b/g)||[]).length,1);assert.ok(html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/)[1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').includes(heading));assert.ok(html.includes(`id="${anchor}"`));
+  for(const id of ['lucia','filsen']) assert.ok(html.includes(`id="${id}"`));
+  assert.match(htmlFor(lang==='es'?'/es/services/contact-form-repair':'/services/contact-form-repair'),/USD 100/);
+  assert.match(htmlFor(lang==='es'?'/es/work':'/work'),lang==='en'?/Own product · Beta/:/Producto propio · Beta/);assert.match(html,new RegExp(`mailto:${lang==='es'?'hola':'contact'}@lautarogartner.com\\?subject=`));assert.ok(html.includes('Crespo'));assert.doesNotMatch(html,/Paraná|lautaro@lautarogartner.com/);
   assert.doesNotMatch(html.replace(/<style>[\s\S]*?<\/style>|<script\b[^>]*>[\s\S]*?<\/script>/g,''),/USD 250|155\.000|30%|26%|19\.31%|trusted by|screenshot here|What I can build|Clear websites|checkout|FounderShape/);
   assert.match(html,/hreflang="en"/);assert.match(html,/hreflang="es"/);assert.match(html,/hreflang="x-default"/);
   assert.match(html,/og:image" content="https:\/\/www.lautarogartner.com\/work\/social.jpg/);

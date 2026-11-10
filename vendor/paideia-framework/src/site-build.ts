@@ -138,7 +138,7 @@ function renderHead(options: {
     <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=portrait-circle-20261008" sizes="180x180">
     <link rel="manifest" href="/site.webmanifest?v=portrait-circle-20261008">
     <meta name="theme-color" content="#f0eee8">${author}${canonicalLink}${(options.alternates ?? []).map(a => `\n    <link rel="alternate" hreflang="${escapeHtml(a.language)}" href="${escapeHtml(canonicalUrl(options.site, a.path) ?? a.path)}">`).join("")}${structuredData}
-    <script defer src="/analytics.js?v=1" data-measurement-id="${escapeHtml(/^G-[A-Z0-9]{6,20}$/.test(process.env.GA_MEASUREMENT_ID ?? "") ? process.env.GA_MEASUREMENT_ID! : "")}"></script>
+    <script defer src="/analytics.js?v=6" data-measurement-id="${escapeHtml(/^G-[A-Z0-9]{6,20}$/.test(process.env.GA_MEASUREMENT_ID ?? "") ? process.env.GA_MEASUREMENT_ID! : "")}"></script>
     <script>
       (() => {
         function formatRelativeDate(publishedAt, now = new Date()) {
