@@ -159,9 +159,16 @@
 }
 .studio-services .studio-action--line { padding-left: 0; }
 
-.studio-giveaway {
+.studio-page--home {
   --giveaway-band: #c9e7ff;
+}
+.studio-page--home > .giveaway-hero {
+  border-image: linear-gradient(to bottom, transparent calc(100% - clamp(110px, 23svh, 260px)), var(--giveaway-band)) 1 fill / 0 / 0 100vmax;
+}
+.studio-giveaway {
+  --giveaway-band-top: linear-gradient(var(--giveaway-band), transparent 64px);
   background:
+    var(--giveaway-band-top),
     radial-gradient(ellipse at 30% 54%, #d9d2ff 0%, transparent 65%),
     radial-gradient(ellipse at 70% 82%, #d9f9d5 0%, transparent 60%),
     var(--giveaway-band);
@@ -203,6 +210,7 @@
 @media (min-width: 768px) {
   .studio-giveaway {
     background-image:
+      var(--giveaway-band-top),
       radial-gradient(ellipse 34% 98% at 34% 48%, #d9d2ff, transparent),
       radial-gradient(ellipse 34% 94% at 66% 77%, #d9f9d5, transparent);
     box-shadow: 0 0 0 100vmax var(--giveaway-band);
