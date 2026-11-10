@@ -159,6 +159,60 @@
 }
 .studio-services .studio-action--line { padding-left: 0; }
 
+.studio-giveaway {
+  --giveaway-band: #c9e7ff;
+  background:
+    radial-gradient(ellipse at 30% 54%, #d9d2ff 0%, transparent 65%),
+    radial-gradient(ellipse at 70% 82%, #d9f9d5 0%, transparent 60%),
+    var(--giveaway-band);
+  padding-block: clamp(44px, 7vw, 94px);
+}
+.studio-giveaway > .studio-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(24px, 5vw, 72px);
+}
+.studio-giveaway h2 {
+  margin: 0;
+  font-size: clamp(39px, 5.6vw, 76px);
+  line-height: 1.02;
+  letter-spacing: -.072em;
+}
+.studio-giveaway h2 span { color: #49347d; }
+.studio-giveaway h2 + p {
+  margin: 18px 0 0;
+  font-size: clamp(16px, 1.65vw, 22px);
+}
+.studio-giveaway-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: start;
+  min-height: 56px;
+  padding: 0 26px;
+  border-radius: 999px;
+  background: #2c2054;
+  color: #fff;
+  font-weight: 750;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color .2s ease;
+}
+.studio-giveaway-link:is(:hover, :focus-visible) { background: #48357f; }
+@media (min-width: 768px) {
+  .studio-giveaway {
+    background-image:
+      radial-gradient(ellipse 34% 98% at 34% 48%, #d9d2ff, transparent),
+      radial-gradient(ellipse 34% 94% at 66% 77%, #d9f9d5, transparent);
+    box-shadow: 0 0 0 100vmax var(--giveaway-band);
+    clip-path: inset(0 -100vmax);
+  }
+}
+@media (max-width: 640px) {
+  .studio-giveaway > .studio-wrap { grid-template-columns: 1fr; }
+}
+
 .studio-services {
   background: var(--studio-lavender);
   padding: clamp(52px, 8vw, 96px) 0;

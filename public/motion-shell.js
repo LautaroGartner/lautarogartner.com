@@ -24,6 +24,7 @@
   toggle.setAttribute('aria-expanded', String(open));
   toggle.setAttribute('aria-label', open ? toggle.dataset.closeLabel : toggle.dataset.openLabel);
   menu.inert = !open;
+  if (!open) menuList.classList.remove('is-hovering');
   header.querySelector('.c-btn__open').classList.toggle('is-visible', !open);
   header.querySelector('.c-btn__close').classList.toggle('is-visible', open);
   if (open) {
@@ -37,6 +38,13 @@
   }
  }
  if (header && toggle) {
+  // Same hover state as the giveaway's original menu runtime.
+  for (const link of menuList.querySelectorAll('.l-nav__link')) {
+   link.addEventListener('mouseenter', () => {
+    if (fine.matches) menuList.classList.add('is-hovering');
+   });
+   link.addEventListener('mouseleave', () => menuList.classList.remove('is-hovering'));
+  }
   toggle.addEventListener('click', () => setMenu(menu.inert));
   document.addEventListener('keydown', event => {
    if (menu.inert) return;
@@ -360,7 +368,10 @@
    const showFocusedContent = () => finishOpening(true);
    hero.addEventListener('focusin',showFocusedContent);
    const checkHandoff = () => {
-    const {bottom,height} = curtain.getBoundingClientRect();
+    const curtainBox = curtain.getBoundingClientRect();
+    const viewportBottom = (viewport?.offsetTop || 0) + (viewport?.height || innerHeight);
+    const bottom = mobile.matches ? Math.min(curtainBox.bottom, viewportBottom) : curtainBox.bottom;
+    const height = bottom - curtainBox.top;
     const curtainEdge = Math.min(...layers.map(layer => layer.getBoundingClientRect().top));
     if (curtainEdge >= bottom) {
      finishOpening();

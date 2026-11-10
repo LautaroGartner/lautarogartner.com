@@ -50,6 +50,18 @@ export function studioHome({ lang, base, escape, copy, legacyLinks }) {
   }));
   const html = `<div class="studio-page studio-page--home">
     ${giveawayHero({lang, escape, contact:base('contact'), projects})}
+    <section class="studio-giveaway" aria-labelledby="studio-giveaway-title">
+      <div class="studio-wrap">
+        <div class="studio-giveaway-copy">
+          <p class="studio-label">${es ? 'Sorteo' : 'Giveaway'}</p>
+          <h2 id="studio-giveaway-title">${es ? 'Una web de USD&nbsp;3.000.' : 'A $3,000 website.'}<br>
+            <span>${es ? 'Para vos, a $0.' : 'Yours for $0.'}</span>
+          </h2>
+          <p>${es ? 'Un negocio gana. El resto recibe <strong>USD&nbsp;1.000 de descuento.</strong>' : 'One business wins. Everyone else gets <strong>$1,000 off.</strong>'}</p>
+        </div>
+        <a class="studio-giveaway-link" href="https://giveaway.lautarogartner.com${es ? '/es/' : '/'}">${es ? 'Quiero participar' : 'Enter the giveaway'}</a>
+      </div>
+    </section>
     ${studioOffers({ lang, base, escape })}
     <section class="studio-next studio-wrap" aria-labelledby="studio-next-title">
       <h2 id="studio-next-title">${es ? 'Empecemos por tu proyecto.' : 'Let’s start with your project.'}</h2>

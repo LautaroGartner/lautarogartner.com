@@ -92,11 +92,11 @@ export function giveawayHero({lang, escape, contact, projects}) {
   const es = lang === 'es';
   const lines = es ? ['Software para', 'escalar tu negocio.'] : ['Software that', 'scales with you.'];
   return `<div class="giveaway-elements giveaway-hero">
+    <div class="studio-curtain" aria-hidden="true">
+      <div class="studio-curtain-layer"></div>
+      <div class="studio-curtain-layer studio-curtain-layer--front"><span>LG</span></div>
+    </div>
     <section class="p-home__header l-section" aria-labelledby="hero-title">
-      <div class="studio-curtain" aria-hidden="true">
-        <div class="studio-curtain-layer"></div>
-        <div class="studio-curtain-layer studio-curtain-layer--front"><span>LG</span></div>
-      </div>
       <div class="hero-edge-motion" aria-hidden="true">${edgeWaves}</div>
       <div class="c-heading c-heading--center is-visible">
         <div class="c-heading__inner t-content">
