@@ -10,67 +10,150 @@
   }
   const fbclid = params.get('fbclid');
   const click = fbclid && /^[\w-]{1,400}$/.test(fbclid) ? 'fb.1.' + Date.now() + '.' + fbclid : undefined;
+  const country = form.elements.namedItem('phoneCountry');
+  const phone = form.elements.namedItem('tel');
+  const regionOptions = new Map([...form.querySelectorAll('#region-options [role=option]')].map(
+    option => [option.dataset.value, option]
+  ));
+  const countryToggle = form.querySelector('[data-country-toggle]');
+  const prefix = form.querySelector('[data-dial-code]');
+  let countryChosen = false;
+
+  function setCountry(code) {
+    const option = regionOptions.get(code);
+    if (!option) return;
+    regionOptions.get(country.value)?.setAttribute('aria-selected', 'false');
+    option.setAttribute('aria-selected', 'true');
+    country.value = code;
+    prefix.textContent = '+' + option.dataset.code;
+    countryToggle.querySelector('[data-flag]').textContent = option.firstElementChild.textContent;
+    countryToggle.setAttribute('aria-label', 'Change phone country, ' + option.dataset.name + ' +' + option.dataset.code);
+    validatePhone();
+  }
+
+  function browserCountry() {
+    // The time zone is more useful than the interface language when they differ.
+    const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    try {
+      // WebKit can return America/Argentina/Cordoba while its region list
+      // exposes America/Cordoba. Use the city only when it identifies one region.
+      const cityKey = name => {
+        const parts = name.split('/');
+        return parts[0] + '/' + parts.at(-1);
+      };
+      const alternate = [];
+      for (const code of regionOptions.keys()) {
+        const locale = new Intl.Locale('und-' + code);
+        const zones = locale.getTimeZones?.() ?? locale.timeZones ?? [];
+        if (zones.includes(zone)) return code;
+        if (zone.includes('/') && zones.some(name => cityKey(name) === cityKey(zone))) alternate.push(code);
+      }
+      if (alternate.length === 1) return alternate[0];
+      return new Intl.Locale(navigator.language).region;
+    } catch { return undefined; }
+  }
+
   for (const picker of form.querySelectorAll('[data-picker]')) {
     const input = picker.querySelector('[role=combobox]');
     const stored = picker.querySelector('input[type=hidden]');
-    const list = picker.querySelector('[role=listbox]');
+    const menu = picker.querySelector('[data-menu]');
+    const list = menu.querySelector('[role=listbox]');
     const options = [...list.children];
-    const empty = picker.querySelector('[data-no-match]');
+    const empty = menu.querySelector('[data-no-match]');
+    const region = stored === country;
+    const trigger = region ? countryToggle : picker.querySelector('[data-toggle]');
+    const anchor = region ? picker.parentElement : picker;
     let active = null;
     const matches = () => options.filter(option => !option.hidden);
+
+    function position() {
+      if (menu.hidden) return;
+      const box = anchor.getBoundingClientRect();
+      const viewport = window.visualViewport;
+      const top = viewport?.offsetTop ?? 0;
+      const height = viewport?.height ?? innerHeight;
+      const below = top + height - box.bottom - 8;
+      const above = box.top - top - 8;
+      const up = below < 200 && above > below;
+      menu.classList.toggle('opens-up', up);
+      menu.style.maxHeight = Math.max(0, Math.min(270, up ? above : below)) + 'px';
+    }
     function highlight(option) {
       active?.removeAttribute('data-active');
       active = option;
-      if (active) {
-        active.dataset.active = '';
-        input.setAttribute('aria-activedescendant',active.id);
-        active.scrollIntoView({block:'nearest'});
-      } else input.removeAttribute('aria-activedescendant');
+      if (!active) { input.removeAttribute('aria-activedescendant'); return; }
+      active.dataset.active = '';
+      input.setAttribute('aria-activedescendant', active.id);
+      const row = active.getBoundingClientRect(), bounds = list.getBoundingClientRect();
+      if (row.bottom > bounds.bottom) list.scrollTop += row.bottom - bounds.bottom;
+      else if (row.top < bounds.top) list.scrollTop -= bounds.top - row.top;
     }
     function open(filter) {
+      const wasClosed = menu.hidden;
       const query = filter ? input.value.trim().toLowerCase().replace(/[$,]/g,'') : '';
-      for (const option of options) option.hidden = !option.textContent.toLowerCase().replace(/[$,]/g,'').includes(query);
-      const visible = matches();
-      list.hidden = !visible.length;
-      empty.hidden = Boolean(visible.length);
-      input.setAttribute('aria-expanded',String(visible.length>0));
+      for (const option of options) option.hidden = !option.textContent.toLowerCase().replace(/[$,]/g,'').includes(query) && !(region && option.dataset.value.toLowerCase() === query);
+      const any = matches().length > 0;
+      list.hidden = !any;
+      empty.hidden = any;
+      menu.hidden = false;
+      input.setAttribute('aria-expanded','true');
+      if (region) trigger.setAttribute('aria-expanded','true');
+      position();
       highlight(null);
+      list.scrollTop = 0;
+      if (region && wasClosed) {
+        input.focus({preventScroll:true});
+        highlight(regionOptions.get(stored.value));
+      }
     }
     function close() {
-      list.hidden = true;
-      empty.hidden = true;
+      menu.hidden = true;
       input.setAttribute('aria-expanded','false');
+      if (region) trigger.setAttribute('aria-expanded','false');
       highlight(null);
     }
     function select(option) {
-      input.value = option.textContent;
-      stored.value = option.dataset.value;
-      for (const item of options) item.setAttribute('aria-selected',String(item===option));
-      input.setCustomValidity('');
-      close();
+      if (region) {
+        countryChosen = true;
+        setCountry(option.dataset.value);
+        close();
+        trigger.focus({preventScroll:true});
+      } else {
+        input.value = option.textContent;
+        stored.value = option.dataset.value;
+        for (const item of options) item.setAttribute('aria-selected',String(item===option));
+        input.setCustomValidity('');
+        close();
+      }
     }
-    input.addEventListener('click',()=>open(!stored.value && Boolean(input.value)));
+    if (!region) input.addEventListener('click',()=>open(!stored.value && Boolean(input.value)));
     input.addEventListener('input',()=>{
-      stored.value='';
-      options.forEach(option=>option.setAttribute('aria-selected','false'));
-      input.setCustomValidity('Choose one of the listed options.');
+      if (!region) {
+        stored.value='';
+        options.forEach(option=>option.setAttribute('aria-selected','false'));
+        input.setCustomValidity('Choose one of the listed options.');
+      }
       open(true);
-      const exact=matches().find(option=>option.textContent.toLowerCase()===input.value.trim().toLowerCase());
-      if(exact)select(exact);
+      if (!region) {
+        const exact=matches().find(option=>option.textContent.toLowerCase()===input.value.trim().toLowerCase());
+        if(exact)select(exact);
+      }
     });
-    picker.querySelector('[data-toggle]').addEventListener('click',()=>{
-      const expanded=input.getAttribute('aria-expanded')==='true';
-      input.focus();
-      if(expanded)close();else open(false);
+    trigger.addEventListener('click',()=>{
+      if(!menu.hidden){close();return;}
+      if(region)input.value=''; else input.focus();
+      open(false);
     });
     list.addEventListener('pointerdown',event=>event.preventDefault());
     list.addEventListener('click',event=>{
       const option=event.target.closest('[role=option]');
-      if(option){input.focus();select(option);}
+      if(option){input.focus({preventScroll:true});select(option);}
     });
     input.addEventListener('keydown',event=>{
-      if(event.key==='Escape'){close();return;}
-      if(event.key==='Enter' && !list.hidden){
+      if(event.key==='Escape' && !menu.hidden){
+        event.preventDefault(); close(); if(region)trigger.focus({preventScroll:true}); return;
+      }
+      if(event.key==='Enter' && !menu.hidden){
         event.preventDefault();
         const option=active || (matches().length===1 ? matches()[0] : null);
         if(option)select(option);
@@ -78,17 +161,20 @@
       }
       if(!['ArrowDown','ArrowUp'].includes(event.key))return;
       event.preventDefault();
-      if(list.hidden)open(false);
-      const items=matches();
-      const index=items.indexOf(active);
+      if(menu.hidden)open(false);
+      const items=matches(), index=items.indexOf(active);
       highlight(items[index<0 ? (event.key==='ArrowDown'?0:items.length-1) :
         Math.max(0, Math.min(items.length-1,index+(event.key==='ArrowDown'?1:-1)))]);
     });
     picker.addEventListener('focusout',event=>{
       if(picker.contains(event.relatedTarget))return;
-      if(!stored.value && !list.hidden && matches().length===1)select(matches()[0]);
+      if(!region && !stored.value && !menu.hidden && matches().length===1)select(matches()[0]);
       else close();
     });
+    document.addEventListener('pointerdown',event=>{if(!picker.contains(event.target))close();});
+    window.addEventListener('scroll',position,{passive:true});
+    window.addEventListener('resize',position);
+    window.visualViewport?.addEventListener('resize',position);
   }
   const fields = [...form.querySelectorAll('fieldset')];
   const back = form.querySelector('[data-back]'),
@@ -129,7 +215,9 @@
   async function ticket() {
     const response = await fetch('/api/application', { credentials: 'same-origin', cache: 'no-store' });
     if (!response.ok) throw Error('ticket');
-    return (await response.json()).token;
+    const data = await response.json();
+    if (!countryChosen && !phone.value.trim()) setCountry(data.country);
+    return data.token;
   }
   function getCookie(name) {
     return document.cookie
@@ -171,13 +259,6 @@
   window.addEventListener('lg:advertising-change', () => {
     if (!permitted()) window.fbq?.('consent', 'revoke');
   });
-  form.addEventListener(
-    'focusin',
-    () => {
-      if (!token) token = ticket().catch(() => null);
-    },
-    { once: true },
-  );
   back.addEventListener('click', () => {
     if (!busy) show(Math.max(0, step - 1), true);
   });
@@ -240,8 +321,6 @@
       back.disabled = false;
     }
   });
-  const phone = form.elements.namedItem('tel');
-  const country = form.elements.namedItem('phoneCountry');
   function parsedPhone() {
     return window.libphonenumber?.parsePhoneNumberFromString(phone.value.trim(), {
       defaultCountry: country.value || undefined, extract: false
@@ -254,8 +333,24 @@
       ? 'Choose a country code or enter the full number beginning with +.'
       : 'Enter a complete phone number for the selected country.');
   }
-  phone.addEventListener('input', validatePhone);
-  country.addEventListener('change', validatePhone);
+  phone.addEventListener('input', () => {
+    prefix.hidden = phone.value.trim().startsWith('+');
+    validatePhone();
+  });
+  phone.addEventListener('blur', () => {
+    if (!phone.value.trim().startsWith('+')) return;
+    const number = parsedPhone();
+    if (!number?.country || !number.isPossible()) return;
+    countryChosen = true;
+    setCountry(number.country);
+    phone.value = number.formatNational();
+    prefix.hidden = false;
+    validatePhone();
+  });
   if (application.done) confirmed(false);
-  else show(0, false);
+  else {
+    setCountry(browserCountry());
+    show(0, false);
+    token = ticket().catch(() => null);
+  }
 })();

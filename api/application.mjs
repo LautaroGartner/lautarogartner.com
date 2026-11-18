@@ -3,6 +3,7 @@ import { isIP } from 'node:net';
 import { waitUntil } from '@vercel/functions';
 import { signature, validToken, allowedOrigin, limited } from '../server/form-security.mjs';
 import { revenueBands, ownershipBands } from '../site/application-options.mjs';
+import { isPhoneCountry } from '../site/phone-countries.mjs';
 import { applicationStore } from '../server/application-store.mjs';
 import { deliverApplication } from '../server/application-delivery.mjs';
 
@@ -89,7 +90,8 @@ export function createApplicationHandler({
         return out(429, { error: 'rate_limited' });
       if (req.method === 'GET') {
         const nonce = time * 1000 + '.' + randomUUID();
-        return out(200, { token: nonce + '.' + signature(nonce, secret) });
+        const country = req.headers['x-vercel-ip-country'];
+        return out(200, { token: nonce + '.' + signature(nonce, secret), country: isPhoneCountry(country) ? country : null });
       }
       if (!/^application\/json(?:;|$)/i.test(req.headers['content-type'] || ''))
         return out(415, { error: 'content_type' });

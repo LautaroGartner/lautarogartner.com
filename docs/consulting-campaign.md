@@ -12,7 +12,7 @@ You sent the quote. You followed up. Then silence.
 
 **Primary text**
 
-Want more paying clients for your service business? Bring me one job you expected to win. We’ll look at what the buyer asked for, what you offered, and where the conversation stopped. After we speak, I’ll send you a free audit with the first change I’d test. Use it yourself or ask me to help you implement it.
+Bring me the last deal you thought you’d won. We’ll look at what the buyer asked for, what you offered, and where the conversation stopped. After we speak, I’ll send you a free audit with the first change I’d test. Use it yourself or ask me to help you implement it.
 
 **Button**
 
@@ -28,7 +28,7 @@ Learn more
 
 **Facebook Page introduction**
 
-I’m Lautaro Gärtner, a business consultant for service businesses. I help owners figure out where they’re losing business and what to change first.
+I’m Lautaro Gärtner, a business consultant. I help owners figure out where they’re losing business and what to change first.
 
 ## Recording the walkthrough
 
