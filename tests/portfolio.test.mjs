@@ -22,16 +22,19 @@ for (const [path,lang,heading,anchor] of [['/es','es','Software para escalar tu 
   const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);assert.equal(new Set(ids).size,ids.length);
  });
 }
-for(const route of ['/','/web','/cash-flow']){
+for(const route of ['/','/web','/cash-flow','/more-clients']){
  test(route+' shows the consulting offer, worked example and application',()=>{
   const page=site.pages.find(p=>p.path===route);
   const html=htmlFor(route);
   assert.equal((html.match(/<h1\b/g)||[]).length,1);
-  assert.match(html,/Illustrative service business · hypothetical figures/);
-  assert.ok(html.includes('−$7,000'));
+  assert.match(page.html,/Inside an audit · hypothetical example/);
+  assert.match(page.html,/free audit/i);
+  assert.doesNotMatch(page.html,/cash-tool|7,000|worksheet/i);
+  assert.doesNotMatch(page.footerHtml,/Crespo|Local time|LinkedIn|GitHub|>Writing</);
+  assert.equal((page.html.match(/<fieldset/g)||[]).length,3);
   assert.ok(html.includes('href="#discuss"'));
-  assert.equal((html.match(/name="revenue" value=/g)||[]).length,8);
-  assert.equal((html.match(/name="ownership" value=/g)||[]).length,5);
+  assert.equal((html.match(/id="revenue-\d+" role="option"/g)||[]).length,8);
+  assert.equal((html.match(/id="ownership-\d+" role="option"/g)||[]).length,5);
   assert.equal(page.structuredData['@graph'][0].jobTitle,'Business Consultant');
   assert.ok(fs.existsSync('dist'+page.imagePath));
   assert.ok(html.indexOf('id="example"')<html.indexOf('id="discuss"'));

@@ -244,7 +244,7 @@
   };
   const sync = () => {
    const canAnimate = !reduced.matches && !document.hidden;
-   windows.classList.toggle('is-floating', canAnimate && windowsInView);
+   windows?.classList.toggle('is-floating', canAnimate && windowsInView);
    const play = edges.length > 0 && inView && canAnimate;
    if (play === playing) return;
    playing = play;
@@ -267,14 +267,17 @@
    sync();
   });
   observer.observe(hero);
-  observer.observe(windows);
+  if (windows) observer.observe(windows);
   const resize = new ResizeObserver(() => { dirty = true; });
-  resize.observe(hero.querySelector('.c-heading__inner'));
+  resize.observe(hero.querySelector('.c-heading__inner') || hero);
   for (const {canvas} of edges) resize.observe(canvas);
   mobile.addEventListener('change', () => { dirty = true; });
   reduced.addEventListener('change',sync);
   document.addEventListener('visibilitychange',sync);
  }
+
+ const waveHero = document.querySelector('[data-wave-hero]');
+ if (waveHero) mountHeroMotion(waveHero);
 
  const hero = document.querySelector('.giveaway-hero');
  if (hero) {

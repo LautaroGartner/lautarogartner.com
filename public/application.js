@@ -1,7 +1,7 @@
 (() => {
   const form = document.querySelector('[data-application]');
   if (!form) return;
-  const source = location.pathname.replace(/\/$/, '') === '/cash-flow' ? '/cash-flow' : '/';
+  const source = ['/cash-flow', '/more-clients'].includes(location.pathname.replace(/\/$/, '')) ? '/more-clients' : '/';
   const params = new URLSearchParams(location.search);
   const campaign = {};
   for (const key of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']) {
@@ -10,6 +10,86 @@
   }
   const fbclid = params.get('fbclid');
   const click = fbclid && /^[\w-]{1,400}$/.test(fbclid) ? 'fb.1.' + Date.now() + '.' + fbclid : undefined;
+  for (const picker of form.querySelectorAll('[data-picker]')) {
+    const input = picker.querySelector('[role=combobox]');
+    const stored = picker.querySelector('input[type=hidden]');
+    const list = picker.querySelector('[role=listbox]');
+    const options = [...list.children];
+    const empty = picker.querySelector('[data-no-match]');
+    let active = null;
+    const matches = () => options.filter(option => !option.hidden);
+    function highlight(option) {
+      active?.removeAttribute('data-active');
+      active = option;
+      if (active) {
+        active.dataset.active = '';
+        input.setAttribute('aria-activedescendant',active.id);
+        active.scrollIntoView({block:'nearest'});
+      } else input.removeAttribute('aria-activedescendant');
+    }
+    function open(filter) {
+      const query = filter ? input.value.trim().toLowerCase().replace(/[$,]/g,'') : '';
+      for (const option of options) option.hidden = !option.textContent.toLowerCase().replace(/[$,]/g,'').includes(query);
+      const visible = matches();
+      list.hidden = !visible.length;
+      empty.hidden = Boolean(visible.length);
+      input.setAttribute('aria-expanded',String(visible.length>0));
+      highlight(null);
+    }
+    function close() {
+      list.hidden = true;
+      empty.hidden = true;
+      input.setAttribute('aria-expanded','false');
+      highlight(null);
+    }
+    function select(option) {
+      input.value = option.textContent;
+      stored.value = option.dataset.value;
+      for (const item of options) item.setAttribute('aria-selected',String(item===option));
+      input.setCustomValidity('');
+      close();
+    }
+    input.addEventListener('click',()=>open(!stored.value && Boolean(input.value)));
+    input.addEventListener('input',()=>{
+      stored.value='';
+      options.forEach(option=>option.setAttribute('aria-selected','false'));
+      input.setCustomValidity('Choose one of the listed options.');
+      open(true);
+      const exact=matches().find(option=>option.textContent.toLowerCase()===input.value.trim().toLowerCase());
+      if(exact)select(exact);
+    });
+    picker.querySelector('[data-toggle]').addEventListener('click',()=>{
+      const expanded=input.getAttribute('aria-expanded')==='true';
+      input.focus();
+      if(expanded)close();else open(false);
+    });
+    list.addEventListener('pointerdown',event=>event.preventDefault());
+    list.addEventListener('click',event=>{
+      const option=event.target.closest('[role=option]');
+      if(option){input.focus();select(option);}
+    });
+    input.addEventListener('keydown',event=>{
+      if(event.key==='Escape'){close();return;}
+      if(event.key==='Enter' && !list.hidden){
+        event.preventDefault();
+        const option=active || (matches().length===1 ? matches()[0] : null);
+        if(option)select(option);
+        return;
+      }
+      if(!['ArrowDown','ArrowUp'].includes(event.key))return;
+      event.preventDefault();
+      if(list.hidden)open(false);
+      const items=matches();
+      const index=items.indexOf(active);
+      highlight(items[index<0 ? (event.key==='ArrowDown'?0:items.length-1) :
+        Math.max(0, Math.min(items.length-1,index+(event.key==='ArrowDown'?1:-1)))]);
+    });
+    picker.addEventListener('focusout',event=>{
+      if(picker.contains(event.relatedTarget))return;
+      if(!stored.value && !list.hidden && matches().length===1)select(matches()[0]);
+      else close();
+    });
+  }
   const fields = [...form.querySelectorAll('fieldset')];
   const back = form.querySelector('[data-back]'),
     next = form.querySelector('[data-next]');
@@ -40,7 +120,7 @@
     });
     progress.textContent = 'Step ' + (index + 1) + ' of 3';
     back.hidden = index === 0;
-    next.textContent = index === 2 ? 'Send request' : 'Continue';
+    next.firstElementChild.textContent = index === 2 ? 'Send request' : 'Continue';
     next.disabled = false;
     back.disabled = false;
     status.textContent = '';
@@ -123,7 +203,7 @@
         company: val('company'),
         name: val('name'),
         email: val('email'),
-        tel: val('tel'),
+        tel: parsedPhone().number,
         revenue: Number(val('revenue')),
         ownership: Number(val('ownership')),
         advertising: ads,
@@ -161,47 +241,21 @@
     }
   });
   const phone = form.elements.namedItem('tel');
+  const country = form.elements.namedItem('phoneCountry');
+  function parsedPhone() {
+    return window.libphonenumber?.parsePhoneNumberFromString(phone.value.trim(), {
+      defaultCountry: country.value || undefined, extract: false
+    });
+  }
   function validatePhone() {
-    const value = phone.value.trim();
-    phone.setCustomValidity(
-      value && (!/^\+?[\d ().-]+$/.test(value) || value.replace(/\D/g, '').length < 6)
-        ? 'Enter a phone number with at least six digits.'
-        : '',
-    );
+    const number = parsedPhone();
+    const needsCode = phone.value.trim() && !country.value && !phone.value.trim().startsWith('+');
+    phone.setCustomValidity(!phone.value.trim() || number?.isPossible() ? '' : needsCode
+      ? 'Choose a country code or enter the full number beginning with +.'
+      : 'Enter a complete phone number for the selected country.');
   }
   phone.addEventListener('input', validatePhone);
+  country.addEventListener('change', validatePhone);
   if (application.done) confirmed(false);
   else show(0, false);
-  const tool = document.querySelector('.cash-tool');
-  const usd = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    maximumFractionDigits: 2,
-  });
-  tool.addEventListener('input', () => {
-    const result = tool.querySelector('[data-gap]');
-    const balances = [];
-    let balance = 0,
-      min = 0,
-      previous = '';
-    for (const row of tool.querySelectorAll('.cash-entry')) {
-      const date = row.querySelector('[data-date]').value,
-        amount = row.querySelector('[data-cash]');
-      if (!date && !amount.value && !amount.validity.badInput) continue;
-      if (!date || !amount.value || !amount.validity.valid || date < previous) {
-        result.textContent = 'Enter a date and amount for each movement, in date order.';
-        return;
-      }
-      previous = date;
-      balance += Math.round(Number(amount.value) * 100);
-      min = Math.min(min, balance);
-      balances.push(usd.format(balance / 100));
-    }
-    result.textContent = balances.length
-      ? 'Balances in order: ' + balances.join(' → ') + '. Cash to set aside: ' + usd.format(-min / 100) + '.'
-      : '';
-  });
-  document.querySelector('a[href="#transcript"]')?.addEventListener('click', () => {
-    document.querySelector('#transcript').open = true;
-  });
 })();

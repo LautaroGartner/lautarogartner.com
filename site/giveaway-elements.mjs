@@ -57,7 +57,7 @@ export function giveawayNavigation({lang, route, path, escape, labels, consultin
   const es = lang === 'es';
   const open = es ? 'Menú' : 'Menu', close = es ? 'Cerrar' : 'Close';
   const contactHref = consulting ? '#discuss' : path(lang, 'contact');
-  const links = consulting ? [['', 'Home'], ['cash-flow', 'Cash timeline'], ['writing', 'Writing']] : [
+  const links = consulting ? [['', 'Home'], ['more-clients', 'More clients'], ['writing', 'Writing']] : [
     ['', es ? 'Inicio' : 'Home'], ['work', labels.work], ['services', es ? 'Servicios' : 'Services'],
     ['about', es ? 'Sobre mí' : 'About'], ['writing', es ? 'Artículos' : 'Writing'], ['contact', labels.contact],
   ];

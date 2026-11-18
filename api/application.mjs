@@ -23,7 +23,7 @@ function parseApplication(body, ads) {
     typeof body.key !== 'string' ||
     !uuid.test(body.key) ||
     body.company !== '' ||
-    !['/', '/cash-flow'].includes(body.source)
+    !['/', '/cash-flow', '/more-clients'].includes(body.source)
   )
     return;
   if (

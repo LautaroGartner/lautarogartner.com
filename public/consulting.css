@@ -43,7 +43,7 @@
   margin-top: 30px;
 }
 .consult-actions .studio-action,
-.worksheet .studio-action {
+.decision-example .studio-action {
   margin: 0;
 }
 .consult-section {
@@ -66,33 +66,7 @@
   line-height: 1.23;
   letter-spacing: -0.034em;
 }
-.worksheet {
-  background: var(--studio-lavender);
-}
-.worksheet table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 32px 0;
-  font-variant-numeric: tabular-nums;
-}
-.worksheet caption {
-  text-align: left;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-.worksheet th,
-.worksheet td {
-  padding: 15px 8px;
-  border-bottom: 1px solid #bcb5d2;
-  text-align: right;
-}
-.worksheet th:first-child {
-  text-align: left;
-  padding-left: 0;
-}
-.worksheet td:last-child {
-  font-weight: 700;
-}
+.decision-example { background: var(--studio-lavender); }
 .consulting details {
   border-block-start: 1px solid var(--line);
   padding: 18px 0;
@@ -100,31 +74,6 @@
 .consulting summary {
   font-weight: 650;
   cursor: pointer;
-}
-.cash-tool {
-  margin: 24px 0;
-  border-bottom: 1px solid var(--line);
-}
-.cash-entry {
-  display: flex;
-  gap: 12px;
-  margin-block: 12px;
-}
-.cash-entry label {
-  min-width: 0;
-  flex: 1;
-  max-width: 240px;
-}
-.cash-entry input {
-  display: block;
-  width: 100%;
-  min-width: 0;
-  padding: 9px;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  background: white;
-  font: inherit;
-  color: inherit;
 }
 .with-portrait,
 .consult-apply {
@@ -157,27 +106,6 @@
 .consulting .contact-field {
   margin-bottom: 16px;
 }
-.consulting .choice {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 11px 14px;
-  cursor: pointer;
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  margin-bottom: 7px;
-}
-.consulting .choice:has(:checked) {
-  background: #f1eeff;
-  border-color: var(--accent);
-}
-.consulting input[type='radio'] {
-  accent-color: var(--accent);
-  width: 18px;
-  height: 18px;
-  margin: 0;
-}
 .consulting .enquiry-card {
   padding: clamp(20px, 3vw, 40px);
   min-width: 0;
@@ -191,12 +119,6 @@
   color: inherit;
   border: 0;
   text-decoration: underline;
-  cursor: pointer;
-}
-.app-actions .round-submit {
-  width: auto;
-  padding: 11px 24px;
-  min-height: 44px;
   cursor: pointer;
 }
 .consulting video {
@@ -226,16 +148,37 @@
   .consult-actions {
     gap: 18px;
   }
-  .worksheet th,
-  .worksheet td {
-    padding-inline: 4px;
-  }
-  .consult-hero .hero-edge-motion {
-    opacity: 0.43;
-  }
+
 }
 
-.worksheet #transcript {
+.decision-example #transcript {
   margin-block: 28px;
   border-block: 1px solid #bcb5d2;
 }
+
+.shell.shell-wide:has(.consulting) { max-width:none; width:100%; padding-inline:0; }
+.shell:has(.consulting) .giveaway-navigation { height:0; }
+.shell:has(.consulting) .studio-footer { margin-inline:0; }
+.consult-hero { background:linear-gradient(180deg, #fff 70%, var(--studio-lavender)); }
+.consulting .consult-submit {
+  display:inline-flex; align-items:center; justify-content:space-between; gap:22px;
+  min-height:46px; padding:10px 22px; border:1px solid #262032; border-radius:999px;
+  background:#aeabfa; color:#17131f; font:700 15px/1.3 Manrope,Arial,sans-serif; cursor:pointer;
+}
+.consult-submit span:last-child {font-size:20px; font-weight:500;}
+.consulting .consult-submit:is(:hover,:focus-visible) { background:#c8c2ff; }
+.consulting .consult-submit:disabled {opacity:.6;}
+.consult-phone {display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:8px;}
+.consulting .consult-phone :is(select,input), .app-picker [role=combobox] {
+  width:100%; min-width:0; height:48px; padding:10px 12px; background:white;
+  color:var(--text); border:1px solid #b6afc6; border-radius:9px; font:inherit;
+}
+.app-picker {position:relative;}
+.app-picker [role=combobox] {padding-right:50px;}
+.app-picker [data-toggle] {position:absolute; top:0; right:0; height:48px; width:44px; border:0; background:transparent; color:inherit; font-size:20px; cursor:pointer;}
+.app-picker [role=listbox] {padding:4px; margin:5px 0 0; max-height:225px; overflow:auto; list-style:none; border:1px solid #b6afc6; border-radius:9px; background:white;}
+.app-picker [role=option] {margin:0; padding:9px 10px; cursor:pointer; border-radius:5px;}
+.app-picker [role=option]:is(:hover,[data-active]) {background:#eeebff;}
+.app-picker [role=option][aria-selected=true] {font-weight:750;}
+.app-picker [data-no-match] {display:block; margin-top:8px; color:var(--muted);}
+@media(max-width:390px){.consult-phone{grid-template-columns:1fr;}}

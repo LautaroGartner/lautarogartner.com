@@ -4,6 +4,11 @@
   "cleanUrls": true,
   "redirects": [
     {
+      "source": "/cash-flow",
+      "destination": "/more-clients",
+      "permanent": false
+    },
+    {
       "source": "/en",
       "destination": "/",
       "permanent": true
