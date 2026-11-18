@@ -7,8 +7,8 @@ function fixture(choice, search='') {
   const element=()=>({append(){},addEventListener(){},setAttribute(){},focus(){},querySelector:element,nextElementSibling:{},dataset:{}});
   const form={addEventListener:(name,handler)=>formListeners[name]=handler};
   const document={currentScript:{dataset:{measurementId:'G-ABC1234567'}},documentElement:{lang:'en'},createElement:element,body:element(),head:{append:node=>scripts.push(node)},querySelector:selector=>selector==='[data-contact-form]'?form:null,addEventListener:(name,handler)=>documentListeners[name]=handler,referrer:'https://chatgpt.com/',title:'Contact',cookie:''};
-  const window={addEventListener:(name,handler)=>listeners[name]=handler};
-  vm.runInNewContext(fs.readFileSync('public/analytics.js','utf8'),{window,document,location:{hostname:'www.lautarogartner.com',origin:'https://www.lautarogartner.com',pathname:'/contact',search},URL,URLSearchParams,localStorage:{getItem:()=>JSON.stringify({choice,expires:Date.now()+60000})}});
+  const window={dispatchEvent(){},addEventListener:(name,handler)=>listeners[name]=handler};
+  vm.runInNewContext(fs.readFileSync('public/analytics.js','utf8'),{window,document,navigator:{},Event,location:{hostname:'www.lautarogartner.com',origin:'https://www.lautarogartner.com',pathname:'/contact',search},URL,URLSearchParams,localStorage:{getItem:()=>JSON.stringify({choice,expires:Date.now()+60000})}});
   return {window,listeners,documentListeners,formListeners,scripts};
 }
 test('accepted enquiry analytics respects consent and sends only language and an allowlisted service',()=>{

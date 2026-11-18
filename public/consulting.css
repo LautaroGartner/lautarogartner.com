@@ -1,0 +1,241 @@
+.consulting {
+  color: var(--text);
+}
+.consulting [hidden] {
+  display: none !important;
+}
+.consulting :is(section, details) {
+  scroll-margin-top: 96px;
+}
+.consult-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  text-align: center;
+  padding: clamp(130px, 14vw, 200px) 0 clamp(74px, 9vw, 140px);
+  background: linear-gradient(180deg, #fff 60%, #f5f2ff 100%);
+}
+.consult-hero h1 {
+  font:
+    700 clamp(2.8rem, 6.6vw, 6.5rem)/1.03 Manrope,
+    Arial,
+    sans-serif;
+  letter-spacing: -0.067em;
+  margin: 0 auto;
+  max-width: 19ch;
+  text-wrap: balance;
+}
+.consult-hero .studio-wrap > p:not(.studio-label) {
+  max-width: 620px;
+  margin: 24px auto;
+  font-size: clamp(17px, 1.6vw, 21px);
+  line-height: 1.52;
+}
+.consult-actions,
+.app-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 22px;
+}
+.consult-actions {
+  justify-content: center;
+  margin-top: 30px;
+}
+.consult-actions .studio-action,
+.worksheet .studio-action {
+  margin: 0;
+}
+.consult-section {
+  padding-block: clamp(52px, 7vw, 100px);
+}
+.consult-section p:not(.studio-label) {
+  max-width: 66ch;
+  line-height: 1.65;
+}
+.consult-section h2,
+.consulting .studio-services h2 {
+  letter-spacing: -0.055em;
+  margin: 0 0 22px;
+  text-wrap: balance;
+}
+.consulting h3,
+.consulting legend {
+  font-weight: 650;
+  font-size: clamp(20px, 2.2vw, 29px);
+  line-height: 1.23;
+  letter-spacing: -0.034em;
+}
+.worksheet {
+  background: var(--studio-lavender);
+}
+.worksheet table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 32px 0;
+  font-variant-numeric: tabular-nums;
+}
+.worksheet caption {
+  text-align: left;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.worksheet th,
+.worksheet td {
+  padding: 15px 8px;
+  border-bottom: 1px solid #bcb5d2;
+  text-align: right;
+}
+.worksheet th:first-child {
+  text-align: left;
+  padding-left: 0;
+}
+.worksheet td:last-child {
+  font-weight: 700;
+}
+.consulting details {
+  border-block-start: 1px solid var(--line);
+  padding: 18px 0;
+}
+.consulting summary {
+  font-weight: 650;
+  cursor: pointer;
+}
+.cash-tool {
+  margin: 24px 0;
+  border-bottom: 1px solid var(--line);
+}
+.cash-entry {
+  display: flex;
+  gap: 12px;
+  margin-block: 12px;
+}
+.cash-entry label {
+  min-width: 0;
+  flex: 1;
+  max-width: 240px;
+}
+.cash-entry input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding: 9px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: white;
+  font: inherit;
+  color: inherit;
+}
+.with-portrait,
+.consult-apply {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: start;
+  gap: clamp(30px, 5vw, 80px);
+}
+.with-portrait img {
+  width: min(100%, 220px);
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.consult-apply {
+  grid-template-columns: 1fr 1.2fr;
+  border-top: 1px solid var(--line);
+}
+.consulting fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.consulting legend {
+  margin-bottom: 20px;
+  padding: 0;
+}
+.consulting .contact-field {
+  margin-bottom: 16px;
+}
+.consulting .choice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin-bottom: 7px;
+}
+.consulting .choice:has(:checked) {
+  background: #f1eeff;
+  border-color: var(--accent);
+}
+.consulting input[type='radio'] {
+  accent-color: var(--accent);
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+.consulting .enquiry-card {
+  padding: clamp(20px, 3vw, 40px);
+  min-width: 0;
+}
+.app-actions {
+  margin-top: 15px;
+}
+.app-actions [data-back] {
+  font: inherit;
+  background: none;
+  color: inherit;
+  border: 0;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.app-actions .round-submit {
+  width: auto;
+  padding: 11px 24px;
+  min-height: 44px;
+  cursor: pointer;
+}
+.consulting video {
+  display: block;
+  width: 100%;
+  max-height: 75vh;
+  background: #15151a;
+  margin-block: 24px;
+}
+[data-confirm] {
+  font-size: 1.25rem;
+  background: var(--soft);
+  border-radius: 16px;
+  padding: 28px;
+}
+@media (max-width: 720px) {
+  .with-portrait,
+  .consult-apply {
+    grid-template-columns: 1fr;
+  }
+  .with-portrait img {
+    width: 110px;
+  }
+  .consulting .studio-wrap {
+    width: calc(100% - 40px);
+  }
+  .consult-actions {
+    gap: 18px;
+  }
+  .worksheet th,
+  .worksheet td {
+    padding-inline: 4px;
+  }
+  .consult-hero .hero-edge-motion {
+    opacity: 0.43;
+  }
+}
+
+.worksheet #transcript {
+  margin-block: 28px;
+  border-block: 1px solid #bcb5d2;
+}

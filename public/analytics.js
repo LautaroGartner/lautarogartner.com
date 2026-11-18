@@ -2,31 +2,49 @@
  const id=document.currentScript?.dataset.measurementId;
  // Preferences are reviewable in preview, while measurement requires the public hostname and ID.
  const canMeasure=/^G-[A-Z0-9]{6,20}$/.test(id||'')&&['www.lautarogartner.com','lautarogartner.com'].includes(location.hostname);
- const key=canMeasure?'lg-analytics-choice-v1':'lg-analytics-preview-choice-v1',es=document.documentElement.lang==='es';
+ const publicHost=['www.lautarogartner.com','lautarogartner.com'].includes(location.hostname);
+ const key=publicHost?'lg-analytics-choice-v1':'lg-analytics-preview-choice-v1',es=document.documentElement.lang==='es';
  const labels=es?{
   settings:'Privacidad y preferencias', intro:'Vos decidís qué permisos dar. Guardamos tus preferencias únicamente en este navegador.',
   necessary:'Necesarias', analytics:'Analítica', advertising:'Publicidad',
-  note:'La analítica se activa solo si guardás esa opción. No cargamos herramientas de publicidad. Las necesarias recuerdan tus ajustes.',
-  preview:'La medición está desactivada en esta vista.', details:'Datos del formulario',
+  note:'La analítica se activa solo si guardás esa opción. Publicidad permite enviar una conversión a Meta cuando enviás una solicitud de consultoría. Las necesarias recuerdan tus ajustes.',
+  preview:'Google Analytics está desactivado en esta vista.', details:'Datos del formulario',
   form:'Uso los datos del formulario para evaluar tu consulta y contactarte por tu proyecto. Las preferencias de cookies son independientes del envío de la consulta.',
   deny:'Solo necesarias', save:'Guardar',
  }:{
   settings:'Privacy and preferences', intro:'You choose which permissions to give. Your preferences are saved only in this browser.',
   necessary:'Necessary', analytics:'Analytics', advertising:'Advertising',
-  note:'Analytics starts only when you save that choice. No advertising tools are loaded. Necessary storage remembers your settings.',
-  preview:'Measurement is off in this view.', details:'Form data',
+  note:'Analytics starts only when you save that choice. Advertising can send Meta a conversion when you submit a consulting request. Necessary storage remembers your settings.',
+  preview:'Google Analytics is off in this view.', details:'Form data',
   form:'I use the information you submit to review your enquiry and get in touch about your project. Cookie preferences are separate from submitting the form.',
   deny:'Necessary only', save:'Save',
  };
  let enabled=false,loaded=false,pageTracked=false;
- let choice=null, advertisingChoice=true;
+ let choice=null, advertisingChoice=false, adExpiry=0;
  try {
   const saved=JSON.parse(localStorage.getItem(key));
   if(saved&&saved.expires>Date.now()){
    choice=saved.choice;
-   advertisingChoice=saved.advertising??(choice!=='deny');
+   advertisingChoice=saved.adPolicy===2 && saved.advertising===true;
+   adExpiry=saved.expires;
   }
  }catch{}
+ const optedOut=()=>navigator.globalPrivacyControl===true || navigator.doNotTrack==='1';
+ window.lgAdvertisingAllowed=()=>advertisingChoice && adExpiry>Date.now() && !optedOut();
+ function syncAdvertising(){
+  const allowed=window.lgAdvertisingAllowed();
+  document.cookie='lg_ad_consent='+(allowed?'1':'0')+'; Path=/; SameSite=Lax; Max-Age='+(allowed?Math.max(0,Math.floor((adExpiry-Date.now())/1000)):0)+(location.protocol==='https:'?'; Secure':'');
+  if(!allowed)for(const name of ['_fbp','_fbc'])for(const domain of ['',location.hostname,'.lautarogartner.com'])document.cookie=name+'=; Path=/; Max-Age=0; SameSite=Lax'+(domain?'; Domain='+domain:'');
+  window.dispatchEvent(new Event('lg:advertising-change'));
+ }
+ syncAdvertising();
+ window.addEventListener('storage',event=>{
+  if(event.key!==key && event.key!==null)return;
+  let saved;try{saved=JSON.parse(localStorage.getItem(key))}catch{}
+  advertisingChoice=saved?.adPolicy===2 && saved.advertising===true;
+  adExpiry=Number(saved?.expires)||0;
+  syncAdvertising();
+ });
  const preferences=document.createElement('aside');
  preferences.className='data-settings';
  preferences.setAttribute('aria-label',labels.settings);
@@ -54,7 +72,7 @@
  const setPanel=open=>{
   if(open){
    analytics.checked=choice!=='deny';
-   advertising.checked=advertisingChoice;
+   advertising.checked=window.lgAdvertisingAllowed();advertising.disabled=optedOut();
    updateStatus(analytics);
    updateStatus(advertising);
   }
@@ -91,7 +109,7 @@
   if(!pageTracked){pageTracked=true;track('page_view',{page_title:document.title});}
  };
  const choose=(value,ads)=>{
-  choice=value;advertisingChoice=ads;setPanel(false);try{localStorage.setItem(key,JSON.stringify({choice:value,advertising:ads,expires:Date.now()+90*86400000}));}catch{}
+  choice=value;advertisingChoice=ads && !optedOut();adExpiry=Date.now()+90*86400000;syncAdvertising();setPanel(false);try{localStorage.setItem(key,JSON.stringify({choice:value,advertising:advertisingChoice,adPolicy:2,expires:adExpiry}));}catch{}
   if(value==='allow')enable();else if(canMeasure){
    enabled=false;window['ga-disable-'+id]=true;
    // Do not send a denial ping. Subsequent loads never request Google's script.
@@ -118,6 +136,6 @@
  form?.addEventListener('invalid',()=>trackStep('enquiry_error'),true);
  window.addEventListener('enquiry:error',()=>trackStep('enquiry_error'));
  window.addEventListener('enquiry:accepted',event=>{if(!enabled)return;const language=event.detail?.language;if(['en','es'].includes(language))track('enquiry_accepted',{language,...(['custom-software','technology-consulting','quote-calculator','website-repair','forms','new-website','other'].includes(event.detail?.service)?{service:event.detail.service}:{})});});
- setPanel(canMeasure&&choice!=='allow'&&choice!=='deny');
+ setPanel((canMeasure||document.querySelector('[data-application]')&&publicHost)&&choice!=='allow'&&choice!=='deny');
  if(choice==='allow')enable();
 })();

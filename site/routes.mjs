@@ -1,3 +1,4 @@
+import {consultingPage} from './consulting.mjs';
 import {servicePages} from './service-pages.mjs';
 import {studioHome, studioServices, studioWriting} from './studio-preview.mjs';
 import {giveawayNavigation} from './giveaway-elements.mjs';
@@ -25,11 +26,21 @@ export function composeRoutes(site,copy,{escape:e,mailto,picture}){
  for(const lang of ['en','es']){
   const c=copy[lang];
   const legacyLinks=Object.entries(c.anchors).map(([key,id])=>{const target={offer:'services',work:'work',about:'about',contact:'contact'}[key];return target?`<a id="${e(id)}" href="${path(lang,target)}">${e({offer:c.nav.offer,work:c.nav.work,about:lang==='es'?'Sobre mí':'About',contact:c.nav.contact}[key])}</a>`:'';}).join('')+c.projects.map(p=>`<a id="${p.id}" href="${path(lang,'work/'+p.id)}">${e(p.name)}</a>`).join('');
-  const home = studioHome({
-    lang, base: route => path(lang, route), escape: e, copy: c,
-    legacyLinks,
-  });
-  pages.push(page(lang, '', home.title, home.description, home.html));
+  if(lang==='en'){
+   for(const route of ['', 'cash-flow']){
+    const entry=consultingPage(Boolean(route),e);
+    const result=page(lang,route,entry.title,entry.description,entry.html);
+    result.structuredData['@graph'][0].jobTitle='Business Consultant';
+    result.headerHtml=giveawayNavigation({lang,route,path,escape:e,labels:{contact:'Contact'},consulting:true});
+    result.footerHtml=foot(lang,{sales:false});
+    result.alternates=[{language:'en',path:result.path}];
+    result.imagePath=route?'/cash-flow-social.jpg':'/consulting-social.jpg';
+    pages.push(result);
+   }
+  } else {
+   const home=studioHome({lang,base:route=>path(lang,route),escape:e,copy:c,legacyLinks});
+   pages.push(page(lang,'',home.title,home.description,home.html));
+  }
   const workTitle=lang==='es'?'Trabajos':'Work';
   const work=`<div class="work-toolbar"><div role="group" aria-label="${lang==='es'?'Filtrar trabajos':'Filter work'}"><button data-work-filter="all" aria-pressed="true">${lang==='es'?'Todos':'All'}</button><button data-work-filter="published" aria-pressed="false">${lang==='es'?'Publicados':'Published'}</button><button data-work-filter="beta" aria-pressed="false">${lang==='es'?'Producto propio':'Own product'}</button></div><div role="group" aria-label="${lang==='es'?'Vista de trabajos':'Work view'}"><button data-work-view="grid" aria-pressed="true">${lang==='es'?'Grilla':'Grid'}</button><button data-work-view="list" aria-pressed="false">${lang==='es'?'Lista':'List'}</button></div></div><section class="work-index" data-work-index data-view="grid">${c.projects.map(p=>`<article class="work-card" data-category="${p.id==='filsen'?'beta':'published'}"><a href="${path(lang,'work/'+p.id)}"><figure>${picture(p,false,'(max-width: 740px) calc(100vw - 40px), 48vw')}</figure><div class="work-card-caption"><h2>${e(p.name)}</h2>${arrow}<p>${e(p.label)}</p></div></a></article>`).join('')}</section>`;
   pages.push(page(lang,'work',workTitle,c.work.intro,head(lang,'',workTitle)+work+script));

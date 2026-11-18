@@ -9,7 +9,7 @@ const posts=allPosts.filter(p=>p.status==='published').sort((a,b)=>b.publishedAt
 const about=JSON.parse(fs.readFileSync('content/pages/about.json'));
 const site=createSite(settings,posts,[about]);
 const htmlFor=path=>generateSitePage(site,site.pages.find(p=>p.path===path));
-for (const [path,lang,heading,anchor] of [['/','en','Software that scales with you.','work'],['/es','es','Software para escalar tu negocio.','trabajos'],['/web','en','Software that scales with you.','work'],['/web/es','es','Software para escalar tu negocio.','trabajos']]) {
+for (const [path,lang,heading,anchor] of [['/es','es','Software para escalar tu negocio.','trabajos'],['/web/es','es','Software para escalar tu negocio.','trabajos']]) {
  test(`${path}: bilingual commercial content, narrow pricing and honest evidence`,()=>{
   const html=htmlFor(path); assert.match(html,new RegExp(`<html lang="${lang}">`));assert.equal((html.match(/<h1\b/g)||[]).length,1);assert.ok(html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/)[1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').includes(heading));assert.ok(html.includes(`id="${anchor}"`));
   for(const id of ['lucia','filsen']) assert.ok(html.includes(`id="${id}"`));
@@ -20,6 +20,23 @@ for (const [path,lang,heading,anchor] of [['/','en','Software that scales with y
   assert.match(html,/og:image" content="https:\/\/www.lautarogartner.com\/work\/social.jpg/);
   assert.ok(!html.includes('href="#"'));assert.ok(!html.includes('href=""'));
   const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);assert.equal(new Set(ids).size,ids.length);
+ });
+}
+for(const route of ['/','/web','/cash-flow']){
+ test(route+' shows the consulting offer, worked example and application',()=>{
+  const page=site.pages.find(p=>p.path===route);
+  const html=htmlFor(route);
+  assert.equal((html.match(/<h1\b/g)||[]).length,1);
+  assert.match(html,/Illustrative service business · hypothetical figures/);
+  assert.ok(html.includes('−$7,000'));
+  assert.ok(html.includes('href="#discuss"'));
+  assert.equal((html.match(/name="revenue" value=/g)||[]).length,8);
+  assert.equal((html.match(/name="ownership" value=/g)||[]).length,5);
+  assert.equal(page.structuredData['@graph'][0].jobTitle,'Business Consultant');
+  assert.ok(fs.existsSync('dist'+page.imagePath));
+  assert.ok(html.indexOf('id="example"')<html.indexOf('id="discuss"'));
+  assert.doesNotMatch(page.html,/commission|outsourced closer|giveaway.lautarogartner.com/i);
+  if(route==='/cash-flow')assert.match(html,/<details id="transcript" open>/);
  });
 }
 test('all original posts retain source metadata and output URLs; drafts absent',()=>{

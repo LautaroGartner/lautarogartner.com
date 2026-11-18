@@ -1,34 +1,10 @@
 import {isPhoneCountry} from '../site/phone-countries.mjs';
 import {enquiryBudgets, enquiryServices} from '../site/enquiry-options.mjs';
 import {enquiryEmail} from './enquiry-email.mjs';
-import {createHmac, randomUUID, timingSafeEqual} from 'node:crypto';
+import {randomUUID} from 'node:crypto';
+import {signature, validToken, allowedOrigin, limited} from '../server/form-security.mjs';
 
-const windows = new Map();
-const TOKEN_AGE = 30 * 60 * 1000;
 const RECIPIENT = 'lautaro@lautarogartner.com';
-function signature(value, secret) { return createHmac('sha256', secret).update(value).digest('hex'); }
-function validToken(token, secret, now) {
- if (typeof token !== 'string' || token.length > 200) return false;
- const [issued, nonce, mac] = token.split('.');
- if (!/^\d{13}$/.test(issued || '') || !/^[a-f0-9-]{36}$/.test(nonce || '') || !/^[a-f0-9]{64}$/.test(mac || '')) return false;
- const age = now - Number(issued);
- return age >= 1000 && age <= TOKEN_AGE && timingSafeEqual(Buffer.from(mac), Buffer.from(signature(`${issued}.${nonce}`, secret)));
-}
-function allowedOrigin(origin, env) {
- const origins = ['https://www.lautarogartner.com', 'https://lautarogartner.com'];
- if (env.VERCEL_URL) origins.push(`https://${env.VERCEL_URL}`);
- if (env.NODE_ENV !== 'production') origins.push('http://127.0.0.1:8770', 'http://localhost:8770');
- return origins.includes(origin);
-}
-// Bounded, per-instance protection. A platform rate-limit rule is needed for a global limit.
-function limited(req, secret, now, method) {
- for (const [key, entry] of windows) if (entry.until <= now) windows.delete(key);
- const ip = req.headers['x-vercel-forwarded-for'] || req.headers['x-forwarded-for'] || req.socket?.remoteAddress || 'unknown';
- const key = `${method}:${signature(String(ip), secret)}`;
- const entry = windows.get(key) || {count:0, until:now + 60000};
- if (!windows.has(key) && windows.size >= 5000) return true;
- windows.set(key, entry); return ++entry.count > (method === 'GET' ? 20 : 5);
-}
 export function createEnquiryHandler({env=process.env, request=fetch, now=Date.now}={}) {
  return async function handler(req, res) {
   res.setHeader('Cache-Control', 'private, no-store');

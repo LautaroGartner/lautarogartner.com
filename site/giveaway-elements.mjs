@@ -8,7 +8,7 @@ const rays = [
 const sparkle = `<span class="c-heading__sparkle o-deco -sparkle is-visible" data-sequence-bound="true" data-sparkle-playing="true"><span class="o-deco__inner"><svg viewBox="0 0 35 37" aria-hidden="true">${rays.map(d => `<path d="${d}"></path>`).join('')}</svg></span></span>`;
 const waveStrands = Array.from({length:9},(_,i)=>`<path d="M -110 -20 C 242 25, -65 175, 147 273 C 359 371, 294 514, -285 720" transform="translate(${i*13} ${i*3})" opacity="${(.32+i*.05).toFixed(2)}"/>`).join('');
 const waveBand = [[.10,0],[.13,.12],[.19,.84],[.22,1],[.51,1],[.54,.84],[.59,.12],[.62,0]];
-const edgeWaves = ['left', 'right'].map(side => `<div class="hero-edge hero-edge--${side}">${['sharp','soft'].map((layer,index)=>`
+export const edgeWaves = ['left', 'right'].map(side => `<div class="hero-edge hero-edge--${side}">${['sharp','soft'].map((layer,index)=>`
   <svg class="hero-edge-${layer}" viewBox="0 0 420 740" preserveAspectRatio="none">
     <defs>
       <linearGradient class="hero-wave-color" id="hero-wave-${layer}-${side}" x1="0%" y1="0%" x2="100%" y2="90%">
@@ -53,11 +53,11 @@ export function giveawayPrimaryAction(href, label, escape) {
   return `<span class="giveaway-elements"><a class="c-btn giveaway-primary" href="${escape(href)}" aria-label="${escape(label)}"><span class="c-btn__inner" aria-hidden="true"><strong class="c-btn__label">${letters}</strong></span></a></span>`;
 }
 
-export function giveawayNavigation({lang, route, path, escape, labels}) {
+export function giveawayNavigation({lang, route, path, escape, labels, consulting = false}) {
   const es = lang === 'es';
   const open = es ? 'Menú' : 'Menu', close = es ? 'Cerrar' : 'Close';
-  const contactHref = path(lang, 'contact');
-  const links = [
+  const contactHref = consulting ? '#discuss' : path(lang, 'contact');
+  const links = consulting ? [['', 'Home'], ['cash-flow', 'Cash timeline'], ['writing', 'Writing']] : [
     ['', es ? 'Inicio' : 'Home'], ['work', labels.work], ['services', es ? 'Servicios' : 'Services'],
     ['about', es ? 'Sobre mí' : 'About'], ['writing', es ? 'Artículos' : 'Writing'], ['contact', labels.contact],
   ];
@@ -81,7 +81,7 @@ export function giveawayNavigation({lang, route, path, escape, labels}) {
         </div></div>
         <nav class="l-nav" id="site-menu" aria-label="${es ? 'Navegación' : 'Navigation'}" inert>
           <ul class="l-nav__list">${menu}</ul>
-          <div class="menu-language">${navLanguage('en', path('en',route), !es, escape)}<span aria-hidden="true">/</span>${navLanguage('es', path('es',route), es, escape)}</div>
+          <div class="menu-language">${navLanguage('en', path('en',route), !es, escape)}<span aria-hidden="true">/</span>${navLanguage('es', path('es',consulting?'':route), es, escape)}</div>
         </nav>
       </header>
       <noscript><nav class="giveaway-fallback-links" aria-label="${es ? 'Navegación' : 'Navigation'}">${fallback}</nav></noscript>
