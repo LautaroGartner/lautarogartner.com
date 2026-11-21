@@ -29,7 +29,7 @@
   header.querySelector('.c-btn__close').classList.toggle('is-visible', open);
   if (open) {
    placeMenu();
-   inertNodes = [...document.querySelectorAll('#content,.studio-footer')].map(node => [node,node.inert]);
+   inertNodes = [...document.querySelectorAll('#content,.studio-footer,.consult-footer')].map(node => [node,node.inert]);
    for (const [node] of inertNodes) node.inert = true;
   } else {
    for (const [node,wasInert] of inertNodes) node.inert = wasInert;
@@ -60,9 +60,9 @@
    if (!link) return;
    const url = new URL(link.href,location.href);
    const normalize = path => path.replace(/\/+$/, '') || '/';
-   if (url.origin === location.origin && normalize(url.pathname) === normalize(location.pathname) && !url.hash && url.search === location.search) {
-    event.preventDefault();
-    setMenu(false);
+   if (url.origin === location.origin && normalize(url.pathname) === normalize(location.pathname) && url.search === location.search) {
+    if (!url.hash) event.preventDefault();
+    setMenu(false, !url.hash);
    }
   });
   const stopBackgroundScroll = event => {

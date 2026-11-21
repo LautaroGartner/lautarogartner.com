@@ -13,26 +13,24 @@ test('existing English text, metadata, dates and URLs are preserved',()=>{
   assert.deepEqual(after,before,slug);
  }
 });
-test('seven article pairs have reciprocal alternatives, own canonicals and matching language navigation',()=>{
+test('public articles have English canonicals and the writing index lists each once',()=>{
  const sitemap=fs.readFileSync('dist/sitemap.xml','utf8');
- assert.equal(sources.length,14);
+ const index=fs.readFileSync('dist/writing/index.html','utf8');
+ const english=sources.filter(post=>(post.language??'en')==='en');
+ assert.equal((index.match(/<article\b/g)||[]).length,english.length);
+ assert.doesNotMatch(sitemap,/www\.lautarogartner\.com\/es(?:[</])/);
  for(const post of sources){
-  const language=post.language??'en',slug=post.slug.replace(/^es\//,''),html=read(post);
-  assert.ok(html.includes(`<html lang="${language}">`));
-  assert.ok(html.includes(`<link rel="canonical" href="https://www.lautarogartner.com/${post.slug}">`));
-  for(const [lang,path] of [['en','/'+slug],['es','/es/'+slug],['x-default','/'+slug]]){
-   assert.ok(html.includes(`hreflang="${lang}" href="https://www.lautarogartner.com${path}"`),`${post.slug}: ${lang}`);
+  if(!english.includes(post)){
+   assert.ok(!fs.existsSync(`dist/${post.slug}/index.html`));
+   assert.ok(!index.includes(`href="/${post.slug}"`));
+   continue;
   }
-  assert.ok(html.includes(`data-language="${language==='es'?'en':'es'}" href="${language==='es'?'/':'/es/'}${slug}"`));
-  assert.ok(html.includes(`href="${language==='es'?'/es':''}/writing"`));
-  assert.ok(sitemap.includes(`<loc>https://www.lautarogartner.com/${post.slug}</loc>`));
+  const html=read(post),url='https://www.lautarogartner.com/'+post.slug;
+  assert.ok(html.includes('<html lang="en">'));
+  assert.ok(html.includes(`<link rel="canonical" href="${url}">`));
+  assert.doesNotMatch(html,/hreflang="es"|data-language=/);
+  assert.ok(sitemap.includes(`<loc>${url}</loc>`));
+  assert.ok(index.includes(`href="/${post.slug}"`));
   assert.ok(fs.existsSync(`dist/social/${post.slug}.png`));
- }
-});
-test('each writing index lists seven matching-language articles and no untranslated duplicates',()=>{
- for(const lang of ['en','es']){
-  const html=fs.readFileSync(`dist/${lang==='es'?'es/':''}writing/index.html`,'utf8');
-  assert.equal((html.match(/<article\b/g)||[]).length,7);
-  for(const p of sources){const same=(p.language??'en')===lang;assert.equal(html.includes(`href="/${p.slug}"`),same,p.slug);}
  }
 });

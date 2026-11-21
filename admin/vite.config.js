@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import leads from "../api/leads.mjs";
 import login from "../api/login.mjs";
 import logout from "../api/logout.mjs";
 import posts from "../api/posts.mjs";
@@ -15,7 +16,7 @@ function localApi() {
       process.env.SESSION_SECRET ||= "local-development-secret-32-characters";
       server.middlewares.use("/api", async (req, res, next) => {
         const route = req.url?.split("?")[0];
-        if (!["/login", "/logout", "/posts", "/preview", "/session", "/settings"].includes(route)) return next();
+        if (!["/leads", "/login", "/logout", "/posts", "/preview", "/session", "/settings"].includes(route)) return next();
         let raw = "";
         for await (const chunk of req) raw += chunk;
         req.body = raw ? JSON.parse(raw) : {};
@@ -25,7 +26,8 @@ function localApi() {
           json(value) { res.setHeader("Content-Type", "application/json"); res.end(JSON.stringify(value)); return response; },
           send(value) { res.end(value); return response; },
         };
-        const handler = { "/login": login, "/logout": logout, "/posts": posts, "/preview": preview, "/session": session, "/settings": settings }[route];
+        req.query = Object.fromEntries(new URL(req.url, "http://localhost").searchParams);
+        const handler = { "/leads": leads, "/login": login, "/logout": logout, "/posts": posts, "/preview": preview, "/session": session, "/settings": settings }[route];
         await handler(req, response);
       });
     },

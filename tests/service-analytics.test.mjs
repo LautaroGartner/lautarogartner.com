@@ -2,14 +2,19 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import fs from 'node:fs';
-function fixture(choice, search='') {
+function fixture(choice, search='', navigator={}, consulting=false) {
   const listeners={}, documentListeners={}, formListeners={}, scripts=[];
   const element=()=>({append(){},addEventListener(){},setAttribute(){},focus(){},querySelector:element,nextElementSibling:{},dataset:{}});
   const form={addEventListener:(name,handler)=>formListeners[name]=handler};
-  const document={currentScript:{dataset:{measurementId:'G-ABC1234567'}},documentElement:{lang:'en'},createElement:element,body:element(),head:{append:node=>scripts.push(node)},querySelector:selector=>selector==='[data-contact-form]'?form:null,addEventListener:(name,handler)=>documentListeners[name]=handler,referrer:'https://chatgpt.com/',title:'Contact',cookie:''};
+  const exampleListeners={}, applicationListeners={};
+  const example={open:false,addEventListener:(name,fn)=>exampleListeners[name]=fn};
+  const player={addEventListener:(name,fn)=>exampleListeners[name]=fn};
+  const application={addEventListener:(name,fn)=>applicationListeners[name]=fn};
+  const surfaces=consulting?{'#transcript':example,'#example video':player,'[data-application]':application}:{'[data-contact-form]':form};
+  const document={currentScript:{dataset:{measurementId:'G-ABC1234567'}},documentElement:{lang:'en'},createElement:element,body:element(),head:{append:node=>scripts.push(node)},querySelector:selector=>surfaces[selector]??null,addEventListener:(name,handler)=>documentListeners[name]=handler,referrer:'https://chatgpt.com/',title:'Contact',cookie:''};
   const window={dispatchEvent(){},addEventListener:(name,handler)=>listeners[name]=handler};
-  vm.runInNewContext(fs.readFileSync('public/analytics.js','utf8'),{window,document,navigator:{},Event,location:{hostname:'www.lautarogartner.com',origin:'https://www.lautarogartner.com',pathname:'/contact',search},URL,URLSearchParams,localStorage:{getItem:()=>JSON.stringify({choice,expires:Date.now()+60000})}});
-  return {window,listeners,documentListeners,formListeners,scripts};
+  vm.runInNewContext(fs.readFileSync('public/analytics.js','utf8'),{window,document,navigator,Event,location:{hostname:'www.lautarogartner.com',origin:'https://www.lautarogartner.com',pathname:'/contact',search},URL,URLSearchParams,localStorage:{getItem:()=>choice ? JSON.stringify({choice,expires:Date.now()+60000}) : null}});
+  return {window,listeners,documentListeners,formListeners,scripts,example,exampleListeners,applicationListeners};
 }
 test('accepted enquiry analytics respects consent and sends only language and an allowlisted service',()=>{
   const allowed=fixture('allow');
@@ -43,4 +48,32 @@ test('enquiry funnel records only consented steps and approved campaign fields',
   assert.deepEqual(steps,['page_view','enquiry_click','enquiry_start','enquiry_error']);
   assert.doesNotMatch(JSON.stringify(allowed.window.dataLayer),/private|example\.invalid/i);
   assert.equal(denied.window.dataLayer,undefined);
+});
+
+test('first visits enable both categories unless the browser opts out',()=>{
+  const first=fixture();
+  assert.equal(first.scripts.length,1);
+  assert.equal(first.window.lgAdvertisingAllowed(),true);
+  for(const browser of [{globalPrivacyControl:true},{doNotTrack:'1'}]){
+    const optedOut=fixture(undefined,'',browser);
+    assert.equal(optedOut.scripts.length,0);
+    assert.equal(optedOut.window.lgAdvertisingAllowed(),false);
+  }
+});
+
+test('consulting content and form interactions are counted once, only with analytics allowed',()=>{
+  for(const choice of ['allow','deny']){
+    const f=fixture(choice,'',{},true);
+    f.exampleListeners.toggle();
+    f.example.open=true;
+    for(let i=0;i<2;i++){
+      f.exampleListeners.toggle();
+      f.exampleListeners.playing();
+      f.applicationListeners.input({target:{value:'private@example.invalid'}});
+    }
+    const events=Array.from(f.window.dataLayer??[]).filter(args=>args[0]==='event');
+    assert.deepEqual(events.map(args=>args[1]),choice==='allow'
+      ? ['page_view','growth_example_open','growth_video_play','growth_form_start'] : []);
+    assert.doesNotMatch(JSON.stringify(events),/private@example/);
+  }
 });

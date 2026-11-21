@@ -1,11 +1,15 @@
+import { isPossiblePhoneNumber } from 'libphonenumber-js/min';
+import { guideForSource } from '../site/growth-guides.mjs';
 import { randomUUID } from 'node:crypto';
 import { isIP } from 'node:net';
 import { waitUntil } from '@vercel/functions';
 import { signature, validToken, allowedOrigin, limited } from '../server/form-security.mjs';
 import { revenueBands, ownershipBands } from '../site/application-options.mjs';
+import { stages, challenges, budgets, decisions, timelines, investments, roles, firstMove, assessmentResponse, callConsent } from '../site/acquisition-assessment.mjs';
 import { isPhoneCountry } from '../site/phone-countries.mjs';
 import { applicationStore } from '../server/application-store.mjs';
 import { deliverApplication } from '../server/application-delivery.mjs';
+
 
 const epoch = () => Math.floor(Date.now() / 1000);
 const campaignKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'];
@@ -18,6 +22,39 @@ function validText(value, max) {
     !/[\x00-\x1f\x7f]/.test(value)
   );
 }
+function hasAnswer(options, value) {
+  return typeof value === 'string' && Object.hasOwn(options, value);
+}
+
+function assess(body) {
+  if (!validText(body.business, 160) || body.callback !== true || body.planCall !== true ||
+      !hasAnswer(stages, body.stage) || !hasAnswer(challenges, body.challenge)) return;
+  const common = {stage: body.stage, challenge: body.challenge, consent: callConsent};
+  // Cached forms can still submit. Without a budget or timeline they go to follow-up.
+  if (!['goal', 'budget', 'decision', 'timing'].some(key => Object.hasOwn(body, key))) {
+    if (!hasAnswer(investments, body.investment) || !hasAnswer(roles, body.role)) return;
+    const priority = ['prelaunch', 'firstsale'].includes(body.stage) || body.investment === 'advice' ? 'Low' : 'Medium';
+    return {...common, investment: body.investment, role: body.role, priority};
+  }
+  if (!hasAnswer(budgets, body.budget) || !hasAnswer(timelines, body.timing)) return;
+  let details, decisionMaker;
+  if (Object.hasOwn(body, 'decision')) {
+    if (!validText(body.goal, 400) || !hasAnswer(decisions, body.decision)) return;
+    details = {goal: body.goal.trim(), decision: body.decision};
+    decisionMaker = body.decision !== 'recommend';
+  } else {
+    if (!hasAnswer(roles, body.role)) return;
+    details = {role: body.role};
+    decisionMaker = body.role !== 'other';
+  }
+  const ready = body.stage === 'established' && body.revenue >= 5 &&
+    ['from5', 'from15', 'from50'].includes(body.budget) && decisionMaker &&
+    ['now', 'month'].includes(body.timing);
+  const early = ['prelaunch', 'firstsale'].includes(body.stage) || body.budget === 'none' || body.timing === 'exploring';
+  return {...common, ...details, budget: body.budget,
+    timing: body.timing, priority: ready ? 'High' : early ? 'Low' : 'Medium'};
+}
+
 function parseApplication(body, ads) {
   if (
     !body ||
@@ -33,15 +70,17 @@ function parseApplication(body, ads) {
     !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(body.email)
   )
     return;
-  if (!validText(body.tel, 40) || !/^\+?[\d ().-]+$/.test(body.tel) || body.tel.replace(/\D/g, '').length < 6)
-    return;
-  if (
-    !Number.isInteger(body.revenue) ||
-    !revenueBands[body.revenue] ||
-    !Number.isInteger(body.ownership) ||
-    !ownershipBands[body.ownership]
-  )
-    return;
+  const assessment = body.kit === true && (body.source !== '/' || body.assessment === true);
+  if (body.logo !== undefined || (body.kit !== undefined &&
+      (body.kit !== true || typeof body.planCall !== 'boolean'))) return;
+  if (!Number.isInteger(body.revenue) || !revenueBands[body.revenue]) return;
+  let qualification;
+  if (assessment) {
+    qualification = assess(body);
+    if (!qualification) return;
+  } else if (!Number.isInteger(body.ownership) || !ownershipBands[body.ownership]) return;
+  if (!validText(body.tel, 40) || !/^\+[\d ().-]+$/.test(body.tel) ||
+      !isPossiblePhoneNumber(body.tel)) return;
   const campaign = {};
   if (ads)
     for (const key of campaignKeys) {
@@ -53,9 +92,10 @@ function parseApplication(body, ads) {
     email: body.email.trim(),
     phone: body.tel.trim(),
     revenue: body.revenue,
-    ownership: body.ownership,
+    ...(assessment ? { business: body.business.trim(), qualification } : { ownership: body.ownership }),
     source: body.source,
     campaign,
+    ...(body.kit ? {kit: true, planCall: body.planCall} : {}),
   };
 }
 export function createApplicationHandler({
@@ -96,7 +136,7 @@ export function createApplicationHandler({
       if (!/^application\/json(?:;|$)/i.test(req.headers['content-type'] || ''))
         return out(415, { error: 'content_type' });
       const raw = typeof req.body === 'string' ? req.body : JSON.stringify(req.body);
-      if (!raw || Buffer.byteLength(raw) > 6000) return out(413, { error: 'size' });
+      if (!raw || Buffer.byteLength(raw) > 96000) return out(413, { error: 'size' });
       let body;
       try {
         body = JSON.parse(raw);
@@ -141,7 +181,16 @@ export function createApplicationHandler({
           .runJobs(send, now, saved.id)
           .catch(() => console.error('Application delivery pending')),
       );
-      return out(200, { accepted: true, eventID: saved.id, pixelID: saved.track ? env.META_PIXEL_ID : null });
+      const receipt = { accepted: true, eventID: saved.id, pixelID: saved.track ? env.META_PIXEL_ID : null };
+      if (record.kit) {
+        const guide = guideForSource(saved.source, record.qualification);
+        receipt.guideTitle = guide.title;
+        if (record.qualification) {
+          receipt.firstMove = firstMove(record.qualification);
+          receipt.guidance = assessmentResponse(record);
+        }
+      }
+      return out(200, receipt);
     } catch {
       return out(503, { error: 'save_unavailable' });
     }

@@ -1,3 +1,4 @@
+import { Leads } from "./Leads";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { ArrowLeft, Check, Eye, EyeSlash, FileText, Gear, Info, Plus, SignOut } from "@phosphor-icons/react";
 
@@ -100,11 +101,13 @@ export function App() {
   const [busy, setBusy] = useState(false);
   const [previewHtml, setPreviewHtml] = useState<string | null>(null);
 
+  const leadsView = new URLSearchParams(window.location.search).get("view") === "leads";
   async function load() {
     try {
       const session = await request<{ authenticated: boolean; csrf?: string }>("/api/session");
       if (!session.authenticated || !session.csrf) throw new Error("Sign in required");
       csrfToken = session.csrf;
+      if (leadsView) { setAuthenticated(true); return; }
       const [content, site] = await Promise.all([request<{ posts: ContentItem[]; pages: ContentItem[] }>("/api/posts"), request<{ settings: SiteSettings }>("/api/settings")]);
       const target = editorTarget(); const all = [...content.pages, ...content.posts]; const initial = all.find(item => item.kind === target.kind && item.slug === target.slug) || content.posts[0] || content.pages[0] || emptyPost();
       setAuthenticated(true); setPosts(content.posts); setPages(content.pages); setSettings(site.settings); setSelected(initial); setView(initial.kind === "page" ? "pages" : "posts");
@@ -143,13 +146,14 @@ export function App() {
     finally { setBusy(false); }
   }
   async function signOut() { await request("/api/logout", { method: "POST" }); csrfToken = ""; setAuthenticated(false); }
+  if (leadsView && authenticated !== false) return <div className="admin-shell"><SiteHeader settings={settings} editor onSignOut={authenticated ? signOut : undefined} /><main className="lead-room"><a href="/admin/">Back to editor</a><h1>Leads</h1>{authenticated && <Leads request={request} />}</main></div>;
   if (authenticated === null) return <div className="loading">Opening your site…</div>;
   if (!authenticated) return <Login onLogin={load} />;
   if (!selected || !settings) return null;
   if (previewHtml) return <PublicPreview html={previewHtml} onBack={() => setPreviewHtml(null)} />;
 
   return <div className="admin-shell"><SiteHeader settings={settings} editor onSignOut={signOut} />
-    <div className="editor-nav"><button className={view === "posts" ? "active" : ""} onClick={() => { setView("posts"); if (selected.kind !== "post") setSelected(posts[0] || emptyPost()); }}><FileText size={16} />Posts</button><button className={view === "pages" ? "active" : ""} onClick={() => { setView("pages"); if (selected.kind !== "page" && pages[0]) setSelected(pages[0]); }}><Info size={16} />Pages</button><button className={view === "settings" ? "active" : ""} onClick={() => setView("settings")}><Gear size={16} />Settings</button><span className={notice.includes("failed") ? "notice error" : "notice"}><Check size={14} />{notice}</span></div>
+    <div className="editor-nav"><a className="lead-nav" href="/admin/?view=leads">Leads</a><button className={view === "posts" ? "active" : ""} onClick={() => { setView("posts"); if (selected.kind !== "post") setSelected(posts[0] || emptyPost()); }}><FileText size={16} />Posts</button><button className={view === "pages" ? "active" : ""} onClick={() => { setView("pages"); if (selected.kind !== "page" && pages[0]) setSelected(pages[0]); }}><Info size={16} />Pages</button><button className={view === "settings" ? "active" : ""} onClick={() => setView("settings")}><Gear size={16} />Settings</button><span className={notice.includes("failed") ? "notice error" : "notice"}><Check size={14} />{notice}</span></div>
     {view === "posts" && <div className="editor-grid"><aside className="content-index"><div className="index-heading"><strong>Writing</strong><button onClick={() => choose(emptyPost())}><Plus size={15} />New</button></div><input aria-label="Search posts" placeholder="Search writing…" value={query} onChange={event => setQuery(event.target.value)} />{filtered.map(post => <button key={post.slug || post.title} className={post.slug === selected.slug ? "active" : ""} onClick={() => choose(post)}><time>{post.publishedAt}</time><strong>{post.title}</strong><small>{post.status}</small></button>)}</aside><Editor item={selected} topics={topics} busy={busy} onTopics={value => { setTopics(value); setNotice("Unsaved changes"); }} onUpdate={update} onSave={save} onPreview={openPreview} /></div>}
     {view === "pages" && <div className="editor-grid"><aside className="content-index"><div className="index-heading"><strong>Pages</strong></div>{pages.map(page => <button key={page.slug} className={page.slug === selected.slug ? "active" : ""} onClick={() => choose(page)}><strong>{page.title}</strong><small>{page.path}</small></button>)}</aside><Editor item={selected} topics={topics} busy={busy} onTopics={setTopics} onUpdate={update} onSave={save} onPreview={openPreview} /></div>}
     {view === "settings" && <SettingsEditor settings={settings} busy={busy} onChange={patch => { setSettings(current => current ? { ...current, ...patch } : current); setNotice("Unsaved changes"); }} onSave={saveSettings} />}

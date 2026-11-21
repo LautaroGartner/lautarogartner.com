@@ -1,6 +1,97 @@
 (() => {
   const form = document.querySelector('[data-application]');
+  const thanks = document.querySelector('[data-thank-you]');
+  if (thanks) {
+    const receipt = history.state?.consultingApplication;
+    if (!receipt?.done) return;
+    // Discard the signed download URL left in older browser history entries.
+    if (Object.hasOwn(receipt, 'kitPath')) {
+      delete receipt.kitPath;
+      history.replaceState({ ...history.state, consultingApplication: receipt }, '');
+    }
+    thanks.querySelector('[data-receipt-label]').hidden = false;
+    thanks.querySelector('[data-receipt-heading]').textContent = 'Thank you.';
+    thanks.querySelector('[data-recovery]').hidden = true;
+    if (receipt.firstMove) {
+      let [title, body] = receipt.firstMove;
+      // Older confirmations stored the recommendation text without its challenge key.
+      const oldChallenges = {
+        'Show what the price buys': 'offer', 'Put the payoff in the first line': 'offer',
+        'Give the right person a reason to reply': 'funnel', 'Change who the invitation reaches': 'funnel',
+        'Make your quote easy to accept': 'sales', 'Agree on the next step': 'sales'
+      };
+      const selected = receipt.challenge || oldChallenges[title];
+      const current = Array.from(thanks.querySelectorAll('[data-current-move]'))
+        .find(template => template.dataset.currentMove === selected)?.content;
+      if (current) {
+        title = current.querySelector('h2').textContent;
+        body = current.querySelector('p').textContent;
+      }
+      const action = thanks.querySelector('[data-first-move]');
+      action.querySelector('h2').textContent = title;
+      action.querySelector('[data-action-copy]').textContent = body;
+      action.hidden = false;
+    }
+    if (receipt.guideTitle) {
+      thanks.querySelector('[data-guide-title]').textContent = receipt.guideTitle;
+      thanks.querySelector('[data-email-delivery]').hidden = false;
+    }
+    const followUp = thanks.querySelector('[data-call-confirm]');
+    const guidance = receipt.guidance;
+    if (guidance?.reading) {
+      const start = thanks.querySelector('[data-book-start]');
+      start.textContent = guidance.reading;
+      start.hidden = false;
+    }
+    if (guidance?.next) {
+      followUp.querySelector('h2').textContent = guidance.heading;
+      followUp.querySelector('p').textContent = guidance.next;
+    }
+    followUp.hidden = !receipt.planCall;
+    if (receipt.pixelID) {
+      history.replaceState({...history.state, consultingApplication: {...receipt, pixelID: null}}, '');
+      sendPixel(receipt.pixelID, receipt.eventID);
+      window.addEventListener('lg:advertising-change', () => window.fbq?.('consent', permitted() ? 'grant' : 'revoke'));
+    }
+    return;
+  }
   if (!form) return;
+  const policy = document.querySelector('.assessment-policy');
+  const challenge = form.elements.namedItem('challenge');
+  const signals = [...document.querySelectorAll('[data-constraint]')];
+  function showConstraint() {
+    for (const signal of signals) {
+      signal.open = signal.dataset.constraint === challenge.value;
+    }
+  }
+  if (challenge) {
+    for (const signal of signals) {
+      signal.querySelector('summary').addEventListener('click', event => {
+        if (signal.open) return;
+        event.preventDefault();
+        challenge.value = signal.dataset.constraint;
+        challenge.dispatchEvent(new Event('change', {bubbles:true}));
+      });
+    }
+    challenge.addEventListener('change', showConstraint);
+    showConstraint();
+  }
+
+  const policyLink = form.querySelector('[data-show-policy]');
+  if (policy && typeof policy.showModal === 'function') {
+    policyLink.addEventListener('click', event => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      policy.showModal();
+    });
+    policy.querySelector('[data-close-policy]').addEventListener('click', () => policy.close());
+    policy.addEventListener('click', event => {
+      if (event.target !== policy) return;
+      const box = policy.getBoundingClientRect();
+      if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) policy.close();
+    });
+    policy.addEventListener('close', () => policyLink.focus({preventScroll:true}));
+  }
   const source = ['/cash-flow', '/more-clients'].includes(location.pathname.replace(/\/$/, '')) ? '/more-clients' : '/';
   const params = new URLSearchParams(location.search);
   const campaign = {};
@@ -181,11 +272,10 @@
     next = form.querySelector('[data-next]');
   const progress = form.querySelector('[data-progress]'),
     status = form.querySelector('[data-status]');
-  const confirmation = document.querySelector('[data-confirm]');
   let step = 0,
     token = null,
     busy = false;
-  // Navigation state survives reloads and contains only opaque identifiers.
+  // Navigation state survives reloads.
   let application = history.state?.consultingApplication ?? { key: crypto.randomUUID() };
   function remember(update) {
     application = { ...application, ...update };
@@ -193,10 +283,10 @@
   }
   remember({});
   window.addEventListener('hashchange', () => remember({}));
-  function confirmed(focus) {
-    form.hidden = true;
-    confirmation.hidden = false;
-    if (focus) confirmation.focus();
+  function openThankYou() {
+    // Keep the confirmation and first move available on refresh.
+    history.replaceState(history.state, '', '/thank-you');
+    location.reload();
   }
   function show(index, focus) {
     step = index;
@@ -206,7 +296,7 @@
     });
     progress.textContent = 'Step ' + (index + 1) + ' of 3';
     back.hidden = index === 0;
-    next.firstElementChild.textContent = index === 2 ? 'Send request' : 'Continue';
+    next.firstElementChild.textContent = index === 2 ? form.dataset.submitLabel : 'Continue';
     next.disabled = false;
     back.disabled = false;
     status.textContent = '';
@@ -235,7 +325,7 @@
   function sendPixel(id, eventID) {
     if (!permitted() || !/^\d{5,25}$/.test(id) || typeof eventID !== 'string') return;
     // Pixel's implicit URL context must never include visitor-supplied query or fragment values.
-    history.replaceState(history.state, '', location.pathname + '#discuss');
+    history.replaceState(history.state, '', location.pathname);
     if (!window.fbq) {
       function fbq() {
         if (fbq.callMethod) fbq.callMethod.apply(fbq, arguments);
@@ -257,7 +347,7 @@
     fbq('trackSingle', id, 'Lead', {}, { eventID });
   }
   window.addEventListener('lg:advertising-change', () => {
-    if (!permitted()) window.fbq?.('consent', 'revoke');
+    window.fbq?.('consent', permitted() ? 'grant' : 'revoke');
   });
   back.addEventListener('click', () => {
     if (!busy) show(Math.max(0, step - 1), true);
@@ -265,7 +355,8 @@
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     validatePhone();
-    if (busy || !form.reportValidity()) return;
+    if (busy) return;
+    if (!form.reportValidity()) return;
     if (step < 2) {
       show(step + 1, true);
       return;
@@ -283,10 +374,14 @@
         source,
         company: val('company'),
         name: val('name'),
+        kit: true,
+        planCall: true,
+        assessment: true,
         email: val('email'),
-        tel: parsedPhone().number,
+        tel: parsedPhone()?.number || '',
         revenue: Number(val('revenue')),
-        ownership: Number(val('ownership')),
+        stage: val('stage'), challenge: val('challenge'),
+          budget: val('budget'), role: val('role'), timing: val('timing'), business: val('business'), callback: true,
         advertising: ads,
         ...(ads ? { campaign, fbp: getCookie('_fbp'), fbc: click || getCookie('_fbc') } : {}),
       };
@@ -303,11 +398,10 @@
           continue;
         }
         if (!response.ok || !saved.accepted || !saved.eventID) throw Error(saved.error || 'save');
-        remember({ done: true });
-        confirmed(true);
+        remember({ done: true, challenge: data.challenge, firstMove: saved.firstMove, guidance: saved.guidance, guideTitle: saved.guideTitle, planCall: data.planCall, pixelID: saved.pixelID, eventID: saved.eventID });
         form.reset();
-        if (saved.pixelID) sendPixel(saved.pixelID, saved.eventID);
         window.dispatchEvent(new CustomEvent('enquiry:accepted', { detail: { language: 'en' } }));
+        openThankYou();
         return;
       }
     } catch (error) {
@@ -347,7 +441,7 @@
     prefix.hidden = false;
     validatePhone();
   });
-  if (application.done) confirmed(false);
+  if (application.done) openThankYou();
   else {
     setCountry(browserCountry());
     show(0, false);

@@ -11,6 +11,7 @@ export type SitePage = {
   nav?: boolean;
   shell?: "default" | "wide" | "full";
   seoTitle?: string;
+  robots?: string;
   structuredData?: unknown;
   canonicalPath?: string;
   imagePath?: string;

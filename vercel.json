@@ -25,7 +25,27 @@
     },
     {
       "source": "/es/building-a-car-loan-calculator",
-      "destination": "/es/car-loan-calculator-guide",
+      "destination": "/car-loan-calculator-guide",
+      "permanent": true
+    },
+    {
+      "source": "/web/es",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/demo/cotizador",
+      "destination": "/demo/quote-calculator",
+      "permanent": true
+    },
+    {
+      "source": "/es",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/es/:path*",
+      "destination": "/:path*",
       "permanent": true
     }
   ],

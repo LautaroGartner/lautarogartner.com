@@ -12,7 +12,7 @@ const manifest = JSON.parse(generateSiteManifestWithCapabilities(site, ['static-
 const context = JSON.parse(generateContextJson(site));
 const htmlCanonical = html => html.match(/<link rel="canonical" href="([^"]+)"/)[1];
 
-for (const [alias, canonicalPath, output] of [['/web', '/', 'web/index.html'], ['/web/es', '/es', 'web/es/index.html']]) {
+for (const [alias, canonicalPath, output] of [['/web', '/', 'web/index.html'], ['/cash-flow', '/', 'cash-flow/index.html'], ['/more-clients', '/', 'more-clients/index.html']]) {
   test(`${alias} alias metadata agrees with the HTML canonical and preserves its route`, () => {
     const page = site.pages.find(page => page.path === alias);
     const expected = `${settings.url}${canonicalPath}`;
@@ -27,7 +27,7 @@ for (const [alias, canonicalPath, output] of [['/web', '/', 'web/index.html'], [
 }
 
 test('ordinary pages retain their own canonical URLs in both metadata documents', () => {
-  for (const path of ['/', '/es', '/about', '/es/about', '/writing']) {
+  for (const path of ['/', '/about', '/writing']) {
     const expected = `${settings.url}${path}`;
     assert.equal(manifest.site.pages.find(page => page.path === path).canonical, expected);
     assert.equal(context.pages.find(page => page.path === path).canonical, expected);
@@ -35,8 +35,9 @@ test('ordinary pages retain their own canonical URLs in both metadata documents'
 });
 
 test('published article canonicals and output routes remain unchanged', () => {
-  assert.ok(posts.length > 0);
-  for (const post of posts) {
+  assert.ok(site.posts.length > 0);
+  for (const entries of [manifest.site.posts, context.posts]) assert.ok(entries.every(entry => !entry.slug.startsWith('es/')));
+  for (const post of site.posts) {
     const path = `/${post.slug}`;
     const expected = `${settings.url}${path}`;
     assert.equal(htmlCanonical(generatePostPage(site, post)), expected);

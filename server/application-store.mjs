@@ -25,8 +25,15 @@ export function applicationStore(env) {
   async function save(key, record, meta, time) {
     await initialize();
     const id = randomUUID();
+    const answers = record.qualification;
+    const identity = [record.name, record.email, record.phone, record.revenue, record.ownership];
+    if (record.kit) identity.push(record.business, record.planCall, record.logo || null);
+    if (answers) {
+      identity.push(record.source, answers.stage, answers.challenge, answers.investment, answers.role, answers.consent);
+      if (answers.budget) identity.push(answers.goal, answers.budget, answers.decision, answers.timing);
+    }
     const fingerprint = createHash('sha256')
-      .update(JSON.stringify([record.name, record.email, record.phone, record.revenue, record.ownership]))
+      .update(JSON.stringify(identity))
       .digest('hex');
     const statements = [
       {
@@ -41,6 +48,7 @@ export function applicationStore(env) {
       });
     }
     job('notify', {});
+    if (record.kit) job('gift', {});
     if (meta)
       job('meta', { ...meta, event_name: 'Lead', event_time: time, event_id: id, action_source: 'website' });
     statements.push({
@@ -51,10 +59,12 @@ export function applicationStore(env) {
     const row = results.at(-1).rows[0];
     if (row.fingerprint !== fingerprint) return { conflict: true };
     // A retry uses the original consent decision and conversion ID.
+    const original = JSON.parse(row.record);
     return {
+      source: original.source,
       id: row.id,
       received: Number(row.received),
-      track: Boolean(meta) && JSON.parse(row.record).pixelID === record.pixelID,
+      track: Boolean(meta) && original.pixelID === record.pixelID,
     };
   }
   async function runJobs(deliver, now, applicationId) {
@@ -95,12 +105,48 @@ export function applicationStore(env) {
           });
           return;
         }
-        await db.execute({
+        const completed = [];
+        if (kind === 'gift') {
+          for (const days of [2, 7]) {
+            completed.push({
+              sql: 'INSERT OR IGNORE INTO application_jobs(application,kind,payload,due) SELECT application,?,?,? FROM application_jobs WHERE application=? AND kind=? AND lease=?',
+              args: ['remind-' + days, '{}', now() + days * 86400, application, kind, lease],
+            });
+          }
+        }
+        completed.push({
           sql: 'DELETE FROM application_jobs WHERE application=? AND kind=? AND lease=?',
           args: [application, kind, lease],
         });
+        await db.batch(completed, 'write');
       }),
     );
   }
-  return { save, runJobs, close: () => db.close() };
+  async function kitRecipient(id) {
+    await initialize();
+    const result = await db.execute({sql: 'SELECT record FROM applications WHERE id=?', args: [id]});
+    return result.rows.length ? JSON.parse(result.rows[0].record) : null;
+  }
+  const currentTag = "coalesce(json_extract(record, '$.crmTag'), 'Unreviewed')";
+  async function listLeads(tag, before) {
+    await initialize();
+    const clauses = [], args = [];
+    if (tag) { clauses.push(currentTag + ' = ?'); args.push(tag); }
+    if (before) { clauses.push('rowid < ?'); args.push(Number(before)); }
+    const where = clauses.length ? ' WHERE ' + clauses.join(' AND ') : '';
+    const { rows } = await db.execute({
+      sql: 'SELECT rowid AS cursor, id, received, record, ' + currentTag + ' AS tag FROM applications' +
+        where + ' ORDER BY rowid DESC LIMIT 26', args
+    });
+    return rows;
+  }
+  async function setLeadTag(id, tag, previous) {
+    await initialize();
+    const result = await db.execute({
+      sql: "UPDATE applications SET record=json_set(record, '$.crmTag', ?) WHERE id=? AND " + currentTag + '=?',
+      args: [tag, id, previous]
+    });
+    return result.rowsAffected === 1;
+  }
+  return { save, runJobs, kitRecipient, listLeads, setLeadTag, close: () => db.close() };
 }

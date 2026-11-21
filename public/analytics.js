@@ -7,44 +7,38 @@
  const labels=es?{
   settings:'Privacidad y preferencias', intro:'Vos decidís qué permisos dar. Guardamos tus preferencias únicamente en este navegador.',
   necessary:'Necesarias', analytics:'Analítica', advertising:'Publicidad',
-  note:'La analítica se activa solo si guardás esa opción. Publicidad permite enviar una conversión a Meta cuando enviás una solicitud de consultoría. Las necesarias recuerdan tus ajustes.',
+  note:'La analítica mide las visitas. La publicidad permite enviar una conversión a Meta cuando enviás una consulta. Ambas están activadas de forma predeterminada, salvo que vos o tu navegador indiquen lo contrario.',
   preview:'Google Analytics está desactivado en esta vista.', details:'Datos del formulario',
   form:'Uso los datos del formulario para evaluar tu consulta y contactarte por tu proyecto. Las preferencias de cookies son independientes del envío de la consulta.',
   deny:'Solo necesarias', save:'Guardar',
  }:{
   settings:'Privacy and preferences', intro:'You choose which permissions to give. Your preferences are saved only in this browser.',
   necessary:'Necessary', analytics:'Analytics', advertising:'Advertising',
-  note:'Analytics starts only when you save that choice. Advertising can send Meta a conversion when you submit a consulting request. Necessary storage remembers your settings.',
+  note:'Analytics measures visits. Advertising lets me report a consulting enquiry to Meta. Both are on by default unless you or your browser opt out.',
   preview:'Google Analytics is off in this view.', details:'Form data',
   form:'I use the information you submit to review your enquiry and get in touch about your project. Cookie preferences are separate from submitting the form.',
   deny:'Necessary only', save:'Save',
  };
  let enabled=false,loaded=false,pageTracked=false;
- let choice=null, advertisingChoice=false, adExpiry=0;
- try {
-  const saved=JSON.parse(localStorage.getItem(key));
-  if(saved&&saved.expires>Date.now()){
-   choice=saved.choice;
-   advertisingChoice=saved.adPolicy===2 && saved.advertising===true;
-   adExpiry=saved.expires;
-  }
- }catch{}
+ const preferenceLifetime=90*86400000;
  const optedOut=()=>navigator.globalPrivacyControl===true || navigator.doNotTrack==='1';
- window.lgAdvertisingAllowed=()=>advertisingChoice && adExpiry>Date.now() && !optedOut();
+ let saved;
+ function readPreferences(){
+  try { saved=JSON.parse(localStorage.getItem(key)); } catch { saved=null; }
+ }
+ const analyticsAllowed=()=>!optedOut() && saved?.choice!=='deny';
+ window.lgAdvertisingAllowed=()=>{
+  if(optedOut())return false;
+  if(saved?.adPolicy===2)return saved.advertising===true;
+  // Older preferences only covered analytics. Preserve the previous advertising opt-out.
+  return !saved;
+ };
  function syncAdvertising(){
   const allowed=window.lgAdvertisingAllowed();
-  document.cookie='lg_ad_consent='+(allowed?'1':'0')+'; Path=/; SameSite=Lax; Max-Age='+(allowed?Math.max(0,Math.floor((adExpiry-Date.now())/1000)):0)+(location.protocol==='https:'?'; Secure':'');
+  document.cookie='lg_ad_consent='+(allowed?'1':'0')+'; Path=/; SameSite=Lax; Max-Age='+(allowed?preferenceLifetime/1000:0)+(location.protocol==='https:'?'; Secure':'');
   if(!allowed)for(const name of ['_fbp','_fbc'])for(const domain of ['',location.hostname,'.lautarogartner.com'])document.cookie=name+'=; Path=/; Max-Age=0; SameSite=Lax'+(domain?'; Domain='+domain:'');
   window.dispatchEvent(new Event('lg:advertising-change'));
  }
- syncAdvertising();
- window.addEventListener('storage',event=>{
-  if(event.key!==key && event.key!==null)return;
-  let saved;try{saved=JSON.parse(localStorage.getItem(key))}catch{}
-  advertisingChoice=saved?.adPolicy===2 && saved.advertising===true;
-  adExpiry=Number(saved?.expires)||0;
-  syncAdvertising();
- });
  const preferences=document.createElement('aside');
  preferences.className='data-settings';
  preferences.setAttribute('aria-label',labels.settings);
@@ -63,7 +57,8 @@
   <button type="button" class="data-settings-toggle" aria-label="${labels.settings}" aria-controls="analytics-preferences" aria-expanded="false">
    <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14M7 3v4m6 1v4m-5 1v4"/></svg>
   </button>`;
- document.body.append(preferences);
+ const settingsHost=document.querySelector('main + .consult-footer')?.previousElementSibling || document.body;
+ settingsHost.append(preferences);
  const panel=preferences.querySelector('.data-settings-panel');
  const settings=preferences.querySelector('.data-settings-toggle');
  const analytics=preferences.querySelector('[name="analytics"]');
@@ -71,7 +66,7 @@
  const updateStatus=input=>{input.nextElementSibling.textContent=input.checked?'On':'Off';};
  const setPanel=open=>{
   if(open){
-   analytics.checked=choice!=='deny';
+   analytics.checked=analyticsAllowed();analytics.disabled=optedOut();
    advertising.checked=window.lgAdvertisingAllowed();advertising.disabled=optedOut();
    updateStatus(analytics);
    updateStatus(advertising);
@@ -79,7 +74,7 @@
   panel.hidden=!open;
   settings.setAttribute('aria-expanded',String(open));
  };
- const track=(name,params={})=>{if(enabled&&loaded)window.gtag('event',name,{send_to:id,page_location:location.origin+location.pathname,page_referrer:document.referrer?new URL(document.referrer).origin:'',...params});};
+ const track=(name,params={})=>{if(enabled&&loaded&&analyticsAllowed())window.gtag('event',name,{send_to:id,page_location:location.origin+location.pathname,page_referrer:document.referrer?new URL(document.referrer).origin:'',...params});};
  const funnelSteps=new Set();
  const trackStep=name=>{
   if(!enabled||funnelSteps.has(name))return;
@@ -108,15 +103,22 @@
   window.gtag('consent','update',{analytics_storage:'granted',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});
   if(!pageTracked){pageTracked=true;track('page_view',{page_title:document.title});}
  };
- const choose=(value,ads)=>{
-  choice=value;advertisingChoice=ads && !optedOut();adExpiry=Date.now()+90*86400000;syncAdvertising();setPanel(false);try{localStorage.setItem(key,JSON.stringify({choice:value,advertising:advertisingChoice,adPolicy:2,expires:adExpiry}));}catch{}
-  if(value==='allow')enable();else if(canMeasure){
+ function applyPreferences(){
+  syncAdvertising();
+  if(analyticsAllowed())enable();else if(canMeasure){
    enabled=false;window['ga-disable-'+id]=true;
-   // Do not send a denial ping. Subsequent loads never request Google's script.
    for(const cookie of document.cookie.split(';')){const name=cookie.trim().split('=')[0];if(name==='_ga'||name.startsWith('_ga_'))for(const domain of ['',location.hostname,'.lautarogartner.com'])document.cookie=name+'=; Max-Age=0; Path=/'+(domain?'; Domain='+domain:'')+'; SameSite=Lax';}
   }
-  settings.focus();
- };
+  if(!panel.hidden)setPanel(true);
+ }
+ function choose(value,ads){
+  saved={choice:value,advertising:ads,adPolicy:2,expires:Date.now()+preferenceLifetime};
+  try{localStorage.setItem(key,JSON.stringify(saved));}catch{}
+  applyPreferences();setPanel(false);settings.focus();
+ }
+ window.addEventListener('storage',event=>{
+  if(event.key===key || event.key===null){readPreferences();applyPreferences();}
+ });
  analytics.addEventListener('change',()=>updateStatus(analytics));
  advertising.addEventListener('change',()=>updateStatus(advertising));
  preferences.querySelector('[data-save-preferences]').addEventListener('click',()=>choose(analytics.checked?'allow':'deny',advertising.checked));
@@ -131,11 +133,21 @@
   const link=event.target.closest('a[href]');
   if(link?.origin===location.origin&&/^(\/es)?\/contact\/?$/.test(link.pathname))trackStep('enquiry_click');
  },true);
+ const application=document.querySelector('[data-application]');
+ if(application){
+  const transcript=document.querySelector('#transcript');
+  transcript?.addEventListener('toggle',()=>{
+   if(transcript.open)trackStep('growth_example_open');
+  });
+  document.querySelector('#example video')?.addEventListener('playing',()=>trackStep('growth_video_play'));
+  application.addEventListener('input',()=>trackStep('growth_form_start'));
+ }
  const form=document.querySelector('[data-contact-form]');
  form?.addEventListener('focusin',event=>{if(event.target.matches('input:not([name="company"]), select, textarea'))trackStep('enquiry_start');});
  form?.addEventListener('invalid',()=>trackStep('enquiry_error'),true);
  window.addEventListener('enquiry:error',()=>trackStep('enquiry_error'));
  window.addEventListener('enquiry:accepted',event=>{if(!enabled)return;const language=event.detail?.language;if(['en','es'].includes(language))track('enquiry_accepted',{language,...(['custom-software','technology-consulting','quote-calculator','website-repair','forms','new-website','other'].includes(event.detail?.service)?{service:event.detail.service}:{})});});
- setPanel((canMeasure||document.querySelector('[data-application]')&&publicHost)&&choice!=='allow'&&choice!=='deny');
- if(choice==='allow')enable();
+ readPreferences();
+ setPanel((canMeasure||Boolean(document.querySelector('[data-application]'))&&publicHost)&&!saved&&!optedOut());
+ applyPreferences();
 })();

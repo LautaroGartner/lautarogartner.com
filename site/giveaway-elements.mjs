@@ -1,5 +1,5 @@
+import {homeGuide} from './growth-guides.mjs';
 /* Reusable markup for the giveaway's actual header, controls, menu and hero. */
-const curve = 'M50 3C77 0 98 9 97 24C97 40 75 47 49 45C22 48 2 39 3 24C2 10 25 2 50 3Z';
 const rays = [
   'M0.2,37L0,36.2c6.7-1.4,13.9-2.1,21.3-2.3l0,0.8C13.9,34.9,6.8,35.7,0.2,37z',
   'M22.2,23.2c-3.9-3.7-7.9-7.5-11.7-11.1l0.5-0.6l-0.3,0.3l0.3-0.3c3.9,3.6,7.9,7.4,11.7,11.1L22.2,23.2z',
@@ -42,12 +42,6 @@ function menuLetters(label, escape) {
   }).join(' ');
 }
 
-function navLanguage(lang, href, active, escape) {
-  const label = lang === 'es' ? 'Español' : 'English';
-  const letters = [...label].map((letter, index) => `<span class="language-letter" style="--letter-index:${index}" aria-hidden="true">${letter}</span>`).join('');
-  return `<a${active ? '' : ` data-language="${lang}"`} href="${escape(href)}" lang="${lang}" hreflang="${lang}" aria-label="${label}"${active ? ' aria-current="page"' : ''}>${letters}<svg class="language-ring" viewBox="0 0 100 48" preserveAspectRatio="none" aria-hidden="true"><path pathLength="100" d="${curve}"></path></svg></a>`;
-}
-
 export function giveawayPrimaryAction(href, label, escape) {
   const letters = [...label].map(letter => `<span class="name-letter">${escape(letter)}</span>`).join('');
   return `<span class="giveaway-elements"><a class="c-btn giveaway-primary" href="${escape(href)}" aria-label="${escape(label)}"><span class="c-btn__inner" aria-hidden="true"><strong class="c-btn__label">${letters}</strong></span></a></span>`;
@@ -56,16 +50,20 @@ export function giveawayPrimaryAction(href, label, escape) {
 export function giveawayNavigation({lang, route, path, escape, labels, consulting = false}) {
   const es = lang === 'es';
   const open = es ? 'Menú' : 'Menu', close = es ? 'Cerrar' : 'Close';
-  const contactHref = consulting ? '#discuss' : path(lang, 'contact');
-  const links = consulting ? [['', 'Home'], ['more-clients', 'More clients'], ['writing', 'Writing']] : [
+  const giftHref = consulting ? (route === 'thank-you' ? '#site-footer' : '#discuss') : '/#discuss';
+  const cta = consulting ? (route === 'thank-you' ? labels.contact : 'Assessment') : homeGuide.cta;
+  const links = consulting ? [
+    ['#example', 'Follow the money'], ['#questions', 'Questions'], ['#discuss', 'Free assessment'],
+  ] : [
     ['', es ? 'Inicio' : 'Home'], ['work', labels.work], ['services', es ? 'Servicios' : 'Services'],
     ['about', es ? 'Sobre mí' : 'About'], ['writing', es ? 'Artículos' : 'Writing'], ['contact', labels.contact],
   ];
+  const href = destination => consulting ? (route ? '/' : '') + destination : path(lang, destination);
   const current = destination => route === destination || route.startsWith(destination + '/');
   const menu = links.map(([destination, label], index) => `<li class="l-nav__item t-t2-serif" style="--nav-row:${index}">
-    <a href="${escape(path(lang,destination))}" class="l-nav__link t-link-gradient${current(destination) ? ' is-current' : ''}" aria-label="${escape(label)}"${current(destination) ? ' aria-current="page"' : ''}><span class="l-nav__label" aria-hidden="true">${menuLetters(label, escape)}</span></a>
+    <a href="${escape(href(destination))}" class="l-nav__link t-link-gradient${current(destination) ? ' is-current' : ''}" aria-label="${escape(label)}"${current(destination) ? ' aria-current="page"' : ''}><span class="l-nav__label" aria-hidden="true">${menuLetters(label, escape)}</span></a>
   </li>`).join('');
-  const fallback = links.map(([destination,label])=>`<a href="${escape(path(lang,destination))}">${escape(label)}</a>`).join('');
+  const fallback = links.map(([destination,label])=>`<a href="${escape(href(destination))}">${escape(label)}</a>`).join('');
   const name = [...'Lautaro Gärtner'].map(letter => `<span class="name-letter" aria-hidden="true">${letter === ' ' ? '&nbsp;' : letter}</span>`).join('');
   return `<a class="skip-link" href="#content">${es ? 'Saltar al contenido' : 'Skip to content'}</a>
     <div class="giveaway-elements giveaway-navigation">
@@ -77,11 +75,10 @@ export function giveawayNavigation({lang, route, path, escape, labels, consultin
           </button>
         </div></div>
         <div class="l-header__cta"><div class="headroom--top headroom--not-bottom headroom">
-          <a class="c-btn" href="${escape(contactHref)}"><span class="c-btn__inner"><span class="c-btn__label t-small">${escape(labels.contact)}</span><span class="c-btn__line-bottom"></span></span></a>
+          <a class="c-btn" href="${escape(giftHref)}"><span class="c-btn__inner"><span class="c-btn__label t-small">${escape(cta)}</span><span class="c-btn__line-bottom"></span></span></a>
         </div></div>
         <nav class="l-nav" id="site-menu" aria-label="${es ? 'Navegación' : 'Navigation'}" inert>
           <ul class="l-nav__list">${menu}</ul>
-          <div class="menu-language">${navLanguage('en', path('en',route), !es, escape)}<span aria-hidden="true">/</span>${navLanguage('es', path('es',consulting?'':route), es, escape)}</div>
         </nav>
       </header>
       <noscript><nav class="giveaway-fallback-links" aria-label="${es ? 'Navegación' : 'Navigation'}">${fallback}</nav></noscript>

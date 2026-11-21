@@ -1,13 +1,5 @@
 (() => {
  document.documentElement?.classList?.remove('opening-pending');
- const equivalents = {offer:'oferta',work:'trabajos','about-me':'sobre-mi',contact:'contacto',tiki:'tiki',lucia:'lucia',filsen:'filsen'};
- const updateLanguage = () => {
-  const link=document.querySelector('[data-language]'); if(!link) return;
-  const hash=decodeURIComponent(location.hash.slice(1));
-  const map=link.dataset.language==='es'?equivalents:Object.fromEntries(Object.entries(equivalents).map(([a,b])=>[b,a]));
-  link.href=link.pathname+(map[hash]?'#'+map[hash]:'');
- };
- updateLanguage(); window.addEventListener('hashchange',updateLanguage);
  const clocks=[...(document.querySelectorAll?.('[data-local-time]')||[])];
  if(clocks.length){
   let clockTimer;
@@ -32,10 +24,9 @@
  // Server-rendered content stays readable when scripts or motion are disabled.
  const scene=document.querySelector('[data-scene]');
  if(scene&&location.hash){
-  const lang=(location.pathname||'/').startsWith('/es')||(location.pathname||'').endsWith('/es')?'es':'en';
   const legacy={offer:'services',oferta:'services',work:'work',trabajos:'work','about-me':'about','sobre-mi':'about',contact:'contact',contacto:'contact',tiki:'work/tiki',lucia:'work/lucia',filsen:'work/filsen'};
   const route=legacy[location.hash.slice(1)];
-  if(route&&location.replace){location.replace((lang==='es'?'/es':'')+'/'+route);return;}
+  if(route&&location.replace){location.replace('/'+route);return;}
  }
  const workIndex=document.querySelector('[data-work-index]');
  if(workIndex){

@@ -146,6 +146,11 @@
   text-decoration: underline;
   text-underline-offset: .25em;
 }
+.footer-instagram svg { transition: transform 160ms ease-out; }
+.footer-instagram:focus-visible svg { transform: translateY(-2px); }
+@media (hover: hover) {
+  .footer-instagram:hover svg { transform: translateY(-2px); }
+}
 @media (prefers-reduced-motion: reduce) {
   .studio-action--line,
   :root:has([data-studio-header]) a.text-link,

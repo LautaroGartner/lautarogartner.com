@@ -19,8 +19,11 @@
     "@phosphor-icons/react": "^2.1.10",
     "@polar-sh/sdk": "^0.49.0",
     "@vercel/functions": "^3.11.3",
+    "docx": "^9.16.0",
     "libphonenumber-js": "1.13.15",
     "paideia-framework": "file:vendor/paideia-framework",
+    "pdfkit": "^0.20.2",
+    "pngjs": "^7.0.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },

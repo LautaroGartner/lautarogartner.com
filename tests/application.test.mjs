@@ -126,6 +126,16 @@ test('simultaneous retries commit one application, one notification and one cons
   assert.doesNotMatch(JSON.stringify(event), /example.invalid|Local Fixture|ownership|revenue|cash-test/);
   assert.equal((await f.call('POST', { ...f.body, name: 'Changed payload' })).status, 409);
 });
+test('the ad revenue target flags the private notification at the $3M boundary', async (t) => {
+  const f = await fixture(t);
+  for (const [source, revenue, matches] of [['/more-clients',4,false],['/more-clients',5,true],['/cash-flow',6,true],['/',5,false]]) {
+    const result = await f.call('POST', { ...f.body, key: randomUUID(), source, revenue, advertising: false });
+    assert.equal(result.status, 200);
+    await Promise.all(f.work);
+    const subject = f.requests.filter(request => request.kind === 'notify').at(-1).body.subject;
+    assert.equal(subject.includes('$3M+'), matches);
+  }
+});
 test('saved requests survive independent provider failures and worker restarts', async (t) => {
   const f = await fixture(t);
   f.fail.add('meta');
@@ -194,4 +204,131 @@ test('failed saves never confirm or schedule delivery and invalid values never r
   assert.equal((await f.call('POST', f.body)).status, 200);
   await Promise.all(f.work);
   assert.equal((await f.db.execute('SELECT COUNT(*) AS n FROM applications')).rows[0].n, 1);
+});
+
+test('kit downloads and owner-only follow-ups survive retries and follow the gift delivery date', async (t) => {
+  const f = await fixture(t);
+  const body = { ...f.body, kit: true, source: '/', tel: '+12025550134', planCall: false, advertising: false };
+  const invalid = await f.call('POST', { ...body, logo: 'wrong type' });
+  assert.equal(invalid.status, 400);
+  for (const fields of [{planCall: false, tel: '+12025550134'}, {planCall: true, tel: ''}]) {
+    const invalidCall = await f.call('POST', {...body, ...fields, source:'/more-clients'});
+    assert.equal(invalidCall.status,400);
+  }
+  f.fail.add('notify'); // Mock every outbound email failing on the first attempt.
+  const { data } = await f.call('POST', body);
+  await Promise.all(f.work);
+  assert.deepEqual((await f.db.execute('SELECT kind FROM application_jobs ORDER BY kind')).rows.map(r => r.kind), ['gift','notify']);
+  f.fail.clear();
+  f.advance(61);
+  const drain = () => f.call('GET', undefined, { authorization: 'Bearer ' + f.env.CRON_SECRET });
+  await drain();
+  const gift = f.requests.at(-1).body.to[0] === body.email ? f.requests.at(-1) : f.requests.at(-2);
+  assert.deepEqual(gift.body.to, [body.email]);
+  assert.equal(data.kitPath, undefined);
+  const links = gift.body.text.split(/\s+/).filter(word => word.startsWith('https://'));
+  const memoLink = links.find(link => !link.includes('&format=pdf'));
+  const pdfLink = links.find(link => link.includes('&format=pdf'));
+  assert.ok(memoLink && pdfLink);
+  assert.equal(data.guideTitle,'Grow Your Sales, Keep More of What You Make');
+  assert.ok(gift.body.subject.includes(data.guideTitle));
+  assert.doesNotMatch(gift.body.text,/\$5M/);
+  const {createKitHandler} = await import('../api/growth-kit.mjs');
+  const getKit = createKitHandler(f.env, f.store);
+  async function download(href) {
+    let status, bytes;
+    await getKit({method:'GET',query:Object.fromEntries(new URL(href,'https://localhost').searchParams)},{
+      setHeader(){}, status(n){status=n;return this;}, end(b){bytes=b;}
+    });
+    return {status,bytes};
+  }
+  assert.equal((await download(memoLink + 'x')).status,404);
+  assert.equal((await download(memoLink)).bytes.subarray(0,2).toString(),'PK');
+  const fieldbook = await download(pdfLink);
+  assert.equal(fieldbook.status, 200);
+  assert.equal(fieldbook.bytes.subarray(0,5).toString(), '%PDF-');
+  assert.equal((await download(memoLink + 'x&format=pdf')).status,404);
+  assert.deepEqual((await f.call('POST', body)).data,data);
+  await Promise.all(f.work);
+  const count = f.requests.length;
+  f.advance(2*86400-1);
+  await drain();
+  assert.equal(f.requests.length, count);
+  f.advance(1);
+  await drain();
+  assert.match(f.requests.at(-1).body.subject,/Day 2/);
+  f.advance(5*86400);
+  await drain();
+  assert.match(f.requests.at(-1).body.subject,/Day 7/);
+  for (const reminder of f.requests.slice(count)) {
+    assert.deepEqual(reminder.body.to, ['lautaro@lautarogartner.com']);
+    assert.match(reminder.body.text,/Suggested personal note/);
+  }
+  assert.equal(f.requests.length, count+2);
+  assert.equal((await f.db.execute('SELECT count(*) AS n FROM application_jobs')).rows[0].n,0);
+});
+
+test('assessment saves answers, routes only consented callbacks and returns an immediate action', async t => {
+  const f = await fixture(t);
+  const base = {...f.body, kit:true, source:'/more-clients', business:'Example Co', role:'owner',
+    challenge:'closing', stage:'established', budget:'from5', timing:'month', callback:true, planCall:true};
+  for (const [extra, priority] of [[{},'High'],[{revenue:4},'Medium'],[{role:'other'},'Medium'],
+    [{stage:'prelaunch'},'Low'],[{budget:'none'},'Low'], [{role:'coowner',source:'/',assessment:true},'High'],
+    [{budget:'under5'},'Medium'], [{timing:'quarter'},'Medium'], [{timing:'exploring'},'Low'],
+    [{role:'executive', timing:'now', budget:'from50'},'High']]) {
+    f.advance(1);
+    const token = (await f.call('GET')).data.token;
+    const body = {...base,...extra,key:randomUUID(),token};
+    const response = await f.call('POST',body);
+    assert.equal(response.status,200);
+    assert.equal(response.data.firstMove.length,2);
+    assert.doesNotMatch(JSON.stringify(response.data), /kitPath|growth-kit\?|&key=/);
+    assert.doesNotMatch(JSON.stringify(response.data), /priority/i);
+    const record = await f.store.kitRecipient(response.data.eventID);
+    assert.equal(record.qualification.priority,priority);
+    assert.equal(Boolean(record.qualification.consent),body.callback);
+    await Promise.all(f.work);
+    const messages = f.requests.filter(r => r.headers['Idempotency-Key']?.includes(response.data.eventID));
+    const alert = messages.find(r => r.body.subject?.startsWith(priority + ' priority'));
+    assert.ok(alert);
+    assert.equal(alert.body.text.includes('Call now at'), priority === 'High');
+    assert.match(alert.body.text, /Role — /);
+    assert.doesNotMatch(alert.body.text, /undefined/);
+    const gift = messages.find(r => r.body.to?.includes(body.email)).body;
+    for (const version of [gift.text, gift.html]) {
+      assert.ok(version.includes(response.data.firstMove[1]));
+      assert.ok(version.includes(response.data.guidance.thanks));
+      assert.ok(version.includes(response.data.guidance.reading));
+      assert.ok(version.includes(response.data.guidance.next));
+      assert.equal(version.includes('I’ll call the number you shared.'), priority === 'High');
+      assert.equal(version.includes('I’ll follow up by email first'), priority !== 'High');
+      assert.ok(version.includes('format=pdf'));
+      assert.doesNotMatch(version, /lang=es|Descargar/);
+    }
+    assert.doesNotMatch(JSON.stringify(f.requests.find(r => r.kind === 'meta' && r.body.data[0].event_id === response.data.eventID).body), /profitable orders|priority|budget/i);
+    f.advance(61);
+  }
+  f.advance(61);
+  base.token = (await f.call('GET')).data.token;
+  assert.equal((await f.call('POST',{...base,key:randomUUID(),callback:false,planCall:false})).status,400);
+  for (const overrides of [{challenge:'invalid'}, {revenue:8}, {tel:''}, {planCall:false,callback:false,tel:''},
+    {role:''}, {role:'missing'}, {budget:''}, {timing:''}]) {
+    f.advance(61);
+    base.token = (await f.call('GET')).data.token;
+    assert.equal((await f.call('POST',{...base,...overrides,key:randomUUID()})).status,400);
+  }
+});
+
+test('CRM tags apply to earlier submissions, survive form retries, and reject stale edits', async t => {
+  const f = await fixture(t);
+  const { data } = await f.call('POST', f.body);
+  const id = data.eventID;
+  const rows = await f.store.listLeads('Unreviewed');
+  assert.deepEqual(rows.map(row => row.id), [id]);
+  assert.deepEqual(await f.store.listLeads(undefined, rows[0].cursor), []);
+  assert.equal(await f.store.setLeadTag(id, 'Qualified', 'Unreviewed'), true);
+  assert.equal(await f.store.setLeadTag(id, 'Not a fit', 'Unreviewed'), false);
+  assert.equal((await f.call('POST', f.body)).data.eventID, id);
+  assert.deepEqual(await f.store.listLeads('Unreviewed'), []);
+  assert.equal((await f.store.listLeads('Qualified'))[0].id, id);
 });
