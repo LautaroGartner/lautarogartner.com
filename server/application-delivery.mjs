@@ -1,24 +1,20 @@
 import { adGuide, guideForSource } from '../site/growth-guides.mjs';
-import { ownershipBands, revenueBands } from '../site/application-options.mjs';
-import { stages, challenges, budgets, decisions, timelines, investments, roles, firstMove, assessmentResponse } from '../site/acquisition-assessment.mjs';
+import { newLeadEmail, reminderEmail } from './lead-notification.mjs';
+import { firstMove, assessmentResponse } from '../site/acquisition-assessment.mjs';
 import { kitPath } from './growth-kit-link.mjs';
 
 
 const owner = 'lautaro@lautarogartner.com';
-function assessmentNextAction(record) {
-  if (!record.planCall) return 'Send resources only.';
-  if (record.qualification.priority === 'High') return 'Call now at ' + record.phone + ' to arrange a conversation within one business day.';
-  return 'Send the guide and first step now. Use the day 2 and day 7 reminders for personal follow-up.';
-}
-
 function assessmentFollowUp(answers, day) {
   if (day === 2) {
-    const [action] = firstMove(answers);
-    return 'I sent you a first step for your business: “' + action + '.” Does that address the part you want to fix first? If something else is getting in the way, reply with it and I’ll point you to a better place to start.';
+    const questions = {
+      offer: 'When you read your offer out loud, which part would you want proof of before buying? If you send me that line, I’ll suggest a way to make it clearer.',
+      funnel: 'Did one place come to mind where people already look for help with this problem? Send me the one you’re considering and we can work out what to offer them there.',
+      sales: 'What’s the question you hear just before a sale stalls? Even a few words are enough for us to work with.'
+    };
+    return questions[answers.challenge] || 'Did the first step address the problem you had in mind? If it missed something, tell me what you’d change.';
   }
-  if (answers.role === 'coowner' || answers.decision === 'joint' || answers.decision === 'group')
-    return 'What would the people deciding with you need to see before backing a first test? Send me the question you’re working through and I’ll help you put numbers to it.';
-  return 'Did you get a chance to work through the first step? Send me what you drafted or the decision that’s still open, and I’ll help you choose what to test next.';
+  return 'Is this still the part of the business you want to work on? If it is, send me a time that suits you and your time zone. I’ll reply to confirm.';
 }
 
 function assessmentEmail(record, guide, url) {
@@ -71,10 +67,7 @@ function kitEmail(kind, record, id, env) {
   const note = record.qualification ? assessmentFollowUp(record.qualification, day) : day === 2
     ? 'Which number changed how you looked at the quote? If you’re unsure about a cost or payment term, send it over and I’ll help you check it.'
     : 'What happened with the buyer this week? Did they accept the terms, pay, or tell you what still needs to change? If you want help deciding what to repeat or change, we can put together a free 90-day plan.';
-  return { to: [owner], subject: (record.qualification ? record.qualification.priority + ' priority · ' : '') + 'Day ' + day + ' reminder · ' + guide.title,
-    text: [record.name + ' · ' + record.email, record.business, record.qualification?.goal, record.planCall ? 'They requested a planning call.' : 'They requested the kit only.',
-      'Check your conversation before following up. Skip this note if they declined, opted out, or you are already working together. If they ask about implementation, discuss the scope and terms with them directly.',
-      'Suggested personal note', note].filter(Boolean).join('\n\n') };
+  return reminderEmail(record, day, note);
 }
 
 export function deliverApplication(env, request = fetch) {
@@ -83,30 +76,7 @@ export function deliverApplication(env, request = fetch) {
     if (kind !== 'meta') {
       let message;
       if (kind === 'notify') {
-        // Revenue bands are stored as stable zero-based option IDs. Band 5 starts at $3M.
-        const inAdRevenueTarget = ['/more-clients', '/cash-flow'].includes(record.source) && record.revenue >= 5;
-        const lines = [
-          ['Name', record.name],
-          ['Email', record.email],
-          ['Phone', record.phone],
-          ['Annual revenue', revenueBands[record.revenue] || 'Prefer not to say'],
-          ...(record.qualification ? [
-            ['Business',record.business], ['Business stage',stages[record.qualification.stage]],
-            ['Growth challenge',challenges[record.qualification.challenge]],
-            ...(record.qualification.budget ? [
-              ...(record.qualification.goal ? [['Desired result',record.qualification.goal]] : []), ['90-day budget (USD)',budgets[record.qualification.budget]],
-              record.qualification.decision ? ['Who approves',decisions[record.qualification.decision]] : ['Role',roles[record.qualification.role]], ['Desired start',timelines[record.qualification.timing]]
-            ] : [['Investment',investments[record.qualification.investment]], ['Role',roles[record.qualification.role]]]),
-            ['Call priority',record.qualification.priority], ['Next action',assessmentNextAction(record)],
-            ['Callback permission', record.qualification.consent || 'None']
-          ] : [['Ownership', ownershipBands[record.ownership]]]),
-          ['Page', record.source],
-          ...(record.kit ? [['Planning call requested', record.planCall ? 'Yes' : 'No']] : []),
-          ...Object.entries(record.campaign),
-        ];
-        message = { to: [owner], reply_to: record.email,
-          subject: (record.qualification ? record.qualification.priority + (record.qualification.priority === 'High' && record.planCall ? ' priority · Call now · ' : ' priority · Acquisition assessment · ') + record.business : inAdRevenueTarget ? 'Consulting application · $3M+ annual revenue' : 'Consulting application · Lautaro Gärtner') + (record.planCall ? ' · Planning call requested' : ''),
-          text: lines.map(([k, v]) => k + ' — ' + v).join('\n') };
+        message = newLeadEmail(record);
       } else {
         if (!['gift', 'remind-2', 'remind-7'].includes(kind)) throw Error('Unknown delivery');
         message = kitEmail(kind, record, id, env);

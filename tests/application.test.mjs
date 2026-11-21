@@ -140,9 +140,30 @@ test('the ad revenue target flags the private notification at the $3M boundary',
     const result = await f.call('POST', { ...f.body, key: randomUUID(), source, revenue, advertising: false });
     assert.equal(result.status, 200);
     await Promise.all(f.work);
-    const subject = f.requests.filter(request => request.kind === 'notify').at(-1).body.subject;
-    assert.equal(subject.includes('$3M+'), matches);
+    const message = f.requests.filter(request => request.kind === 'notify').at(-1).body;
+    assert.equal(message.subject.includes('$3M+'), matches);
   }
+});
+test('owner mail escapes lead text and opens a clean addressed draft for follow-up', async t => {
+  const f = await fixture(t);
+  const record = {...f.body, name:'Alex & Sam', phone:'+12025550134', business:'Example <North>', kit:true, planCall:true,
+    qualification:{challenge:'offer', priority:'High', role:'owner', budget:'from5', timing:'month'}};
+  const send = deliverApplication(f.env, async (_url, {body}) => {
+    const message = JSON.parse(body);
+    assert.deepEqual(message.to, ['lautaro@lautarogartner.com']);
+    assert.doesNotMatch(message.html, /Example <North>/);
+    assert.match(message.html, /Example &lt;North&gt;/);
+    if (message.subject.startsWith('Day')) {
+      assert.match(message.html, /mailto:test@example.invalid\?subject=/);
+      assert.match(message.html, /Edit email draft/);
+    } else {
+      assert.match(message.html, /href="tel:\+12025550134"/);
+      assert.match(message.html, /within one business day/);
+      assert.equal(message.reply_to,'lautaro@lautarogartner.com');
+    }
+    return Response.json({id:randomUUID()});
+  });
+  for (const kind of ['notify','remind-2','remind-7']) await send(kind,randomUUID(),{},record);
 });
 test('saved requests survive independent provider failures and worker restarts', async (t) => {
   const f = await fixture(t);
@@ -297,9 +318,10 @@ test('assessment saves answers, routes only consented callbacks and returns an i
     assert.equal(Boolean(record.qualification.consent),body.callback);
     await Promise.all(f.work);
     const messages = f.requests.filter(r => r.headers['Idempotency-Key']?.includes(response.data.eventID));
-    const alert = messages.find(r => r.body.subject?.startsWith(priority + ' priority'));
+    const alert = messages.find(r => r.body.to.includes('lautaro@lautarogartner.com'));
     assert.ok(alert);
-    assert.equal(alert.body.text.includes('Call now at'), priority === 'High');
+    assert.equal(alert.body.subject.startsWith('Call first'), priority === 'High');
+    assert.ok(alert.body.html.includes(priority + ' priority'));
     assert.match(alert.body.text, /Role — /);
     assert.doesNotMatch(alert.body.text, /undefined/);
     const gift = messages.find(r => r.body.to?.includes(body.email)).body;
