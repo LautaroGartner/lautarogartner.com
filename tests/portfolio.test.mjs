@@ -45,6 +45,8 @@ for(const route of ['/','/web','/cash-flow','/more-clients']){
   {
     const steps = [...page.html.matchAll(/<fieldset[^>]*>([\s\S]*?)<\/fieldset>/g)];
     assert.doesNotMatch(steps[0][1]+steps[1][1], /<input|<textarea/);
+    assert.doesNotMatch(steps[0][1], /name="budget"/);
+    assert.match(steps[1][1], /name="budget"/);
     assert.match(steps[1][1], /Co-owner \/ partner/);
     assert.equal(steps[1][1].match(/<select id="app-revenue"[^>]*>(.*?)<\/select>/)[1].match(/<option/g).length,9);
   }
@@ -63,8 +65,9 @@ for(const route of ['/','/web','/cash-flow','/more-clients']){
     assert.doesNotMatch(page.headerHtml + page.footerHtml, /<nav\b|data-menu-open|instagram/i);
   }
   if(page.canonicalPath==='/'){
-    assert.match(page.html.replace(/<\/?span\b[^>]*>/g, ''), /<h1>Build a \$5M business that funds its own growth\.<\/h1>/);
-    assert.match(page.html, /<\/h1>\s*<div class="audit-walkthrough" id="example">/);
+    assert.match(page.html.replace(/<\/?span\b[^>]*>/g, ''), /<h1>Find out what’s costing you new customers\.<\/h1>/);
+    assert.ok(page.html.includes('href="/work/tiki"'));
+    assert.ok(page.html.indexOf('id="implementation-title"') < page.html.indexOf('id="discuss"'));
     assert.match(page.html, /id="example"><h2>Follow the <span class="copy-accent">money/);
     for (const key of ['offer', 'funnel', 'sales']) {
       assert.ok(page.html.includes(`<details data-constraint="${key}">`));

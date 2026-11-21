@@ -376,6 +376,11 @@ main > .data-settings {
   align-items: start;
   gap: clamp(32px, 6vw, 88px);
 }
+.consult-case { margin: 0; }
+.consult-case img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 12px; }
+.consult-case h3 { margin: 20px 0 8px; }
+.consult-case p { margin: 0 0 12px; }
+.consult-case a { color: var(--accent); text-underline-offset: .2em; }
 .implementation-phases details:last-child { border-bottom: 1px solid var(--line); }
 .implementation-phases summary { position: relative; padding-right: 28px; list-style: none; }
 .implementation-phases summary::-webkit-details-marker { display: none; }

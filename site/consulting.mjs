@@ -7,8 +7,10 @@ import { stages, constraints, firstMove, budgets, roles, timelines, callConsent 
 import { countryOptions } from './phone-countries.mjs';
 import { revenueBands } from './application-options.mjs';
 import { adGuide, callPrep } from './growth-guides.mjs';
-const adHeadline = 'Build a $5M business that funds its own growth.';
-const adIntro = 'Find where sales slow down before you spend more to grow. Get a first step today and a written plan for your business after we talk.';
+const headlineLead = 'Find out what’s costing you';
+const headlineResult = 'new customers.';
+const adHeadline = headlineLead + ' ' + headlineResult;
+const adIntro = 'Get a free assessment of your offer, funnel and sales process. Take one step today and get a written plan after your call with Lautaro Gärtner.';
 const transcript = [
   'Before you spend more to bring people in, look at where they stop. If the right people rarely find you, start with the invitation and where you put it. If they ask for a price and go quiet, find out what they still need. Someone asking why the work is worth the price needs a clearer offer. Someone who wants it but needs approval may just need terms they can pass along.',
   'Choose the situation that fits and you’ll see a first step you can try today. When you submit the form, I’ll email you the free guide and an editable deal memo so you can check what a sale leaves you and when the money comes in.',
@@ -17,7 +19,7 @@ const transcript = [
 
 function followTheMoney() {
   return `<div class="audit-walkthrough" id="example"><h2>Follow the <span class="copy-accent">money.</span></h2>
-  <p>Before you pay for more leads or lower your next quote, find out where buyers stop. Choose what sounds familiar. You’ll see one change you can try today.</p>
+  <p>Think about where a sale usually stops. Pick the line that sounds familiar for a first step you can try today.</p>
   ${Object.entries(constraints).map(([key, signal]) => {
     const [title, move] = firstMove({challenge:key});
     return `<details data-constraint="${key}"><summary>${signal}</summary><p><strong>${title}.</strong> ${move}</p></details>`;
@@ -30,7 +32,7 @@ function questions() {
     ['Why would a buyer pay a deposit today?', 'Tell them exactly what the money reserves. If you book dates in the order deposits arrive, put the available date and the deposit amount in the quote. Show how much they’ll still owe. Use that reason only if paying really secures the date.'],
     ['When is a longer form worth it?', 'Think of a call where you both found out too late that the work wasn’t a fit. Put the question that would have settled it on your form. Then check how many worthwhile orders you win and how much time you spend on calls. Fewer inquiries can be a good trade if you win just as much work in fewer hours.'],
     ['How do I know when to spend more?', 'Take the price you collected on a sale. Subtract what it cost to win and deliver the work. Does what’s left cover its share of overhead and the profit you want? Check when the buyer paid, too. If similar orders leave enough money and you can fund and deliver the next batch, try a small increase and check again.'],
-    ['What do I get after we talk?', 'I’ll send you a free written audit of the part of your business we reviewed. It spells out the first change, how to test it, what the test should cost and the result that would make it worth repeating. The plan is yours to use. If you’d like help putting it into practice, we can discuss that separately.']
+    ['What do I get after we talk?', 'I’ll send you a free written audit of the part of your business we reviewed. It names the point where buyers get stuck, the first change I’d test and the result that would justify doing more. You can put the plan to work yourself.']
   ];
   return `<section id="questions" class="studio-wrap consult-section"><h2>Questions owners ask</h2>${items.map(([q, a]) => `<details><summary>${q}</summary><p>${a}</p></details>`).join('')}</section>`;
 }
@@ -39,10 +41,24 @@ function campaignHero(escape) {
   const recorded = ['more-clients.mp4', 'more-clients.vtt'].every(file =>
     fs.existsSync(new URL('../public/' + file, import.meta.url)));
   return `<section class="consult-hero audit-hero" data-wave-hero><div class="hero-edge-motion" aria-hidden="true">${edgeWaves}</div>
-  <div class="studio-wrap"><h1>${adHeadline.replace('$5M', '<span class="copy-accent">$5M</span>')}</h1>
-  ${followTheMoney()}
+  <div class="studio-wrap"><h1>${headlineLead} <span class="copy-accent">${headlineResult}</span></h1>
+  <p>You already win business. Where are the next customers slipping away? Get a first step for your offer, funnel or sales process today. After we talk, I’ll send you a written plan showing what to change and how to tell if it’s worth more of your money.</p>
   ${recorded ? `<div class="audit-walkthrough"><video controls playsinline preload="metadata" aria-label="Your free growth assessment"><source src="/more-clients.mp4" type="video/mp4"><track default kind="captions" srclang="en" label="English" src="/more-clients.vtt"></video><details id="transcript"><summary>Read the video transcript</summary>${transcript.map(p => `<p>${p}</p>`).join('')}</details></div>` : ''}
-  <p>Get the free guide and use it on your next sale. After we talk, I’ll send you a written plan with one change to test and the result to look for before you spend more.</p><div class="consult-actions">${studioButton('#discuss', adGuide.cta, escape)}</div></div></section>`;
+  <div class="consult-actions">${studioButton('#discuss', adGuide.cta, escape)}</div>
+  ${followTheMoney()}</div></section>`;
+}
+
+function implementationProof() {
+  return `<section class="studio-wrap consult-section implementation" aria-labelledby="implementation-title">
+    <div><h2 id="implementation-title">What you can <span class="copy-accent">hire me to do.</span></h2>
+    <p>On the free assessment call, we’ll trace how someone goes from hearing about you to paying you. I’ll send you a written plan for the point where you’re losing the most promising buyers. It’s yours to use.</p>
+    <p>If you want help, I’ll propose one paid project. Depending on where buyers get stuck, I might rewrite your offer, build a page designed to turn visits from the right buyers into inquiries, or rework the quote and follow-up that help a buyer decide.</p>
+    <p>Before you say yes, you’ll know what I’ll deliver, when the work is complete and how we’ll measure it. For a quote project, for instance, we could track how many qualified quotes become paid orders. We’ll review the result together before you decide whether to expand.</p></div>
+    <figure class="consult-case"><img src="/work/tiki-quote-720.webp" srcset="/work/tiki-quote-720.webp 720w, /work/tiki-quote-1440.webp 1440w" sizes="(max-width: 720px) 90vw, 48vw" width="720" height="450" alt="The Tiki Cóctel Show event quote builder" loading="lazy">
+    <figcaption><h3>From “How much?” to a quote Tiki can confirm</h3>
+    <p>A cocktail bar for 40 guests is a different job from one for 140. I built Tiki’s quote flow so buyers choose their guest count, service and extras, see an estimate, then send those choices to Tiki on WhatsApp. Both sides start the conversation looking at the same order.</p>
+    <a href="/work/tiki">See Tiki’s quote flow</a></figcaption></figure>
+  </section>`;
 }
 
 function form(escape) {
@@ -68,16 +84,16 @@ function form(escape) {
  <p><strong>As soon as you submit,</strong> you’ll see one action you can take today based on the problem you picked.</p>
  <p>Check your inbox for <em>${adGuide.title}</em> and an editable deal memo. Before you send your next quote, use the memo to see how much you’ll keep and which bills come due before you get paid.</p></div>
  <div><form id="discuss" tabindex="-1" data-application data-submit-label="${escape(adGuide.cta)}" method="post" action="/api/application" class="enquiry-card">
- <p class="form-intro">By filling this out, you’re asking me to call. I’ll review your answers first. On the call, we’ll walk through one sale you’d like to win, from first contact to payment. We’ll pinpoint where it could stall and agree on what to try next. I’ll send you the steps in writing.</p>
+ <p class="form-intro">Submitting requests a call. Your guide arrives by email, and the confirmation tells you how I’ll follow up. I review your answers personally. If your application looks like a good fit, I’ll personally reach out within one business day to arrange a conversation. Otherwise, I’ll email you first to arrange a time. After we talk, I’ll send you one change to test and how to measure it.</p>
  <p class="studio-label" data-progress>Step 1 of 3</p>
  <fieldset><legend tabindex="-1">What do you want to solve?</legend>
  ${select('challenge','Where does a sale slow down for you?',constraints)}
- ${select('budget','If the plan makes sense, how much could you invest in testing or implementing it over the next 90 days (USD)?',budgets)}</fieldset>
+ ${select('timing','When would you want to put a plan into action?',timelines)}</fieldset>
  <fieldset hidden disabled><legend tabindex="-1">Tell me about your business.</legend>
  ${select('role','What’s your role in the business?',roles)}
- ${select('timing','When would you want to put a plan into action?',timelines)}
  ${select('stage','Which best describes your business?',stages)}
- ${select('revenue','Annual business revenue',revenueBands)}</fieldset>
+ ${select('revenue','Annual business revenue',revenueBands)}
+ ${select('budget','If the plan makes sense, how much could you invest in testing or implementing it over the next 90 days (USD)?',budgets)}</fieldset>
  <fieldset hidden disabled><legend tabindex="-1">Where should I send your assessment?</legend>
  <div class="contact-field"><label for="app-business">Business website or name</label><input id="app-business" name="business" autocomplete="organization" maxlength="160" required></div>
  ${contacts}</fieldset>
@@ -107,8 +123,9 @@ export function thankYouPage() {
 }
 
 export function consultingPage(escape) {
-  const html = `<link rel="stylesheet" href="/consulting.css?v=26"><div class="studio-page consulting">
+  const html = `<link rel="stylesheet" href="/consulting.css?v=28"><div class="studio-page consulting">
  ${campaignHero(escape)}
+ ${implementationProof()}
  ${questions()}
  ${form(escape)}</div><script defer src="/phone-number.min.js"></script><script defer src="/application.js?v=24"></script>`;
   return {title: adHeadline, description: adIntro, html};

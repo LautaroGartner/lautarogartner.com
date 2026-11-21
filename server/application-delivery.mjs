@@ -7,7 +7,7 @@ import { kitPath } from './growth-kit-link.mjs';
 const owner = 'lautaro@lautarogartner.com';
 function assessmentNextAction(record) {
   if (!record.planCall) return 'Send resources only.';
-  if (record.qualification.priority === 'High') return 'Call now at ' + record.phone + ' about their stated goal.';
+  if (record.qualification.priority === 'High') return 'Call now at ' + record.phone + ' to arrange a conversation within one business day.';
   return 'Send the guide and first step now. Use the day 2 and day 7 reminders for personal follow-up.';
 }
 

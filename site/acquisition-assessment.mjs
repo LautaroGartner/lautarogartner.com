@@ -79,8 +79,8 @@ export function assessmentResponse(record) {
   if (!record.planCall) return result;
   if (record.qualification.priority === 'High') {
     return { ...result, heading: 'What to have ready when I call',
-      next: 'I’ll call the number you shared. ' + path.bring + ' After we talk, I’ll send you the plan in writing.' };
+      next: 'I’ll contact you at the number you shared within one business day to arrange our conversation. ' + path.bring + ' After we talk, I’ll send you the plan in writing.' };
   }
   return { ...result, heading: 'I’ll follow up by email first',
-    next: 'I’ve received your call request. I’ll check in by email after you’ve had a chance to try the first step. ' + path.reply };
+    next: 'I’ve received your call request. I’ll email you personally to agree on a time after you’ve had a chance to try the first step. ' + path.reply };
 }

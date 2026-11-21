@@ -300,7 +300,7 @@ test('assessment saves answers, routes only consented callbacks and returns an i
       assert.ok(version.includes(response.data.guidance.thanks));
       assert.ok(version.includes(response.data.guidance.reading));
       assert.ok(version.includes(response.data.guidance.next));
-      assert.equal(version.includes('I’ll call the number you shared.'), priority === 'High');
+      assert.equal(version.includes('within one business day to arrange our conversation'), priority === 'High');
       assert.equal(version.includes('I’ll follow up by email first'), priority !== 'High');
       assert.ok(version.includes('format=pdf'));
       assert.doesNotMatch(version, /lang=es|Descargar/);
