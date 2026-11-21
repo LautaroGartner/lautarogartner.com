@@ -133,8 +133,12 @@ export function deliverApplication(env, request = fetch) {
         },
         body: JSON.stringify(data),
       });
-      if (!response.ok || (await response.json()).events_received !== 1)
+      const receipt = await response.json();
+      if (!response.ok || receipt.events_received !== 1) {
+        if (env.VERCEL_ENV === 'production') console.warn('Meta Lead rejected', id, response.status, receipt.error?.code);
         throw Error('Conversion not accepted');
+      }
+      if (env.VERCEL_ENV === 'production') console.info('Meta Lead accepted', id);
     }
   };
 }

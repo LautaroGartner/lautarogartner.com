@@ -126,6 +126,14 @@ test('simultaneous retries commit one application, one notification and one cons
   assert.doesNotMatch(JSON.stringify(event), /example.invalid|Local Fixture|ownership|revenue|cash-test/);
   assert.equal((await f.call('POST', { ...f.body, name: 'Changed payload' })).status, 409);
 });
+test('a consented browser conversion can run while server credentials are pending', async t => {
+  const f = await fixture(t);
+  delete f.env.META_CAPI_ACCESS_TOKEN;
+  const result = await f.call('POST', f.body);
+  assert.equal(result.data.pixelID, f.env.META_PIXEL_ID);
+  await Promise.all(f.work);
+  assert.equal(f.requests.some(request => request.kind === 'meta'), false);
+});
 test('the ad revenue target flags the private notification at the $3M boundary', async (t) => {
   const f = await fixture(t);
   for (const [source, revenue, matches] of [['/more-clients',4,false],['/more-clients',5,true],['/cash-flow',6,true],['/',5,false]]) {

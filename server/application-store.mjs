@@ -64,7 +64,7 @@ export function applicationStore(env) {
       source: original.source,
       id: row.id,
       received: Number(row.received),
-      track: Boolean(meta) && original.pixelID === record.pixelID,
+      track: Boolean(record.pixelID) && original.pixelID === record.pixelID,
     };
   }
   async function runJobs(deliver, now, applicationId) {

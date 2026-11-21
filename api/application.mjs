@@ -152,7 +152,7 @@ export function createApplicationHandler({
       const record = parseApplication(body, ads);
       if (!record) return out(400, { error: 'validation' });
       const ua = req.headers['user-agent'];
-      const metaEnabled = /^\d{5,25}$/.test(env.META_PIXEL_ID || '') && Boolean(env.META_CAPI_ACCESS_TOKEN);
+      const pixelID = ads && /^\d{5,25}$/.test(env.META_PIXEL_ID || '') ? env.META_PIXEL_ID : null;
       const userData = { client_user_agent: typeof ua === 'string' ? ua.slice(0, 1024) : '' };
       const ip = String(req.headers['x-vercel-forwarded-for'] || req.socket?.remoteAddress || '')
         .split(',')[0]
@@ -166,12 +166,12 @@ export function createApplicationHandler({
           if (typeof body[name] === 'string' && pattern.test(body[name])) userData[name] = body[name];
         }
       const meta =
-        ads && metaEnabled && userData.client_user_agent
+        pixelID && env.META_CAPI_ACCESS_TOKEN && userData.client_user_agent
           ? { event_source_url: req.headers.origin + record.source, user_data: userData }
           : null;
       const saved = await database().save(
         body.key,
-        { ...record, pixelID: meta ? env.META_PIXEL_ID : null },
+        { ...record, pixelID },
         meta,
         time,
       );
