@@ -50,7 +50,7 @@ export function giveawayPrimaryAction(href, label, escape) {
 export function giveawayNavigation({lang, route, path, escape, labels, consulting = false}) {
   const es = lang === 'es';
   const open = es ? 'Menú' : 'Menu', close = es ? 'Cerrar' : 'Close';
-  const giftHref = consulting ? (route === 'thank-you' ? '#site-footer' : '#discuss') : '/#discuss';
+  const giftHref = consulting ? (route === 'thank-you' ? '#site-footer' : route ? '/#discuss' : '#discuss') : '/#discuss';
   const cta = consulting ? (route === 'thank-you' ? labels.contact : 'Assessment') : homeGuide.cta;
   const links = consulting ? [
     ['#example', 'Follow the money'], ['#questions', 'Questions'], ['#discuss', 'Free assessment'],

@@ -57,10 +57,9 @@ function implementationProof() {
     <p>On the free assessment call, we’ll trace how someone goes from hearing about you to paying you. I’ll send you a written plan for the point where you’re losing the most promising buyers. It’s yours to use.</p>
     <p>If you want help, I’ll propose one paid project. Depending on where buyers get stuck, I might rewrite your offer, build a page designed to turn visits from the right buyers into inquiries, or rework the quote and follow-up that help a buyer decide.</p>
     <p>Before you say yes, you’ll know what I’ll deliver, when the work is complete and how we’ll measure it. For a quote project, for instance, we could track how many qualified quotes become paid orders. We’ll review the result together before you decide whether to expand.</p></div>
-    <figure class="consult-case"><img src="/work/tiki-quote-720.webp" srcset="/work/tiki-quote-720.webp 720w, /work/tiki-quote-1440.webp 1440w" sizes="(max-width: 720px) 90vw, 48vw" width="720" height="450" alt="The Tiki Cóctel Show event quote builder" loading="lazy">
-    <figcaption><h3>From “How much?” to a quote Tiki can confirm</h3>
-    <p>A cocktail bar for 40 guests is a different job from one for 140. I built Tiki’s quote flow so buyers choose their guest count, service and extras, see an estimate, then send those choices to Tiki on WhatsApp. Both sides start the conversation looking at the same order.</p>
-    <a href="/work/tiki">See Tiki’s quote flow</a></figcaption></figure>
+    <aside class="consult-case"><div class="consult-case-note"><h3>What a change can look like</h3>
+    <p>I built a quote flow for an event business. Buyers choose their guest count, service and extras, see an estimate, and send those choices for confirmation. When the owner replies, both sides are looking at the same order.</p>
+    <a href="/about">About Lautaro Gärtner</a></div></aside>
   </section>`;
 }
 
@@ -126,7 +125,7 @@ export function thankYouPage() {
 }
 
 export function consultingPage(escape) {
-  const html = `<link rel="stylesheet" href="/consulting.css?v=28"><div class="studio-page consulting">
+  const html = `<link rel="stylesheet" href="/consulting.css?v=29"><div class="studio-page consulting">
  ${campaignHero(escape)}
  ${implementationProof()}
  ${questions()}

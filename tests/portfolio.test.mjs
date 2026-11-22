@@ -9,11 +9,9 @@ const posts=allPosts.filter(p=>p.status==='published').sort((a,b)=>b.publishedAt
 const about=JSON.parse(fs.readFileSync('content/pages/about.json'));
 const site=createSite(settings,posts,[about]);
 const htmlFor=path=>generateSitePage(site,site.pages.find(p=>p.path===path));
-test('former Spanish pages have permanent English destinations and no public output',()=>{
+test('retired Spanish routes have no redirects to archived material',()=>{
  const redirects=JSON.parse(fs.readFileSync('vercel.json')).redirects;
- for(const [source,destination] of [['/es','/'],['/web/es','/'],['/es/:path*','/:path*'],['/demo/cotizador','/demo/quote-calculator'],['/es/building-a-car-loan-calculator','/car-loan-calculator-guide']]){
-  assert.ok(redirects.some(rule=>rule.source===source && rule.destination===destination && rule.permanent));
- }
+ assert.ok(redirects.every(rule => rule.destination === '/'));
  for(const page of [...site.pages,...site.posts]){
   assert.equal(page.language,'en');
   assert.doesNotMatch(page.headerHtml,/data-language=|hreflang="es"/);
@@ -66,7 +64,7 @@ for(const route of ['/','/web','/cash-flow','/more-clients']){
   }
   if(page.canonicalPath==='/'){
     assert.match(page.html.replace(/<\/?span\b[^>]*>/g, ''), /<h1>Find out what’s costing you new customers\.<\/h1>/);
-    assert.ok(page.html.includes('href="/work/tiki"'));
+    assert.ok(page.html.includes('href="/about"'));
     assert.ok(page.html.indexOf('id="implementation-title"') < page.html.indexOf('id="discuss"'));
     assert.match(page.html, /id="example"><h2>Follow the <span class="copy-accent">money/);
     for (const key of ['offer', 'funnel', 'sales']) {
@@ -85,7 +83,7 @@ test('all original posts retain source metadata and output URLs; drafts absent',
  const compiled=fs.readFileSync('src/generated/content.ts','utf8');assert.doesNotMatch(compiled,/"status": "draft"/);
 });
 test('URLs, redirects, admin and public artifacts preserved',()=>{
- const config=JSON.parse(fs.readFileSync('vercel.json'));assert.ok(config.redirects.some(r=>r.source==='/en'&&r.destination==='/'));assert.ok(config.rewrites.some(r=>r.source==='/admin'));
+ const config=JSON.parse(fs.readFileSync('vercel.json'));assert.ok(config.redirects.some(r=>r.source==='/more-clients'&&r.destination==='/'));assert.ok(config.rewrites.some(r=>r.source==='/admin'));
  for(const file of ['index.html','web/index.html','about/index.html','writing/index.html','admin/index.html','robots.txt','sitemap.xml','favicon.svg','context.json','runtime.json','system.json','llms.txt','work/social.jpg']) assert.ok(fs.existsSync(`dist/${file}`),file);
  const sitemap=fs.readFileSync('dist/sitemap.xml','utf8');assert.doesNotMatch(sitemap,/\/admin|\/api/);
 });

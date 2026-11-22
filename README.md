@@ -15,6 +15,8 @@ Assessment submissions appear in the private admin under **Leads** (`/admin/?vie
 
 ## Publishing
 
+Vercel serves the allowlisted `release/` directory produced by `npm run build`. The public site consists of the assessment and About, plus the privacy and confirmation pages. Historical articles, portfolio pages, demos and their assets are kept in the source and intermediate `dist/` editor build. They are excluded from the deployed directory, sitemap and crawler summaries.
+
 Posts are JSON documents in `content/posts`. The admin commits edits through GitHub's Contents API. A `draft` is committed but excluded from the public build; `published` is included on the next Vercel deployment.
 
 Copy `.env.example` to `.env.local` and configure the values in Vercel. Generate `SESSION_SECRET` with `openssl rand -base64 48`.

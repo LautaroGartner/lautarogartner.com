@@ -1,51 +1,11 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": "dist",
+  "outputDirectory": "release",
   "cleanUrls": true,
   "redirects": [
     {
-      "source": "/cash-flow",
-      "destination": "/more-clients",
-      "permanent": false
-    },
-    {
-      "source": "/en",
+      "source": "/more-clients",
       "destination": "/",
-      "permanent": true
-    },
-    {
-      "source": "/en/",
-      "destination": "/",
-      "permanent": true
-    },
-    {
-      "source": "/building-a-car-loan-calculator",
-      "destination": "/car-loan-calculator-guide",
-      "permanent": true
-    },
-    {
-      "source": "/es/building-a-car-loan-calculator",
-      "destination": "/car-loan-calculator-guide",
-      "permanent": true
-    },
-    {
-      "source": "/web/es",
-      "destination": "/",
-      "permanent": true
-    },
-    {
-      "source": "/demo/cotizador",
-      "destination": "/demo/quote-calculator",
-      "permanent": true
-    },
-    {
-      "source": "/es",
-      "destination": "/",
-      "permanent": true
-    },
-    {
-      "source": "/es/:path*",
-      "destination": "/:path*",
       "permanent": true
     }
   ],

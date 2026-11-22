@@ -436,3 +436,5 @@ main > .data-settings {
 .policy-copy { padding: 0 20px 8px; }
 .consulting .policy-copy h3, .standalone-policy h2 { margin: 1.4em 0 .4em; font-size: 18px; }
 .standalone-policy { width: min(100% - 40px, 660px); margin: 36px auto; }
+
+.consult-case-note{padding:clamp(20px,4vw,40px)}
