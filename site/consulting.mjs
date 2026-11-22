@@ -10,7 +10,8 @@ import { adGuide, callPrep } from './growth-guides.mjs';
 const headlineLead = 'Find out what’s costing you';
 const headlineResult = 'new customers.';
 const adHeadline = headlineLead + ' ' + headlineResult;
-const adIntro = 'Get a free assessment of your offer, funnel and sales process. Take one step today and get a written plan after your call with Lautaro Gärtner.';
+const assessmentName = 'Free Business Growth Assessment';
+const adIntro = 'Find where you lose potential customers. Get a first step for your offer, funnel or sales process today and a written plan after your call with Lautaro Gärtner.';
 const transcript = [
   'Before you spend more to bring people in, look at where they stop. If the right people rarely find you, start with the invitation and where you put it. If they ask for a price and go quiet, find out what they still need. Someone asking why the work is worth the price needs a clearer offer. Someone who wants it but needs approval may just need terms they can pass along.',
   'Choose the situation that fits and you’ll see a first step you can try today. When you submit the form, I’ll email you the free guide and an editable deal memo so you can check what a sale leaves you and when the money comes in.',
@@ -28,7 +29,9 @@ function followTheMoney() {
 
 function questions() {
   const items = [
+    ['What does a free business growth assessment cover?', 'I look at three points where a sale can break down. Do the right people reach you? That’s your funnel. Do they see why your offer is worth buying? That’s your offer. Once they want it, can they get from a quote to a paid order? That’s your sales process. We use one real opportunity to decide which part to work on first.'],
     ['How do I tell an offer problem from a sales problem?', 'A quiet buyer could mean either. Ask, “What do you still need to decide?” If they can’t see what the work will do for them, show the result and one reason to believe it. If they want the work but someone else has to approve it, give them the price, scope and start date in a note they can forward.'],
+    ['Should I buy more leads or fix my follow-up?', 'Look at the last few inquiries that were a good fit. How many got a quote, and how many quotes turned into orders? If people are ready to buy but still waiting for a price, give each new inquiry a reply time you can meet. If most qualified inquiries already become profitable orders and you have room for more, test one new source of leads. Compare the cost per paid order.'],
     ['Why would a buyer pay a deposit today?', 'Tell them exactly what the money reserves. If you book dates in the order deposits arrive, put the available date and the deposit amount in the quote. Show how much they’ll still owe. Use that reason only if paying really secures the date.'],
     ['When is a longer form worth it?', 'Think of a call where you both found out too late that the work wasn’t a fit. Put the question that would have settled it on your form. Then check how many worthwhile orders you win and how much time you spend on calls. Fewer inquiries can be a good trade if you win just as much work in fewer hours.'],
     ['How do I know when to spend more?', 'Take the price you collected on a sale. Subtract what it cost to win and deliver the work. Does what’s left cover its share of overhead and the profit you want? Check when the buyer paid, too. If similar orders leave enough money and you can fund and deliver the next batch, try a small increase and check again.'],
@@ -128,5 +131,5 @@ export function consultingPage(escape) {
  ${implementationProof()}
  ${questions()}
  ${form(escape)}</div><script defer src="/phone-number.min.js"></script><script defer src="/application.js?v=24"></script>`;
-  return {title: adHeadline, description: adIntro, html};
+  return {title: adHeadline, assessmentName, description: adIntro, html};
 }

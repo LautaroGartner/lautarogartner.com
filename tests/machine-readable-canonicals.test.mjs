@@ -64,3 +64,27 @@ test('built context.json and system.json agree with each generated HTML canonica
     assert.equal(builtContext.posts.find(post => post.slug === entry.slug).canonical, canonical, `context.json article: ${entry.slug}`);
   }
 });
+
+test('public discovery lists indexable canonical pages only', () => {
+  const sitemap = fs.readFileSync('dist/sitemap.xml', 'utf8');
+  const guide = fs.readFileSync('dist/llms.txt', 'utf8');
+  for (const page of site.pages) {
+    const visible = (!page.canonicalPath || page.canonicalPath === page.path)
+      && !/\b(noindex|none)\b/i.test(page.robots ?? '');
+    const url = settings.url + page.path;
+    assert.equal(sitemap.includes(`<loc>${url}</loc>`), visible, page.path);
+    assert.equal(guide.includes(`](${url})`), visible, page.path);
+  }
+});
+
+test('the landing page identifies the assessment and its provider across campaign URLs', () => {
+  for (const route of ['/', '/more-clients', '/web', '/cash-flow']) {
+    const entities = site.pages.find(page => page.path === route).structuredData['@graph'];
+    const service = entities.find(node => node['@type'] === 'Service');
+    const provider = entities.find(node => node['@id'] === service.provider['@id']);
+    assert.equal(service.url, settings.url + '/');
+    assert.equal(service.name, 'Free Business Growth Assessment');
+    assert.equal(entities.find(node => node['@type'] === 'WebPage').mainEntity['@id'], service['@id']);
+    assert.equal(provider.url, settings.url + '/about');
+  }
+});

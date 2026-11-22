@@ -1,6 +1,6 @@
 export const siteSettings = {
   "title": "Lautaro Gärtner",
-  "description": "Custom websites, quote calculators and contact-form repairs for service businesses, built directly with independent developer Lautaro Gärtner.",
+  "description": "Lautaro Gärtner offers free business growth assessments and hands-on consulting across offers, sales funnels and sales processes. Explore his software projects and writing.",
   "url": "https://www.lautarogartner.com",
   "author": "Lautaro Gärtner",
   "authorUrl": "https://x.com/lautarogartner_",

@@ -23,14 +23,28 @@ export function composeRoutes(site,copy,{escape:e,mailto,picture}){
  const foot=(lang,{sales=true,writing=false}={})=>`<footer id="site-footer" class="studio-footer ${sales?'':'studio-footer--quiet'}" data-footer-kind="${sales?'commercial':writing?'writing':'simple'}">${sales?`<div class="footer-invitation"><h2>${lang==='es'?'¿Trabajamos juntos?':'Let’s work together.'}</h2><a class="round-link" href="${path(lang,'contact')}" aria-label="${e(copy[lang].nav.contact)}">${arrow}</a></div>`:''}<div class="footer-meta"><div class="footer-identity"><span>Lautaro Gärtner</span><p>Crespo, Argentina ${globe}</p></div><div class="footer-local"><span>${lang==='es'?'Hora local':'Local time'}</span><time data-local-time data-timezone="America/Argentina/Buenos_Aires">${new Intl.DateTimeFormat('en-GB',{timeZone:'America/Argentina/Buenos_Aires',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date())}</time></div><a href="${e(mailto(lang))}">${e(copy[lang].contact.email)}</a><nav aria-label="${lang==='es'?'Enlaces del pie':'Footer links'}">${writing?'':`<a href="${path(lang,'writing')}">${lang==='es'?'Artículos':'Writing'}</a>`}<a href="https://www.linkedin.com/in/lautarogartner">LinkedIn</a><a href="https://x.com/lautarogartner_">X</a>${instagram}<a href="https://github.com/LautaroGartner/lautarogartner.com">GitHub</a></nav></div>${footerScripts}</footer>`;
  const head=(lang,kicker,title,body='')=>`<section class="route-head"><p class="section-label">${e(kicker)}</p><h1>${e(title)}</h1>${body?`<p class="route-lede">${e(body)}</p>`:''}</section>`;
  const script='';
- const graph=(lang,route,title)=>{const base=site.url.replace(/\/$/,'');return {'@context':'https://schema.org','@graph':[{'@type':'Person','@id':base+'/#person',name:site.author,url:base,jobTitle:lang==='es'?'Desarrollador de software y consultor tecnológico':'Software developer and technology consultant',sameAs:['https://www.linkedin.com/in/lautarogartner','https://x.com/lautarogartner_']},{'@type':'WebSite','@id':base+'/#website',url:base,name:site.title,inLanguage:'en',publisher:{'@id':base+'/#person'}},{'@type':'WebPage','@id':base+path(lang,route)+'#webpage',url:base+path(lang,route),name:title,inLanguage:lang,isPartOf:{'@id':base+'/#website'},about:{'@id':base+'/#person'}}]};};
+ const base = site.url.replace(/\/$/, '');
+ const personId = base + '/#person';
+ const graph = (lang, route, title) => {
+  const url = base + path(lang, route);
+  return {'@context':'https://schema.org','@graph':[
+   {'@type':'Person','@id':personId,name:site.author,url:base+'/about',jobTitle:'Business Consultant',description:'Independent business consultant and software developer in Crespo, Argentina.',sameAs:['https://www.linkedin.com/in/lautarogartner','https://x.com/lautarogartner_']},
+   {'@type':'WebSite','@id':base+'/#website',url:base+'/',name:site.title,inLanguage:'en',publisher:{'@id':personId}},
+   {'@type':route==='about'?'AboutPage':'WebPage','@id':url+'#webpage',url,name:title,inLanguage:lang,isPartOf:{'@id':base+'/#website'},about:{'@id':personId}}
+  ]};
+ };
  const page=(lang,route,title,description,html)=>({path:path(lang,route),title,seoTitle:`${title} | Lautaro Gärtner`,description,body:description,html,shell:'wide',nav:false,language:lang,headerHtml:nav(lang,route),footerHtml:foot(lang,{sales:route!=='contact'}),canonicalPath:path(lang,route),imagePath:'/work/social.jpg',alternates:[{language:'en',path:path('en',route)}],structuredData:graph(lang,route,title),tokenSummary:description});
  const pages=[];
  const lang = 'en';
  const c = copy.en;
  const entry=consultingPage(e);
  const funnel=page(lang,'',entry.title,entry.description,entry.html);
- funnel.structuredData['@graph'][0].jobTitle='Business Consultant';
+ funnel.seoTitle = entry.assessmentName + ' | ' + site.author;
+ const assessmentId = base + '/#growth-assessment';
+ const entities = funnel.structuredData['@graph'];
+ entities.find(entity => entity['@type'] === 'WebPage').mainEntity = {'@id':assessmentId};
+ entities.push({'@type':'Service','@id':assessmentId,url:base+'/',name:entry.assessmentName,
+  serviceType:'Business growth assessment',description:entry.description,provider:{'@id':personId}});
  const adHeader = '<a class="skip-link" href="#content">Skip to content</a><header class="consult-header" data-studio-header><div class="audit-byline"><a href="/">Lautaro Gärtner</a></div></header>';
  const adFooter = `<footer class="audit-footer"><a href="/">Lautaro Gärtner</a>${footerScripts}</footer>`;
  const consultingFooter = `<footer id="site-footer" class="consult-footer"><div class="consult-footer-inner">
@@ -45,12 +59,10 @@ export function composeRoutes(site,copy,{escape:e,mailto,picture}){
   thanks.headerHtml = nav(lang, 'thank-you', true);
   thanks.footerHtml = consultingFooter;
   thanks.robots = 'noindex,follow';
-  thanks.structuredData['@graph'][0].jobTitle = 'Business Consultant';
   pages.push(thanks);
   const privacy = page(lang,'privacy','Assessment privacy policy','How Lautaro Gärtner handles consulting assessment requests.',`<link rel="stylesheet" href="/consulting.css?v=25">${privacyPage()}`);
   privacy.headerHtml = adHeader;
   privacy.footerHtml = adFooter;
-  privacy.structuredData['@graph'][0].jobTitle = 'Business Consultant';
   pages.push(privacy);
   const workTitle=lang==='es'?'Trabajos':'Work';
   const work=`<div class="work-toolbar"><div role="group" aria-label="${lang==='es'?'Filtrar trabajos':'Filter work'}"><button data-work-filter="all" aria-pressed="true">${lang==='es'?'Todos':'All'}</button><button data-work-filter="published" aria-pressed="false">${lang==='es'?'Publicados':'Published'}</button><button data-work-filter="beta" aria-pressed="false">${lang==='es'?'Producto propio':'Own product'}</button></div><div role="group" aria-label="${lang==='es'?'Vista de trabajos':'Work view'}"><button data-work-view="grid" aria-pressed="true">${lang==='es'?'Grilla':'Grid'}</button><button data-work-view="list" aria-pressed="false">${lang==='es'?'Lista':'List'}</button></div></div><section class="work-index" data-work-index data-view="grid">${c.projects.map(p=>`<article class="work-card" data-category="${p.id==='filsen'?'beta':'published'}"><a href="${path(lang,'work/'+p.id)}"><figure>${picture(p,false,'(max-width: 740px) calc(100vw - 40px), 48vw')}</figure><div class="work-card-caption"><h2>${e(p.name)}</h2>${arrow}<p>${e(p.label)}</p></div></a></article>`).join('')}</section>`;
@@ -77,7 +89,9 @@ export function composeRoutes(site,copy,{escape:e,mailto,picture}){
   for(const p of c.projects){
    const shots=projectMedia[p.id].map(shot=>[shot.id,shot[lang]]);
    const extra=shots.length?`<div class="case-gallery">${shots.map(([id,label])=>`<figure>${picture({id,alt:label},false,'(max-width: 740px) calc(100vw - 40px), 48vw')}<figcaption>${e(label)}</figcaption></figure>`).join('')}</div>`:'';
-   pages.push(page(lang,'work/'+p.id,p.name,p.description,head(lang,p.label,p.name,p.title)+`<section class="case-intro"><p>${e(p.description)}</p><div><ul class="deliverables">${p.deliverables.map(x=>`<li>${e(x)}</li>`).join('')}</ul><div class="actions"><a class="text-link" href="${e(p.url)}">${e(p.cta)}</a>${p.tutorial?`<a class="text-link" href="${e(p.tutorial)}">${e(p.tutorialLabel)}</a>`:''}</div></div></section><figure class="case-cover">${picture(p,true,'calc(100vw - 64px)')}</figure>`+extra+(p.id==='carcost'?`<section class="service-next"><h2>${lang==='es'?'Una calculadora para tu propio negocio':'A calculator for your own business'}</h2><p>${lang==='es'?'Este proyecto muestra implementación de cálculos e interfaces. Para tu herramienta, acordamos las reglas, los ejemplos esperados y el recorrido.':'This project demonstrates calculation and interface implementation. For your own tool, we agree on the rules, expected answers and user journey.'}</p><a class="button" href="${path(lang,'services')}">${lang==='es'?'Ver servicios de desarrollo web':'Explore web development services'} ${arrow}</a></section>`:'')+(p.case?`<section class="service-next"><h2>${e(p.case.heading)}</h2><p>${e(p.case.body)}</p><a class="button" href="${path(lang,'contact')}">${e(p.case.cta)} ${arrow}</a></section>`:'')+`<a class="case-back text-link" href="${path(lang,'work')}">${e(c.nav.work)} ${arrow}</a>`+script));
+   const casePage=page(lang,'work/'+p.id,p.name,p.description,head(lang,p.label,p.name,p.title)+`<section class="case-intro"><p>${e(p.description)}</p><div><ul class="deliverables">${p.deliverables.map(x=>`<li>${e(x)}</li>`).join('')}</ul><div class="actions"><a class="text-link" href="${e(p.url)}">${e(p.cta)}</a>${p.tutorial?`<a class="text-link" href="${e(p.tutorial)}">${e(p.tutorialLabel)}</a>`:''}</div></div></section><figure class="case-cover">${picture(p,true,'calc(100vw - 64px)')}</figure>`+extra+(p.id==='carcost'?`<section class="service-next"><h2>${lang==='es'?'Una calculadora para tu propio negocio':'A calculator for your own business'}</h2><p>${lang==='es'?'Este proyecto muestra implementación de cálculos e interfaces. Para tu herramienta, acordamos las reglas, los ejemplos esperados y el recorrido.':'This project demonstrates calculation and interface implementation. For your own tool, we agree on the rules, expected answers and user journey.'}</p><a class="button" href="${path(lang,'services')}">${lang==='es'?'Ver servicios de desarrollo web':'Explore web development services'} ${arrow}</a></section>`:'')+(p.case?`<section class="service-next"><h2>${e(p.case.heading)}</h2><p>${e(p.case.body)}</p><a class="button" href="${path(lang,'contact')}">${e(p.case.cta)} ${arrow}</a></section>`:'')+`<a class="case-back text-link" href="${path(lang,'work')}">${e(c.nav.work)} ${arrow}</a>`+script);
+   if(p.seoTitle) casePage.seoTitle=p.seoTitle;
+   pages.push(casePage);
   }
  const about=site.pages.find(p=>p.path==='/about');
  if(about){

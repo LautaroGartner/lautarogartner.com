@@ -17,13 +17,16 @@ export function servicePages({ lang, page, head, escape: e, base }) {
   const faq = items => `<section class="faq service-faq"><h2>${es ? 'Preguntas antes de contratar' : 'Before you commission a calculator'}</h2>${items.map(([q,a]) => `<details><summary>${e(q)}</summary><p>${e(a)}</p></details>`).join('')}</section>`;
   const makeService = (route, title, description, html, type) => {
     const result = page(lang, route, title, description, html);
-    const url = `${result.structuredData['@graph'][0].url}${result.path}`;
-    result.structuredData['@graph'].push({
+    const entities = result.structuredData['@graph'];
+    const webPage = entities.find(node => node['@type'] === 'WebPage');
+    const provider = entities.find(node => node['@type'] === 'Person');
+    const url = webPage.url;
+    entities.push({
       '@type': 'Service', '@id': `${url}#service`, name: title, serviceType: type,
-      url, description, provider: { '@id': `${result.structuredData['@graph'][0].url}/#person` },
-      mainEntityOfPage: { '@id': `${url}#webpage` },
+      url, description, provider: { '@id': provider['@id'] },
+      mainEntityOfPage: { '@id': webPage['@id'] },
     });
-    result.structuredData['@graph'].find(node => node['@type'] === 'WebPage').mainEntity = { '@id': `${url}#service` };
+    webPage.mainEntity = { '@id': `${url}#service` };
     return result;
   };
   const title = es ? 'Desarrollo de cotizadores web a medida' : 'Custom quote calculator development';
