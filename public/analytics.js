@@ -135,6 +135,10 @@
  },true);
  const application=document.querySelector('[data-application]');
  if(application){
+  document.querySelector('#example')?.addEventListener('click',event=>{
+   const summary=event.target.closest('details[data-constraint] > summary');
+   if(summary&&!summary.parentElement.open)trackStep('growth_advice_open');
+  },true);
   const transcript=document.querySelector('#transcript');
   transcript?.addEventListener('toggle',()=>{
    if(transcript.open)trackStep('growth_example_open');

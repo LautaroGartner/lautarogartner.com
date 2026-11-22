@@ -100,7 +100,7 @@ export function composeRoutes(site,copy,{escape:e,mailto,picture}){
    const translated={...about,body:publicBody,language:lang};
    const rendered=generateSitePage(site,translated);
    const portrait=`<figure class="about-portrait" data-about-portrait><div class="portrait-window"><picture><source type="image/webp" srcset="${[360,640,960,1122].map(w=>`/portrait/lautaro-${w}.webp ${w}w`).join(', ')}" sizes="(max-width: 740px) calc(100vw - 40px), (max-width: 1100px) 36vw, 440px"><img src="/portrait/lautaro-640.jpg" alt="${lang==='es'?'Retrato de Lautaro Gärtner':'Portrait of Lautaro Gärtner'}" width="1122" height="1402" loading="eager" fetchpriority="high" decoding="async"></picture></div><figcaption><span>Lautaro Gärtner</span><span>Crespo, Argentina</span></figcaption></figure>`;
-   const html='<link rel="stylesheet" href="/consulting.css?v=29">'+rendered.match(/<main id="content" tabindex="-1">([\s\S]*?)<\/main>/)[1].replace(/<p class="agent-files">[\s\S]*?<\/p>/,'').replace('<div class="page-body">',`<div class="about-layout">${portrait}<div class="page-body">`)+`</div><script defer src="/about-portrait.js?v=1"></script>`;
+   const html='<link rel="stylesheet" href="/consulting.css?v=30">'+rendered.match(/<main id="content" tabindex="-1">([\s\S]*?)<\/main>/)[1].replace(/<p class="agent-files">[\s\S]*?<\/p>/,'').replace('<div class="page-body">',`<div class="about-layout">${portrait}<div class="page-body">`)+`</div><script defer src="/about-portrait.js?v=1"></script>`;
    pages.push({...translated,html,shell:'wide',nav:false,headerHtml:nav(lang,'about',true),footerHtml:consultingFooter,alternates:[{language:'en',path:'/about'}],structuredData:graph(lang,'about',translated.title)});
  }
  const title='Writing';

@@ -19,8 +19,11 @@ const transcript = [
 ];
 
 function followTheMoney() {
-  return `<div class="audit-walkthrough" id="example"><h2>Follow the <span class="copy-accent">money.</span></h2>
-  <p>Think about where a sale usually stops. Pick the line that sounds familiar for a first step you can try today.</p>
+  return `<div class="audit-walkthrough" id="example">
+  <div id="quote-story" class="quote-story-intro"><h2>What did your last quote <span class="copy-accent">leave unsaid?</span></h2>
+  <p>The sofa was one small detail. Think of a buyer who asked for your price and went quiet. Choose the situation below that feels familiar for one change you can try.</p></div>
+  <div class="walkthrough-intro"><h2>Follow the <span class="copy-accent">money.</span></h2>
+  <p>Think about where a sale usually stops. Pick the line that sounds familiar for a first step you can try today.</p></div>
   ${Object.entries(constraints).map(([key, signal]) => {
     const [title, move] = firstMove({challenge:key});
     return `<details data-constraint="${key}"><summary>${signal}</summary><p><strong>${title}.</strong> ${move}</p></details>`;
@@ -125,7 +128,7 @@ export function thankYouPage() {
 }
 
 export function consultingPage(escape) {
-  const html = `<link rel="stylesheet" href="/consulting.css?v=29"><div class="studio-page consulting">
+  const html = `<link rel="stylesheet" href="/consulting.css?v=30"><div class="studio-page consulting">
  ${campaignHero(escape)}
  ${implementationProof()}
  ${questions()}

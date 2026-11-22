@@ -438,3 +438,12 @@ main > .data-settings {
 .standalone-policy { width: min(100% - 40px, 660px); margin: 36px auto; }
 
 .consult-case-note{padding:clamp(20px,4vw,40px)}
+
+.quote-story-intro,
+.quote-story-intro:target + .walkthrough-intro {
+  display: none;
+}
+.quote-story-intro:target {
+  display: block;
+  scroll-margin-top: 96px;
+}
