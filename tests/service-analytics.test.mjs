@@ -2,19 +2,19 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import fs from 'node:fs';
-function fixture(choice, search='', navigator={}, consulting=false) {
+function fixture(choice, search='', navigator={}, consulting=false, pixelId='') {
   const listeners={}, documentListeners={}, formListeners={}, scripts=[];
   const element=()=>({append(){},addEventListener(){},setAttribute(){},focus(){},querySelector:element,nextElementSibling:{},dataset:{}});
   const form={addEventListener:(name,handler)=>formListeners[name]=handler};
-  const exampleListeners={}, applicationListeners={};
+  const exampleListeners={}, applicationListeners={}, images=[];
   const example={open:false,addEventListener:(name,fn)=>exampleListeners[name]=fn};
   const player={addEventListener:(name,fn)=>exampleListeners[name]=fn};
   const application={addEventListener:(name,fn)=>applicationListeners[name]=fn};
   const surfaces=consulting?{'#example':example,'#transcript':example,'#example video':player,'[data-application]':application}:{'[data-contact-form]':form};
-  const document={currentScript:{dataset:{measurementId:'G-ABC1234567'}},documentElement:{lang:'en'},createElement:element,body:element(),head:{append:node=>scripts.push(node)},querySelector:selector=>surfaces[selector]??null,addEventListener:(name,handler)=>documentListeners[name]=handler,referrer:'https://chatgpt.com/',title:'Contact',cookie:''};
+  const document={currentScript:{dataset:{measurementId:'G-ABC1234567', metaPixelId:pixelId}},documentElement:{lang:'en'},createElement:element,body:{...element(),append:node=>{if(node.src)images.push(node);}},head:{append:node=>scripts.push(node)},querySelector:selector=>surfaces[selector]??null,addEventListener:(name,handler)=>documentListeners[name]=handler,referrer:'https://chatgpt.com/',title:'Contact',cookie:''};
   const window={dispatchEvent(){},addEventListener:(name,handler)=>listeners[name]=handler};
-  vm.runInNewContext(fs.readFileSync('public/analytics.js','utf8'),{window,document,navigator,Event,location:{hostname:'www.lautarogartner.com',origin:'https://www.lautarogartner.com',pathname:'/contact',search},URL,URLSearchParams,localStorage:{getItem:()=>choice ? JSON.stringify({choice,expires:Date.now()+60000}) : null}});
-  return {window,listeners,documentListeners,formListeners,scripts,example,exampleListeners,applicationListeners};
+  vm.runInNewContext(fs.readFileSync('public/analytics.js','utf8'),{window,document,navigator,Event,location:{hostname:'www.lautarogartner.com',origin:'https://www.lautarogartner.com',pathname:consulting?'/':'/contact',search},URL,URLSearchParams,localStorage:{getItem:()=>choice ? JSON.stringify({choice,expires:Date.now()+60000}) : null}});
+  return {window,images,listeners,documentListeners,formListeners,scripts,example,exampleListeners,applicationListeners};
 }
 test('accepted enquiry analytics respects consent and sends only language and an allowlisted service',()=>{
   const allowed=fixture('allow');
@@ -71,10 +71,32 @@ test('consulting content and form interactions are counted once, only with analy
       f.exampleListeners.toggle();
       f.exampleListeners.playing();
       f.applicationListeners.input({target:{value:'private@example.invalid'}});
+      f.applicationListeners['growth:business-step']();
+      f.applicationListeners['growth:contact-step']();
     }
     const events=Array.from(f.window.dataLayer??[]).filter(args=>args[0]==='event');
     assert.deepEqual(events.map(args=>args[1]),choice==='allow'
-      ? ['page_view','growth_advice_open','growth_example_open','growth_video_play','growth_form_start'] : []);
+      ? ['page_view','growth_advice_open','growth_example_open','growth_video_play','growth_form_start','growth_business_step','growth_contact_step'] : []);
     assert.doesNotMatch(JSON.stringify(events),/private@example/);
   }
+});
+
+test('landing sends one Meta PageView with a clean URL only while advertising is permitted',()=>{
+  const params='?email=private%40example.invalid&fbclid=click-123';
+  const f=fixture(undefined,params,{},true,'123456');
+  f.listeners.storage({key:null});
+  assert.equal(f.images.length,1);
+  assert.equal(f.images[0].referrerPolicy,'no-referrer');
+  const url=new URL(f.images[0].src);
+  assert.equal(url.origin+url.pathname,'https://www.facebook.com/tr/');
+  assert.equal(url.searchParams.get('id'),'123456');
+  assert.equal(url.searchParams.get('ev'),'PageView');
+  assert.equal(url.searchParams.get('dl'),'https://www.lautarogartner.com/');
+  assert.match(url.searchParams.get('fbc'),/^fb\.1\.\d+\.click-123$/);
+  assert.doesNotMatch(url.href,/private|email/);
+  for(const blocked of [fixture('deny',params,{},true,'123456'),
+    fixture(undefined,params,{globalPrivacyControl:true},true,'123456'),
+    fixture(undefined,params,{doNotTrack:'1'},true,'123456'),
+    fixture(undefined,params,{},false,'123456'),fixture(undefined,params,{},true,'')])
+    assert.equal(blocked.images.length,0);
 });

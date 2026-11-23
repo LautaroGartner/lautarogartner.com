@@ -124,7 +124,7 @@ export function thankYouPage() {
       <section data-call-confirm hidden><h2>What to have ready when I call</h2><p>${callPrep}</p></section>
     </div>
     <p data-recovery>If you’ve already filled out the form, look for the book in your inbox. To get your own first step, <a href="/#discuss">start your free assessment</a>.</p>
-  </section></div><script defer src="/application.js?v=24"></script>`;
+  </section></div><script defer src="/application.js?v=25"></script>`;
 }
 
 export function consultingPage(escape) {
@@ -132,6 +132,6 @@ export function consultingPage(escape) {
  ${campaignHero(escape)}
  ${implementationProof()}
  ${questions()}
- ${form(escape)}</div><script defer src="/phone-number.min.js"></script><script defer src="/application.js?v=24"></script>`;
+ ${form(escape)}</div><script defer src="/phone-number.min.js"></script><script defer src="/application.js?v=25"></script>`;
   return {title: adHeadline, assessmentName, description: adIntro, html};
 }

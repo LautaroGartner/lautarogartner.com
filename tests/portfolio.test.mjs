@@ -66,7 +66,8 @@ for(const route of ['/','/web','/cash-flow','/more-clients']){
     assert.match(page.html.replace(/<\/?span\b[^>]*>/g, ''), /<h1>Find out what’s costing you new customers\.<\/h1>/);
     assert.ok(page.html.includes('href="/about"'));
     assert.ok(page.html.indexOf('id="implementation-title"') < page.html.indexOf('id="discuss"'));
-    assert.match(page.html, /id="example"><h2>Follow the <span class="copy-accent">money/);
+    assert.match(page.html, /id="example">\s*<div id="quote-story" class="quote-story-intro"><h2>What did your last quote/);
+    assert.match(page.html, /<div class="walkthrough-intro"><h2>Follow the <span class="copy-accent">money/);
     for (const key of ['offer', 'funnel', 'sales']) {
       assert.ok(page.html.includes(`<details data-constraint="${key}">`));
       assert.ok(page.html.includes(`<option value="${key}">`));
