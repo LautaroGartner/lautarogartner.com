@@ -10,8 +10,7 @@ function fixture(choice, search='', navigator={}, consulting=false, pixelId='') 
   const example={open:false,addEventListener:(name,fn)=>exampleListeners[name]=fn};
   const player={addEventListener:(name,fn)=>exampleListeners[name]=fn};
   const application={addEventListener:(name,fn)=>applicationListeners[name]=fn};
-  const quoteCheck={addEventListener:(name,fn)=>exampleListeners.quoteClick=fn};
-  const surfaces=consulting?{'#check-last-quote':quoteCheck,'#example':example,'#transcript':example,'#example video':player,'[data-application]':application}:{'[data-contact-form]':form};
+  const surfaces=consulting?{'#example':example,'#transcript':example,'#example video':player,'[data-application]':application}:{'[data-contact-form]':form};
   const document={currentScript:{dataset:{measurementId:'G-ABC1234567', metaPixelId:pixelId}},documentElement:{lang:'en'},createElement:element,body:{...element(),append:node=>{if(node.src)images.push(node);}},head:{append:node=>scripts.push(node)},querySelector:selector=>surfaces[selector]??null,addEventListener:(name,handler)=>documentListeners[name]=handler,referrer:'https://chatgpt.com/',title:'Contact',cookie:''};
   const window={dispatchEvent(){},addEventListener:(name,handler)=>listeners[name]=handler};
   vm.runInNewContext(fs.readFileSync('public/analytics.js','utf8'),{window,document,navigator,Event,location:{hostname:'www.lautarogartner.com',origin:'https://www.lautarogartner.com',pathname:consulting?'/':'/contact',search},URL,URLSearchParams,localStorage:{getItem:()=>choice ? JSON.stringify({choice,expires:Date.now()+60000}) : null}});
@@ -69,7 +68,6 @@ test('consulting content and form interactions are counted once, only with analy
     f.example.open=true;
     for(let i=0;i<2;i++){
       f.exampleListeners.click({target:{closest:()=>({parentElement:{open:false}})}});
-      f.exampleListeners.quoteClick({currentTarget:{parentElement:{open:false}}});
       f.exampleListeners.toggle();
       f.exampleListeners.playing();
       f.applicationListeners.input({target:{value:'private@example.invalid'}});
@@ -78,7 +76,7 @@ test('consulting content and form interactions are counted once, only with analy
     }
     const events=Array.from(f.window.dataLayer??[]).filter(args=>args[0]==='event');
     assert.deepEqual(events.map(args=>args[1]),choice==='allow'
-      ? ['page_view','growth_advice_open','growth_quote_check_click','growth_example_open','growth_video_play','growth_form_start','growth_business_step','growth_contact_step'] : []);
+      ? ['page_view','growth_advice_open','growth_example_open','growth_video_play','growth_form_start','growth_business_step','growth_contact_step'] : []);
     assert.doesNotMatch(JSON.stringify(events),/private@example/);
   }
 });

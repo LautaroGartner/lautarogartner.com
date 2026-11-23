@@ -78,13 +78,7 @@
    <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14M7 3v4m6 1v4m-5 1v4"/></svg>
   </button>`;
  const settingsHost=document.querySelector('main + .consult-footer')?.previousElementSibling || document.body;
- const quoteStory=document.querySelector('#quote-story');
- function placePreferences(){
-  const host=quoteStory&&location.hash==='#quote-story'?quoteStory:settingsHost;
-  if(preferences.parentElement!==host)host.append(preferences);
- }
- placePreferences();
- if(quoteStory)window.addEventListener('hashchange',placePreferences);
+ settingsHost.append(preferences);
  const panel=preferences.querySelector('.data-settings-panel');
  const settings=preferences.querySelector('.data-settings-toggle');
  const analytics=preferences.querySelector('[name="analytics"]');
@@ -165,9 +159,6 @@
    const summary=event.target.closest('details[data-constraint] > summary');
    if(summary&&!summary.parentElement.open)trackStep('growth_advice_open');
   },true);
-  document.querySelector('#check-last-quote')?.addEventListener('click',event=>{
-   if(!event.currentTarget.parentElement.open)trackStep('growth_quote_check_click');
-  });
   const transcript=document.querySelector('#transcript');
   transcript?.addEventListener('toggle',()=>{
    if(transcript.open)trackStep('growth_example_open');

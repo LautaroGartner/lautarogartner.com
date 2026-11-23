@@ -20,21 +20,8 @@ const transcript = [
 
 function followTheMoney() {
   return `<div class="audit-walkthrough" id="example">
-  <div id="quote-story" class="quote-story-intro">
-    <h2>Who moves the sofa?</h2>
-    <div class="quote-pair">
-      <article><h3>Quote A</h3><strong>$1,800</strong><p>Living room repaint</p></article>
-      <article><h3>Quote B</h3><strong>$2,100</strong><p>Living room repaint</p><mark>We move the furniture and put it all back.</mark></article>
-    </div>
-    <p>Both painters might move the sofa. Only one put it in writing. What does your customer have to guess?</p>
-    <details class="quote-check">
-      <summary id="check-last-quote">Check my last quote</summary>
-      <div class="quote-check-body"><h3>Open the last estimate you sent.</h3>
-      <p>Could your buyer point to the line that says who handles prep, what’s included in the price, and what happens next?</p>
-      <p>Pick one detail they’d have to call you about. Add the answer to your next quote, right beside the price.</p>
-      <a href="#discuss">Get a free growth assessment</a></div>
-    </details>
-  </div>
+  <div id="quote-story" class="quote-story-intro"><h2>What did your last quote <span class="copy-accent">leave unsaid?</span></h2>
+  <p>The sofa was one small detail. Think of a buyer who asked for your price and went quiet. Choose the situation below that feels familiar for one change you can try.</p></div>
   <div class="walkthrough-intro"><h2>Follow the <span class="copy-accent">money.</span></h2>
   <p>Think about where a sale usually stops. Pick the line that sounds familiar for a first step you can try today.</p></div>
   ${Object.entries(constraints).map(([key, signal]) => {
@@ -137,14 +124,14 @@ export function thankYouPage() {
       <section data-call-confirm hidden><h2>What to have ready when I call</h2><p>${callPrep}</p></section>
     </div>
     <p data-recovery>If you’ve already filled out the form, look for the book in your inbox. To get your own first step, <a href="/#discuss">start your free assessment</a>.</p>
-  </section></div><script defer src="/application.js?v=26"></script>`;
+  </section></div><script defer src="/application.js?v=25"></script>`;
 }
 
 export function consultingPage(escape) {
-  const html = `<link rel="stylesheet" href="/consulting.css?v=31"><div class="studio-page consulting">
+  const html = `<link rel="stylesheet" href="/consulting.css?v=30"><div class="studio-page consulting">
  ${campaignHero(escape)}
  ${implementationProof()}
  ${questions()}
- ${form(escape)}</div><script defer src="/phone-number.min.js"></script><script defer src="/application.js?v=26"></script>`;
+ ${form(escape)}</div><script defer src="/phone-number.min.js"></script><script defer src="/application.js?v=25"></script>`;
   return {title: adHeadline, assessmentName, description: adIntro, html};
 }
