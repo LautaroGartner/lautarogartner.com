@@ -1,5 +1,7 @@
 (() => {
  const id=document.currentScript?.dataset.measurementId;
+ const pixelId=document.currentScript?.dataset.metaPixelId;
+ let landingViewSent=false;
  // Preferences are reviewable in preview, while measurement requires the public hostname and ID.
  const canMeasure=/^G-[A-Z0-9]{6,20}$/.test(id||'')&&['www.lautarogartner.com','lautarogartner.com'].includes(location.hostname);
  const publicHost=['www.lautarogartner.com','lautarogartner.com'].includes(location.hostname);
@@ -7,14 +9,14 @@
  const labels=es?{
   settings:'Privacidad y preferencias', intro:'Vos decidís qué permisos dar. Guardamos tus preferencias únicamente en este navegador.',
   necessary:'Necesarias', analytics:'Analítica', advertising:'Publicidad',
-  note:'La analítica mide las visitas. La publicidad permite enviar una conversión a Meta cuando enviás una consulta. Ambas están activadas de forma predeterminada, salvo que vos o tu navegador indiquen lo contrario.',
+  note:'La analítica mide las visitas. La publicidad permite informar a Meta las visitas a la página de inicio y las consultas enviadas. Ambas están activadas de forma predeterminada, salvo que vos o tu navegador indiquen lo contrario.',
   preview:'Google Analytics está desactivado en esta vista.', details:'Datos del formulario',
   form:'Uso los datos del formulario para evaluar tu consulta y contactarte por tu proyecto. Las preferencias de cookies son independientes del envío de la consulta.',
   deny:'Solo necesarias', save:'Guardar',
  }:{
   settings:'Privacy and preferences', intro:'You choose which permissions to give. Your preferences are saved only in this browser.',
   necessary:'Necessary', analytics:'Analytics', advertising:'Advertising',
-  note:'Analytics measures visits. Advertising lets me report a consulting enquiry to Meta. Both are on by default unless you or your browser opt out.',
+  note:'Analytics measures visits. Advertising lets me report landing page visits and completed enquiries to Meta. Both are on by default unless you or your browser opt out.',
   preview:'Google Analytics is off in this view.', details:'Form data',
   form:'I use the information you submit to review your enquiry and get in touch about your project. Cookie preferences are separate from submitting the form.',
   deny:'Necessary only', save:'Save',
@@ -33,9 +35,27 @@
   // Older preferences only covered analytics. Preserve the previous advertising opt-out.
   return !saved;
  };
+ function sendLandingView(){
+  if(landingViewSent || !publicHost || location.pathname!=='/' || !/^\d{5,25}$/.test(pixelId||'') || !document.querySelector('[data-application]'))return;
+  const endpoint=new URL('https://www.facebook.com/tr/');
+  endpoint.searchParams.set('id',pixelId);
+  endpoint.searchParams.set('ev','PageView');
+  endpoint.searchParams.set('dl',location.origin+'/');
+  endpoint.searchParams.set('noscript','1');
+  const clickId=new URLSearchParams(location.search).get('fbclid');
+  if(clickId && /^[\w-]{1,400}$/.test(clickId))endpoint.searchParams.set('fbc','fb.1.'+Date.now()+'.'+clickId);
+  const image=document.createElement('img');
+  image.alt='';
+  image.hidden=true;
+  image.referrerPolicy='no-referrer';
+  landingViewSent=true;
+  image.src=endpoint.href;
+  document.body.append(image);
+ }
  function syncAdvertising(){
   const allowed=window.lgAdvertisingAllowed();
   document.cookie='lg_ad_consent='+(allowed?'1':'0')+'; Path=/; SameSite=Lax; Max-Age='+(allowed?preferenceLifetime/1000:0)+(location.protocol==='https:'?'; Secure':'');
+  if(allowed)sendLandingView();
   if(!allowed)for(const name of ['_fbp','_fbc'])for(const domain of ['',location.hostname,'.lautarogartner.com'])document.cookie=name+'=; Path=/; Max-Age=0; SameSite=Lax'+(domain?'; Domain='+domain:'');
   window.dispatchEvent(new Event('lg:advertising-change'));
  }
@@ -144,6 +164,8 @@
    if(transcript.open)trackStep('growth_example_open');
   });
   document.querySelector('#example video')?.addEventListener('playing',()=>trackStep('growth_video_play'));
+  application.addEventListener('growth:business-step',()=>trackStep('growth_business_step'));
+  application.addEventListener('growth:contact-step',()=>trackStep('growth_contact_step'));
   application.addEventListener('input',()=>trackStep('growth_form_start'));
  }
  const form=document.querySelector('[data-contact-form]');

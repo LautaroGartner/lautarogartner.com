@@ -359,6 +359,7 @@
     if (!form.reportValidity()) return;
     if (step < 2) {
       show(step + 1, true);
+      form.dispatchEvent(new Event(step === 1 ? 'growth:business-step' : 'growth:contact-step'));
       return;
     }
     busy = true;
