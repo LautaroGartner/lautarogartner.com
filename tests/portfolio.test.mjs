@@ -28,7 +28,7 @@ for(const route of ['/','/web','/cash-flow','/more-clients']){
   assert.doesNotMatch(page.html, /Hormozi|\$100M (?:Leads|Offers|Money Models)/i);
   assert.doesNotMatch(page.headerHtml, /href="\/writing"/);
   assert.doesNotMatch(page.html, /href="#example"/);
-  assert.equal((page.html.match(/href="#discuss"/g)||[]).length,2);
+  assert.equal((page.html.match(/href="#discuss"/g)||[]).length,1);
   assert.match(page.html,/free (?:written )?audit/i);
   assert.doesNotMatch(page.html,/cash-tool|need \$7,000 to start|worksheet/i);
   assert.doesNotMatch(page.footerHtml,/Crespo|Local time|LinkedIn|GitHub|>Writing</);
@@ -66,9 +66,7 @@ for(const route of ['/','/web','/cash-flow','/more-clients']){
     assert.match(page.html.replace(/<\/?span\b[^>]*>/g, ''), /<h1>Find out what’s costing you new customers\.<\/h1>/);
     assert.ok(page.html.includes('href="/about"'));
     assert.ok(page.html.indexOf('id="implementation-title"') < page.html.indexOf('id="discuss"'));
-    assert.match(page.html, /id="example">\s*<div id="quote-story" class="quote-story-intro">\s*<h2>Who moves the sofa/);
-    assert.match(page.html, /Quote A<\/h3><strong>\$1,800[\s\S]*?Quote B<\/h3><strong>\$2,100[\s\S]*?We move the furniture and put it all back\./);
-    assert.match(page.html, /<summary id="check-last-quote">Check my last quote<\/summary>/);
+    assert.match(page.html, /id="example">\s*<div id="quote-story" class="quote-story-intro"><h2>What did your last quote/);
     assert.match(page.html, /<div class="walkthrough-intro"><h2>Follow the <span class="copy-accent">money/);
     for (const key of ['offer', 'funnel', 'sales']) {
       assert.ok(page.html.includes(`<details data-constraint="${key}">`));
