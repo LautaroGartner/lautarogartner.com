@@ -56,6 +56,13 @@
     return;
   }
   if (!form) return;
+  // Some in-app redirects keep campaign parameters but drop the fragment.
+  if (!location.hash && new URLSearchParams(location.search).get('utm_campaign') === 'quote_clarity_us') {
+    const comparison = document.getElementById('quote-story');
+    if (comparison) {
+      location.replace(location.pathname + location.search + '#quote-story');
+    }
+  }
   const policy = document.querySelector('.assessment-policy');
   const challenge = form.elements.namedItem('challenge');
   const signals = [...document.querySelectorAll('[data-constraint]')];
