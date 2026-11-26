@@ -1,3 +1,4 @@
+import {constructionPage} from './construction.mjs';
 import { privacyPage } from './assessment-privacy.mjs';
 import {consultingPage, thankYouPage} from './consulting.mjs';
 import {servicePages} from './service-pages.mjs';
@@ -54,7 +55,7 @@ export function composeRoutes(site,copy,{escape:e,mailto,picture}){
  funnel.headerHtml = nav(lang, '', true);
  funnel.footerHtml = consultingFooter;
  funnel.imagePath='/more-clients-social.jpg';
- pages.push(funnel);
+ pages.push(constructionPage);
   const thanks = page(lang,'thank-you','Thank you','Your growth guide and editable deal memo.',thankYouPage());
   thanks.headerHtml = nav(lang, 'thank-you', true);
   thanks.footerHtml = consultingFooter;
@@ -108,6 +109,6 @@ export function composeRoutes(site,copy,{escape:e,mailto,picture}){
  const writing=studioWriting({lang,title,description,posts:site.posts,escape:e});
  pages.push({...page(lang,'writing',title,description,writing),footerHtml:foot(lang,{sales:false})});
  const posts=site.posts.map(post=>({...post,language:lang,alternates:[{language:lang,path:'/'+post.slug}],headerHtml:nav(lang,post.slug),footerHtml:foot(lang,{sales:false,writing:true})}));
- for(const [alias,canonical]of [['/more-clients','/'],['/web','/'],['/cash-flow','/']])pages.push({...pages.find(p=>p.path===canonical),path:alias,canonicalPath:canonical,headerHtml:adHeader,footerHtml:adFooter});
+ for(const [alias,canonical]of [['/more-clients','/'],['/web','/'],['/cash-flow','/']])pages.push({...funnel,path:alias,canonicalPath:canonical,headerHtml:adHeader,footerHtml:adFooter});
  return {...site,styles:site.styles+'\n'+studioStyles+'\n'+giveawayStyles,headerHtml:nav('en','writing'),footerHtml:foot('en',{sales:false,writing:true}),pages,posts};
 }

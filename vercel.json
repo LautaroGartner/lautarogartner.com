@@ -4,6 +4,11 @@
   "cleanUrls": true,
   "redirects": [
     {
+      "source": "/about",
+      "destination": "/",
+      "permanent": false
+    },
+    {
       "source": "/more-clients",
       "destination": "/",
       "permanent": true

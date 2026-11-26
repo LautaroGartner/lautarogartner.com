@@ -1,0 +1,107 @@
+:root:has(.construction) {
+  color-scheme: light;
+  background: #252623;
+}
+
+body:has(.construction) {
+  background-color: #252623;
+  background-image: radial-gradient(#454640 0.85px, transparent 1px);
+  background-size: 13px 13px;
+}
+
+.shell:has(.construction), main:has(> .construction) {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.construction {
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: 48px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  font-family: Manrope, Arial, sans-serif;
+}
+
+.sign {
+  --ink: #20211d;
+  --paint: #ffd352;
+  position: relative;
+  width: min(100%, 760px);
+  padding: clamp(32px, 6vw, 82px) clamp(26px, 6vw, 80px) clamp(58px, 7vw, 94px);
+  overflow: hidden;
+  color: var(--ink);
+  background: var(--paint);
+  border: 2px solid #13150f;
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 2px #ffe592, 0 5px 0 #11130f, 0 16px 32px #10110e66;
+}
+
+.sign::before, .sign::after {
+  content: "";
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  width: 8px;
+  background: radial-gradient(circle, #595b52 1px, #a4a69b 2px, #62645c 3px, #49483b 4px, transparent 4px) top / 8px 8px no-repeat,
+              radial-gradient(circle, #595b52 1px, #a4a69b 2px, #62645c 3px, #49483b 4px, transparent 4px) bottom / 8px 8px no-repeat;
+  z-index: 1;
+}
+
+.sign::before { left: 12px; }
+.sign::after { right: 12px; }
+
+.sign-status {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin: 0 0 clamp(24px, 4vw, 44px);
+  color: var(--ink);
+  font: 700 clamp(11px, 1.3vw, 14px)/1.2 ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: .13em;
+}
+
+.sign-icon {
+  display: inline-grid;
+  place-items: end center;
+  width: 23px;
+  height: 20px;
+  background: var(--ink);
+  color: var(--paint);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  font: 800 14px/1.1 Arial, sans-serif;
+  letter-spacing: 0;
+}
+
+.sign h1 {
+  margin: 0;
+  color: var(--ink);
+  font: 800 clamp(29px, 8vw, 78px)/1.02 Manrope, Arial, sans-serif;
+  letter-spacing: -.064em;
+}
+
+.sign-note {
+  margin: 22px 0 0;
+  color: var(--ink);
+  font: 500 clamp(16px, 2.2vw, 21px)/1.45 Manrope, Arial, sans-serif;
+}
+
+.sign-stripes {
+  position: absolute;
+  inset: auto 0 0;
+  height: 18px;
+  background: repeating-linear-gradient(-52deg, var(--ink) 0 16px, transparent 16px 32px);
+}
+
+.sign-credit {
+  margin: 0;
+  color: #d8d9ce;
+  font: 600 16px/1.5 Manrope, Arial, sans-serif;
+  letter-spacing: -.035em;
+}

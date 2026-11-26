@@ -78,7 +78,7 @@ test('public discovery lists indexable canonical pages only', () => {
 });
 
 test('the landing page identifies the assessment and its provider across campaign URLs', () => {
-  for (const route of ['/', '/more-clients', '/web', '/cash-flow']) {
+  for (const route of ['/more-clients', '/web', '/cash-flow']) {
     const entities = site.pages.find(page => page.path === route).structuredData['@graph'];
     const service = entities.find(node => node['@type'] === 'Service');
     const provider = entities.find(node => node['@id'] === service.provider['@id']);

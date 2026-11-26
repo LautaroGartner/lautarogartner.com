@@ -8,13 +8,14 @@ import { generateSitemapXml, generateContextJson, generateNotFoundPage } from '.
 const output = 'release';
 const readJson = file => JSON.parse(fs.readFileSync(file, 'utf8'));
 const site = createSite(readJson('content/site.json'), [], [readJson('content/pages/about.json')]);
-const routes = ['/', '/about', '/privacy', '/thank-you'];
+site.description = site.pages.find(page => page.path === '/').description;
+const about = site.pages.find(page => page.path === '/about');
+const routes = ['/', '/privacy', '/thank-you'];
 site.pages = routes.map(route => {
   const page = site.pages.find(entry => entry.path === route);
   if (!page) throw new Error('Missing required route ' + route);
   return page;
 });
-const about = site.pages.find(page => page.path === '/about');
 site.headerHtml = about.headerHtml;
 site.footerHtml = about.footerHtml;
 
@@ -28,7 +29,7 @@ function publish(file) {
 for (const { path: route } of site.pages) publish(path.join(route.slice(1), 'index.html'));
 for (const file of [
   'admin', 'analytics.js', 'application.js', 'phone-number.min.js', 'portfolio.js', 'motion-shell.js',
-  'about-portrait.js', 'portrait', 'fonts', 'consulting.css', 'more-clients-social.jpg',
+  'about-portrait.js', 'portrait', 'fonts', 'construction.css', 'consulting.css', 'more-clients-social.jpg',
   'favicon.svg', 'favicon.ico', 'favicon-32.png', 'apple-touch-icon.png', 'icon-192.png',
   'icon-512.png', 'site.webmanifest', 'robots.txt'
 ]) publish(file);

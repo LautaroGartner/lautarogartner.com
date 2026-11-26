@@ -123,7 +123,7 @@ export function thankYouPage() {
       <section data-email-delivery hidden><h2>Check your inbox for the book</h2><p>Look for an email from Lautaro Gärtner with <em data-guide-title></em> in the subject. Inside you’ll find the book and your editable deal memo.</p><p data-book-start hidden></p></section>
       <section data-call-confirm hidden><h2>What to have ready when I call</h2><p>${callPrep}</p></section>
     </div>
-    <p data-recovery>If you’ve already filled out the form, look for the book in your inbox. To get your own first step, <a href="/#discuss">start your free assessment</a>.</p>
+    <p data-recovery>If you’ve already filled out the form, look for the book in your inbox.</p>
   </section></div><script defer src="/application.js?v=25"></script>`;
 }
 

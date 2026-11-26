@@ -20,7 +20,7 @@ test('retired Spanish routes have no redirects to archived material',()=>{
  assert.match(htmlFor('/services/contact-form-repair'),/USD 100/);
  assert.match(htmlFor('/work'),/Own product · Beta/);
 });
-for(const route of ['/','/web','/cash-flow','/more-clients']){
+for(const route of ['/web','/cash-flow','/more-clients']){
  test(route+' shows the consulting offer, worked example and application',()=>{
   const page=site.pages.find(p=>p.path===route);
   const html=htmlFor(route);
@@ -53,15 +53,7 @@ for(const route of ['/','/web','/cash-flow','/more-clients']){
   assert.ok(fs.existsSync('dist'+page.imagePath));
   assert.ok(html.indexOf('id="example"')<html.indexOf('id="discuss"'));
   assert.doesNotMatch(page.html,/commission|outsourced closer|giveaway.lautarogartner.com/i);
-  if(route === '/') {
-    assert.match(page.headerHtml, /data-menu-open/);
-    assert.match(page.headerHtml, /id="site-menu"/);
-    assert.doesNotMatch(page.headerHtml, /href="\/(work|services|about|contact|writing)"/);
-    for (const id of ['example', 'questions', 'discuss']) assert.ok(page.headerHtml.includes('href="#' + id + '"'));
-    for (const link of ['mailto:contact@lautarogartner.com','instagram.com/lautarogartner_', 'x.com/lautarogartner_']) assert.ok(page.footerHtml.includes(link));
-  } else {
-    assert.doesNotMatch(page.headerHtml + page.footerHtml, /<nav\b|data-menu-open|instagram/i);
-  }
+  assert.doesNotMatch(page.headerHtml + page.footerHtml, /<nav\b|data-menu-open|instagram/i);
   if(page.canonicalPath==='/'){
     assert.match(page.html.replace(/<\/?span\b[^>]*>/g, ''), /<h1>Find out what’s costing you new customers\.<\/h1>/);
     assert.ok(page.html.includes('href="/about"'));
